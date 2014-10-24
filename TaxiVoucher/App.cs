@@ -8,6 +8,7 @@ namespace TaxiVoucher
 		public static Page GetMainPage ()
 		{	
 			var login = new LoginPage();
+		
 			return new NavigationPage(login);
 		}
 	}

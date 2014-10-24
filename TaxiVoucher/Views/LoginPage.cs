@@ -15,6 +15,12 @@ namespace TaxiVoucher
 			};
 			loginButton.Clicked += OnLoginClicked;
 
+			Button forgotPasswordButton = new Button {
+				Text = "Forgot password",
+				HorizontalOptions = LayoutOptions.Center
+			};
+			forgotPasswordButton.Clicked += OnForgotPasswordClicked;
+
 			Button createUserButton = new Button {
 				Text = "Create user",
 				HorizontalOptions = LayoutOptions.Center,
@@ -32,7 +38,7 @@ namespace TaxiVoucher
 					new Entry
 					{
 						Keyboard = Keyboard.Email,
-						Placeholder = "Driver number",
+						Placeholder = "E-mail",
 						VerticalOptions = LayoutOptions.Center,
 					},
 
@@ -45,6 +51,7 @@ namespace TaxiVoucher
 					},
 
 					loginButton,
+					forgotPasswordButton,
 					createUserButton,
 
 				}
@@ -54,12 +61,17 @@ namespace TaxiVoucher
 		}
 
 		void OnLoginClicked(object sender, EventArgs e) {
-
+			Console.WriteLine ("Login");
 		}
 
 		void OnCreateUserClicked(object sender, EventArgs e) 
 		{
 			Navigation.PushAsync(new CreateUserPage());
+		}
+
+		void OnForgotPasswordClicked(object sender, EventArgs e) 
+		{
+			Console.WriteLine ("Forgot password");
 		}
 	}
 }
