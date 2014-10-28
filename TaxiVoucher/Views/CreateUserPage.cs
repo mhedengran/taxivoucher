@@ -35,8 +35,8 @@ namespace TaxiVoucher
 				VerticalOptions = LayoutOptions.EndAndExpand,
 				BackgroundColor = Color.Accent,
 				Aspect = Aspect.AspectFit,
-				HeightRequest = Device.OnPlatform(80, 80, 80, 80),
-				WidthRequest = Device.OnPlatform(80, 80, 80, 80),
+				HeightRequest = Device.OnPlatform( 80.0, 80.0, 80.0, 80.0),
+				WidthRequest = Device.OnPlatform(80.0, 80.0, 80.0, 80.0),
 				Source = ImageSource.FromUri(new Uri("http://icons.iconarchive.com/icons/martz90/circle/512/camera-icon.png")),
 			};
 			var imageTapRecognizer = new TapGestureRecognizer {
