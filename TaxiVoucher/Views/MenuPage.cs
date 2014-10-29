@@ -53,14 +53,14 @@ namespace TaxiVoucher
 			Console.WriteLine ("Redeem");
 		}
 
-		void OnSettingsClicked(object sender, EventArgs e) 
+		void OnLogClicked(object sender, EventArgs e) 
 		{
 			Console.WriteLine ("Log");
 		}
 
-		void OnLogClicked(object sender, EventArgs e) 
+		void OnSettingsClicked(object sender, EventArgs e) 
 		{
-			Console.WriteLine ("Settings");
+			Navigation.PushAsync (new SettingsPage ());
 		}
 	}
 }

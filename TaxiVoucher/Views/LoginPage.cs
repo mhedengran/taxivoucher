@@ -81,6 +81,8 @@ namespace TaxiVoucher
 
 		void OnForgotPasswordClicked(object sender, EventArgs e) 
 		{
+			emailEntry.Unfocus();
+			passwordEntry.Unfocus();
 			Console.WriteLine ("Forgot password");
 			if (emailEntry.Text != null) {
 				if (emailEntry.Text.Contains ("@") && emailEntry.Text.Contains (".")) {

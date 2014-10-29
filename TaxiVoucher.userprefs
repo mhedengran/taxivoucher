@@ -1,10 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhone5s.7.1" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="TaxiVoucher/Views/CreateUserPage.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhone5s.7.1" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="TaxiVoucher/Views/SettingsPage.cs">
     <Files>
-      <File FileName="TaxiVoucher/App.cs" Line="1" Column="1" />
-      <File FileName="TaxiVoucher/Views/LoginPage.cs" Line="1" Column="1" />
-      <File FileName="TaxiVoucher/Views/CreateUserPage.cs" Line="6" Column="6" />
+      <File FileName="TaxiVoucher/Views/MenuPage.cs" Line="47" Column="47" />
+      <File FileName="TaxiVoucher/Views/SettingsPage.cs" Line="17" Column="17" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

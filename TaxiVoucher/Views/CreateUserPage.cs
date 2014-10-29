@@ -69,26 +69,24 @@ namespace TaxiVoucher
 					new Entry {
 						Keyboard = Keyboard.Email,
 						Placeholder = "E-mail",
-						IsPassword = true,
 						VerticalOptions = LayoutOptions.Center
 					},
 
 					new Entry {
 						Keyboard = Keyboard.Numeric,
 						Placeholder = "Driver number",
-						IsPassword = true,
 						VerticalOptions = LayoutOptions.Center
 					},
 
 					new Entry {
-						Keyboard = Keyboard.Text,
+						Keyboard = Keyboard.Create(0x00),
 						Placeholder = "Enter password",
 						IsPassword = true,
 						VerticalOptions = LayoutOptions.Center
 					},
 
 					new Entry {
-						Keyboard = Keyboard.Text,
+						Keyboard = Keyboard.Create(0x00),
 						Placeholder = "Enter password again",
 						IsPassword = true,
 						VerticalOptions = LayoutOptions.Center
