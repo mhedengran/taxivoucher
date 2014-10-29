@@ -12,6 +12,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\LoginPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\CreateUserPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\VerifyEmailPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\MenuPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />

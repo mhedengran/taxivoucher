@@ -5,6 +5,10 @@ namespace TaxiVoucher
 {
 	public class LoginPage : ContentPage
 	{
+		Entry emailEntry;
+		Entry passwordEntry;
+		Label forgotPasswordLabel;
+
 		public LoginPage ()
 		{
 			Title = "Login";
@@ -28,6 +32,24 @@ namespace TaxiVoucher
 			};
 			createUserButton.Clicked += OnCreateUserClicked;
 
+			emailEntry = new Entry {
+				Keyboard = Keyboard.Email,
+				Placeholder = "E-mail",
+				VerticalOptions = LayoutOptions.Center,
+			};
+
+			passwordEntry = new Entry {
+				Keyboard = Keyboard.Text,
+				Placeholder = "Password",
+				IsPassword = true,
+				VerticalOptions = LayoutOptions.Center
+			};
+
+			forgotPasswordLabel = new Label {
+				Text = "",
+				HorizontalOptions = LayoutOptions.Center
+			};
+
 			StackLayout stacklayout = new StackLayout
 			{
 				Spacing = 10,
@@ -35,23 +57,11 @@ namespace TaxiVoucher
 				Padding = new Thickness(20, 100, 20, 10),
 				Children = 
 				{
-					new Entry
-					{
-						Keyboard = Keyboard.Email,
-						Placeholder = "E-mail",
-						VerticalOptions = LayoutOptions.Center,
-					},
-
-					new Entry
-					{
-						Keyboard = Keyboard.Text,
-						Placeholder = "Password",
-						IsPassword = true,
-						VerticalOptions = LayoutOptions.Center
-					},
-
+					emailEntry,
+					passwordEntry,
 					loginButton,
 					forgotPasswordButton,
+					forgotPasswordLabel,
 					createUserButton,
 
 				}
@@ -61,7 +71,7 @@ namespace TaxiVoucher
 		}
 
 		void OnLoginClicked(object sender, EventArgs e) {
-			Console.WriteLine ("Login");
+			Navigation.PushAsync (new MenuPage ());
 		}
 
 		void OnCreateUserClicked(object sender, EventArgs e) 
@@ -72,6 +82,14 @@ namespace TaxiVoucher
 		void OnForgotPasswordClicked(object sender, EventArgs e) 
 		{
 			Console.WriteLine ("Forgot password");
+			if (emailEntry.Text != null) {
+				if (emailEntry.Text.Contains ("@") && emailEntry.Text.Contains (".")) {
+					//send email
+					forgotPasswordLabel.Text = "Email sent";
+					return;
+				}
+			} 
+			forgotPasswordLabel.Text = "Enter a valid email";
 		}
 	}
 }

@@ -35,14 +35,21 @@ namespace TaxiVoucher
 				VerticalOptions = LayoutOptions.EndAndExpand,
 				BackgroundColor = Color.Accent,
 				Aspect = Aspect.AspectFit,
-//				HeightRequest = Device.OnPlatform( 80.0, 80.0, 80.0, 80.0),
-//				WidthRequest = Device.OnPlatform(80.0, 80.0, 80.0, 80.0),
 				Source = ImageSource.FromUri(new Uri("http://icons.iconarchive.com/icons/martz90/circle/512/camera-icon.png")),
 			};
+			Device.OnPlatform(
+				iOS: () => driverCardImage.HeightRequest = 80,
+				Android: () => driverCardImage.HeightRequest = 80
+			);
+			Device.OnPlatform(
+				iOS: () => driverCardImage.WidthRequest = 80,
+				Android: () => driverCardImage.WidthRequest = 80
+			);
+
 			var imageTapRecognizer = new TapGestureRecognizer {
-				TappedCallback = (v, o) => {
+				Command = new Command (() => {
 					ImageTapped();
-				},
+				}),
 				NumberOfTapsRequired = 1
 			};
 			driverCardImage.GestureRecognizers.Add (imageTapRecognizer);
@@ -140,7 +147,7 @@ namespace TaxiVoucher
 
 		void OnCreateUserClicked(object sender, EventArgs e) 
 		{
-			Navigation.PushAsync(new CreateUserPage());
+			Navigation.PushAsync (new VerifyEmailPage());
 		}
 	}
 }
