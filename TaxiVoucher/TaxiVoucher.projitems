@@ -15,10 +15,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\VerifyEmailPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\MenuPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\SettingsPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\CommunicationHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />
     <Folder Include="$(MSBuildThisFileDirectory)ViewModels\" />
     <Folder Include="$(MSBuildThisFileDirectory)Views\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Helpers\" />
   </ItemGroup>
 </Project>

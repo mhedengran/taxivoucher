@@ -22,3 +22,5 @@ System.Diagnostics.Debug.dll
 System.Linq.dll
 Xamarin.Forms.Platform.iOS.dll
 System.Net.Http.dll
+RestSharp.MonoTouch.dll
+System.Xml.Linq.dll

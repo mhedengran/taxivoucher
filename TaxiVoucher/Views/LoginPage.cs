@@ -71,7 +71,8 @@ namespace TaxiVoucher
 		}
 
 		void OnLoginClicked(object sender, EventArgs e) {
-			Navigation.PushAsync (new MenuPage ());
+			CommunicationHelper helper = new CommunicationHelper ();
+			//			Navigation.PushAsync (new MenuPage ());
 		}
 
 		void OnCreateUserClicked(object sender, EventArgs e) 

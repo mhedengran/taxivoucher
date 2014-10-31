@@ -23,6 +23,8 @@
 	/Users/Hedengran/Documents/Xamarin/TaxiVoucher/packages/Xamarin.Forms.1.2.3.6257/lib/MonoTouch10/Xamarin.Forms.Core.dll \
 	-r \
 	/Users/Hedengran/Documents/Xamarin/TaxiVoucher/packages/Xamarin.Forms.1.2.3.6257/lib/MonoTouch10/Xamarin.Forms.Xaml.dll \
+	-r \
+	/Users/Hedengran/Documents/Xamarin/TaxiVoucher/Components/restsharp-104.4.0.1/lib/ios/RestSharp.MonoTouch.dll \
 	-debug \
 	-nolink \
 	-sdk \
