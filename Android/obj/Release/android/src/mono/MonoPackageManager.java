@@ -74,6 +74,7 @@ class MonoPackageManager_Resources {
 		"Xamarin.Forms.Xaml.dll",
 		"Xamarin.Android.Support.v4.dll",
 		"Xamarin.Android.Support.v13.dll",
+		"RestSharp.MonoDroid.dll",
 		"System.Reflection.Emit.ILGeneration.dll",
 		"System.Reflection.Emit.Lightweight.dll",
 		"System.Reflection.Emit.dll",

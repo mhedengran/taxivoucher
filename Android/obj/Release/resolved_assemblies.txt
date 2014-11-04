@@ -8,6 +8,7 @@
 /Users/Hedengran/Documents/Xamarin/TaxiVoucher/packages/Xamarin.Forms.1.2.3.6257/lib/MonoAndroid10/Xamarin.Forms.Xaml.dll
 /Users/Hedengran/Documents/Xamarin/TaxiVoucher/packages/Xamarin.Android.Support.v4.20.0.0.4/lib/MonoAndroid32/Xamarin.Android.Support.v4.dll
 /Users/Hedengran/Documents/Xamarin/TaxiVoucher/packages/Xamarin.Android.Support.v13.20.0.0.4/lib/MonoAndroid32/Xamarin.Android.Support.v13.dll
+/Users/Hedengran/Documents/Xamarin/TaxiVoucher/Components/restsharp-104.4.0.1/lib/android/RestSharp.MonoDroid.dll
 /Library/Frameworks/Mono.framework/External/xbuild-frameworks/MonoAndroid/v1.0/System.Core.dll
 /Library/Frameworks/Mono.framework/External/xbuild-frameworks/MonoAndroid/v1.0/mscorlib.dll
 /Library/Frameworks/Mono.framework/External/xbuild-frameworks/MonoAndroid/v1.0/Facades/System.Collections.Concurrent.dll
@@ -57,9 +58,9 @@
 /Library/Frameworks/Mono.framework/External/xbuild-frameworks/MonoAndroid/v1.0/Facades/System.Xml.XDocument.dll
 /Library/Frameworks/Mono.framework/External/xbuild-frameworks/MonoAndroid/v1.0/Facades/System.Xml.XmlSerializer.dll
 /Library/Frameworks/Mono.framework/External/xbuild-frameworks/MonoAndroid/v1.0/System.Net.Http.dll
+/Library/Frameworks/Mono.framework/External/xbuild-frameworks/MonoAndroid/v1.0/System.Xml.Linq.dll
 /Library/Frameworks/Mono.framework/External/xbuild-frameworks/MonoAndroid/v1.0/System.ComponentModel.DataAnnotations.dll
 /Library/Frameworks/Mono.framework/External/xbuild-frameworks/MonoAndroid/v1.0/System.Numerics.dll
 /Library/Frameworks/Mono.framework/External/xbuild-frameworks/MonoAndroid/v1.0/System.Runtime.Serialization.dll
 /Library/Frameworks/Mono.framework/External/xbuild-frameworks/MonoAndroid/v1.0/System.ComponentModel.Composition.dll
 /Library/Frameworks/Mono.framework/External/xbuild-frameworks/MonoAndroid/v1.0/System.ServiceModel.dll
-/Library/Frameworks/Mono.framework/External/xbuild-frameworks/MonoAndroid/v1.0/System.Xml.Linq.dll

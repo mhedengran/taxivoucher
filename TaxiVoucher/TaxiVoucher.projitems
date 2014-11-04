@@ -16,6 +16,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\MenuPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\SettingsPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\CommunicationHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Driver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\JSONResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />

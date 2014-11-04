@@ -16,3 +16,4 @@
 /Users/Hedengran/Documents/Xamarin/TaxiVoucher/Android/bin/Release/Xamarin.Android.Support.v4.dll
 /Users/Hedengran/Documents/Xamarin/TaxiVoucher/Android/bin/Release/Xamarin.Android.Support.v13.dll
 /Users/Hedengran/Documents/Xamarin/TaxiVoucher/Android/obj/Release/MonoAndroid,Version=v4.4.AssemblyAttribute.cs
+/Users/Hedengran/Documents/Xamarin/TaxiVoucher/Android/bin/Release/RestSharp.MonoDroid.dll

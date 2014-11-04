@@ -16,13 +16,18 @@ namespace TaxiVoucher
 			var client = new RestClient ("https://driverapi.staging.drivr.com/");
 
 			var request = new RestRequest("sessions/", Method.POST);
-			request.AddParameter ("email", "jp+11@drivr.com");
-			request.AddParameter ("password", "drivr11");
+			request.AddParameter ("email", "pt+cph@theill.com");
+			request.AddParameter ("password", "123456");
 			request.AddParameter ("installationIdentifier", String.Format("{0}", guid));
 			request.AddParameter ("appVersion", "1.0.0");
-			Console.WriteLine(client.BuildUri (request).ToString());
-			client.ExecuteAsync (request, response => {
-				Console.WriteLine (response.Content);
+			client.ExecuteAsync<JSONResponse> (request, response => {
+				string temp = response.Content.Replace(",", "\n");
+				string temp2 = temp.Replace("{", "\n{\n");
+				string temp3 = temp2.Replace("}","\n}\n");
+				Console.WriteLine(String.Format("{0}, {1}, {2}, {3}", response.Data.Driver.Id, response.Data.Driver.Name, response.Data.Driver.FirstName, response.Data.Driver.LastName));
+				Console.WriteLine (temp3);
+
+
 			});
 		}
 	}
