@@ -1,6 +1,6 @@
-# Version: 8.4.0.15 (08968c4)
+# Version: 8.4.0.16 (80e9ff7)
 # [first argument, ignore] # /Users/Hedengran/Documents/Xamarin/TaxiVoucher/iOS/bin/iPhoneSimulator/Release/mtouch.exe
-/Library/Frameworks/Xamarin.iOS.framework/Versions/8.4.0.15/bin/mtouch \
+/Library/Frameworks/Xamarin.iOS.framework/Versions/8.4.0.16/bin/mtouch \
 	-sdkroot \
 	/Applications/Xcode.app/Contents/Developer \
 	--cache \
@@ -23,6 +23,10 @@
 	/Users/Hedengran/Documents/Xamarin/TaxiVoucher/packages/Xamarin.Forms.1.2.3.6257/lib/MonoTouch10/Xamarin.Forms.Core.dll \
 	-r \
 	/Users/Hedengran/Documents/Xamarin/TaxiVoucher/packages/Xamarin.Forms.1.2.3.6257/lib/MonoTouch10/Xamarin.Forms.Xaml.dll \
+	-r \
+	/Users/Hedengran/Documents/Xamarin/TaxiVoucher/Components/restsharp-104.4.0.1/lib/ios/RestSharp.MonoTouch.dll \
+	-r \
+	/Users/Hedengran/Documents/Xamarin/TaxiVoucher/Components/xamarin.mobile-0.7.4/lib/ios/Xamarin.Mobile.dll \
 	-nolink \
 	-sdk \
 	8.0 \

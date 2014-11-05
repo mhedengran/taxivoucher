@@ -1,0 +1,9 @@
+/Users/Hedengran/Documents/Xamarin/TaxiVoucher/Components/xamarin.mobile-0.7.4/samples/Xamarin.Mobile.iOS.Samples/ContactsSample/obj/iPhone/Debug/Xamarin.iOS,Version=v1.0.AssemblyAttribute.cs
+/Users/Hedengran/Documents/Xamarin/TaxiVoucher/Components/xamarin.mobile-0.7.4/samples/Xamarin.Mobile.iOS.Samples/ContactsSample/obj/iPhone/Debug/Default.png
+/Users/Hedengran/Documents/Xamarin/TaxiVoucher/Components/xamarin.mobile-0.7.4/samples/Xamarin.Mobile.iOS.Samples/ContactsSample/obj/iPhone/Debug/Default@2x.png
+/Users/Hedengran/Documents/Xamarin/TaxiVoucher/Components/xamarin.mobile-0.7.4/samples/Xamarin.Mobile.iOS.Samples/ContactsSample/obj/iPhone/Debug/Default-568h@2x.png
+/Users/Hedengran/Documents/Xamarin/TaxiVoucher/Components/xamarin.mobile-0.7.4/samples/Xamarin.Mobile.iOS.Samples/ContactsSample/bin/iPhone/Debug/ContactsSample.exe.mdb
+/Users/Hedengran/Documents/Xamarin/TaxiVoucher/Components/xamarin.mobile-0.7.4/samples/Xamarin.Mobile.iOS.Samples/ContactsSample/bin/iPhone/Debug/ContactsSample.exe
+/Users/Hedengran/Documents/Xamarin/TaxiVoucher/Components/xamarin.mobile-0.7.4/samples/Xamarin.Mobile.iOS.Samples/ContactsSample/obj/iPhone/Debug/ContactsSample.exe
+/Users/Hedengran/Documents/Xamarin/TaxiVoucher/Components/xamarin.mobile-0.7.4/samples/Xamarin.Mobile.iOS.Samples/ContactsSample/obj/iPhone/Debug/ContactsSample.exe.mdb
+/Users/Hedengran/Documents/Xamarin/TaxiVoucher/Components/xamarin.mobile-0.7.4/samples/Xamarin.Mobile.iOS.Samples/ContactsSample/bin/iPhone/Debug/Xamarin.Mobile.dll

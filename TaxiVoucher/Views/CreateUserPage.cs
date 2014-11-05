@@ -1,10 +1,14 @@
 ﻿using System;
 using Xamarin.Forms;
+using Xamarin.Media;
+using System.Threading.Tasks;
 
 namespace TaxiVoucher
 {
 	public class CreateUserPage : ContentPage
 	{
+		Image driverCardImage;
+
 		public CreateUserPage ()
 		{
 			Title = "Create user";
@@ -30,10 +34,9 @@ namespace TaxiVoucher
 			};
 			switcher.Toggled += SwitcherToggled;
 
-			Image driverCardImage = new Image {
+			driverCardImage = new Image {
 				HorizontalOptions = LayoutOptions.CenterAndExpand,
 				VerticalOptions = LayoutOptions.EndAndExpand,
-				BackgroundColor = Color.Accent,
 				Aspect = Aspect.AspectFit,
 				Source = ImageSource.FromUri(new Uri("http://icons.iconarchive.com/icons/martz90/circle/512/camera-icon.png")),
 			};
@@ -139,8 +142,33 @@ namespace TaxiVoucher
 			}	
 		}
 
-		void ImageTapped() {
+		async void ImageTapped () {
 			Console.WriteLine ("Image clicked");
+			var action = await DisplayActionSheet (null, "Cancel", null, "Take picture", "Pick from existing");
+			//bug fix...
+			await Task.Delay (500);
+
+			if (action.Equals ("Take picture")) {
+			Device.OnPlatform(
+					Default: () => new MediaPicker().TakePhotoAsync (new StoreCameraMediaOptions {
+						Name = "driverCardImage.jpg",
+						Directory = "MediaPickerSample"
+					}).ContinueWith (t => {
+						MediaFile file = t.Result;	
+						Console.WriteLine (file.Path);
+						driverCardImage.Source = ImageSource.FromFile(file.Path);
+					}, TaskScheduler.FromCurrentSynchronizationContext ()
+					)
+				);
+			} else { 
+				Device.OnPlatform(
+					Default: () => new MediaPicker().PickPhotoAsync().ContinueWith (t => {
+					MediaFile file = t.Result;
+					Console.WriteLine (file.Path);
+					driverCardImage.Source = ImageSource.FromFile(file.Path);
+				}, TaskScheduler.FromCurrentSynchronizationContext())
+				);
+			}
 		}
 
 		void OnCreateUserClicked(object sender, EventArgs e) 

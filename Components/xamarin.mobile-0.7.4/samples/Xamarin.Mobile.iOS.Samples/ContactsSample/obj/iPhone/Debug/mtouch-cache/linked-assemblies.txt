@@ -1,0 +1,9 @@
+/Users/Hedengran/Documents/Xamarin/TaxiVoucher/Components/xamarin.mobile-0.7.4/samples/Xamarin.Mobile.iOS.Samples/ContactsSample/obj/iPhone/Debug/mtouch-cache/Link/Xamarin.Mobile.dll
+/Users/Hedengran/Documents/Xamarin/TaxiVoucher/Components/xamarin.mobile-0.7.4/samples/Xamarin.Mobile.iOS.Samples/ContactsSample/obj/iPhone/Debug/mtouch-cache/Link/mscorlib.dll
+/Users/Hedengran/Documents/Xamarin/TaxiVoucher/Components/xamarin.mobile-0.7.4/samples/Xamarin.Mobile.iOS.Samples/ContactsSample/obj/iPhone/Debug/mtouch-cache/Link/System.Core.dll
+/Users/Hedengran/Documents/Xamarin/TaxiVoucher/Components/xamarin.mobile-0.7.4/samples/Xamarin.Mobile.iOS.Samples/ContactsSample/obj/iPhone/Debug/mtouch-cache/Link/Xamarin.iOS.dll
+/Users/Hedengran/Documents/Xamarin/TaxiVoucher/Components/xamarin.mobile-0.7.4/samples/Xamarin.Mobile.iOS.Samples/ContactsSample/obj/iPhone/Debug/mtouch-cache/Link/MonoTouch.Dialog-1.dll
+/Users/Hedengran/Documents/Xamarin/TaxiVoucher/Components/xamarin.mobile-0.7.4/samples/Xamarin.Mobile.iOS.Samples/ContactsSample/obj/iPhone/Debug/mtouch-cache/Link/ContactsSample.exe
+/Users/Hedengran/Documents/Xamarin/TaxiVoucher/Components/xamarin.mobile-0.7.4/samples/Xamarin.Mobile.iOS.Samples/ContactsSample/obj/iPhone/Debug/mtouch-cache/Link/System.Json.dll
+/Users/Hedengran/Documents/Xamarin/TaxiVoucher/Components/xamarin.mobile-0.7.4/samples/Xamarin.Mobile.iOS.Samples/ContactsSample/obj/iPhone/Debug/mtouch-cache/Link/Mono.Dynamic.Interpreter.dll
+/Users/Hedengran/Documents/Xamarin/TaxiVoucher/Components/xamarin.mobile-0.7.4/samples/Xamarin.Mobile.iOS.Samples/ContactsSample/obj/iPhone/Debug/mtouch-cache/Link/System.dll

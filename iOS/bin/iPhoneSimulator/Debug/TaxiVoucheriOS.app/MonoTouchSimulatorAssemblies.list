@@ -20,6 +20,7 @@ System.Runtime.Extensions.dll
 System.Reflection.Extensions.dll
 System.Diagnostics.Debug.dll
 System.Linq.dll
+Xamarin.Mobile.dll
 Xamarin.Forms.Platform.iOS.dll
 System.Net.Http.dll
 RestSharp.MonoTouch.dll
