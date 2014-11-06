@@ -16,8 +16,8 @@ namespace TaxiVoucher
 			client = new RestClient ("https://driverapi.staging.drivr.com/");
 		}
 
-		public async Task<Driver> login (string email, string password) {
-
+		public Task<JSONResponse> login (string email, string password) {
+			var tcs = new TaskCompletionSource<JSONResponse> ();
 			String guid = System.Guid.NewGuid ().ToString ();
 			guid = guid.Replace ("-", "");
 
@@ -26,11 +26,10 @@ namespace TaxiVoucher
 			request.AddParameter ("password", password); //"123456"
 			request.AddParameter ("installationIdentifier", String.Format("{0}", guid));
 			request.AddParameter ("appVersion", "1.0.0");
-//			Task<JSONResponse> responseTask = client.ExecuteAsync<JSONResponse> (request, response => {
-//
-//			});
-			tempResponse = await responseTask;
-			return tempResponse.Driver;
+			client.ExecuteAsync<JSONResponse> (request, response => {
+				tcs.SetResult(response.Data);
+			});
+			return tcs.Task;
 		}
 	}
 }

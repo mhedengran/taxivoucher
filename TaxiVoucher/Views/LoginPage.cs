@@ -1,5 +1,6 @@
 ﻿using System;
 using Xamarin.Forms;
+using System.Threading.Tasks;
 
 namespace TaxiVoucher
 {
@@ -72,9 +73,14 @@ namespace TaxiVoucher
 
 		async void OnLoginClicked(object sender, EventArgs e) {
 			CommunicationHelper helper = new CommunicationHelper ();
-			Driver driver = await helper.login (emailEntry.Text, passwordEntry.Text);
-			Console.WriteLine (driver.ToString());
-			//			Navigation.PushAsync (new MenuPage ());
+			Task<JSONResponse> driverTask = helper.login (emailEntry.Text, passwordEntry.Text);
+			JSONResponse response = driverTask.Result;
+			if (response.SystemMessage != null) {
+				await DisplayAlert ("Error logging in", response.SystemMessage, "OK");
+			} else {
+				Console.WriteLine (response.Driver.ToString());
+				Navigation.PushAsync (new MenuPage ());
+			}
 		}
 
 		void OnCreateUserClicked(object sender, EventArgs e) 

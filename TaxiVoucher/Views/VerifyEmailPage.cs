@@ -38,6 +38,8 @@ namespace TaxiVoucher
 		}
 
 		void OnLoginClicked(object sender, EventArgs e) {
+			
+//			Navigation.PopToRootAsync ();
 			Navigation.PushAsync (new MenuPage ());
 		}
 	}
