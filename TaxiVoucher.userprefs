@@ -1,19 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget.Mortens iPhone" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.4df7599a3778cf29" />
   <MonoDevelop.Ide.Workbench ActiveDocument="TaxiVoucher/Views/CreateUserPage.cs">
     <Files>
-      <File FileName="TaxiVoucher/Helpers/CameraHelper.cs" Line="4" Column="4" />
-      <File FileName="TaxiVoucher/Views/CreateUserPage.cs" Line="6" Column="6" />
+      <File FileName="TaxiVoucher/Views/CreateUserPage.cs" Line="17" Column="17" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State expanded="True">
-          <Node name="TaxiVoucher.iOS" expanded="True" selected="True">
-            <Node name="ComponentReferenceFolder" expanded="True" />
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />

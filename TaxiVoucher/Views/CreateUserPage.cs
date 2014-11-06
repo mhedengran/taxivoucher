@@ -2,6 +2,7 @@
 using Xamarin.Forms;
 using Xamarin.Media;
 using System.Threading.Tasks;
+//using Android;
 
 namespace TaxiVoucher
 {
@@ -142,33 +143,41 @@ namespace TaxiVoucher
 			}	
 		}
 
+		//move logic to seperate class should properly be platform specific
 		async void ImageTapped () {
+			MediaPicker cameraPicker = DependencyService.Get<ICamera> ().GetPicker();
 			Console.WriteLine ("Image clicked");
-			var action = await DisplayActionSheet (null, "Cancel", null, "Take picture", "Pick from existing");
-			//bug fix...
-			await Task.Delay (500);
 
-			if (action.Equals ("Take picture")) {
-			Device.OnPlatform(
-					Default: () => new MediaPicker().TakePhotoAsync (new StoreCameraMediaOptions {
-						Name = "driverCardImage.jpg",
-						Directory = "MediaPickerSample"
-					}).ContinueWith (t => {
-						MediaFile file = t.Result;	
-						Console.WriteLine (file.Path);
-						driverCardImage.Source = ImageSource.FromFile(file.Path);
-					}, TaskScheduler.FromCurrentSynchronizationContext ()
-					)
-				);
-			} else { 
-				Device.OnPlatform(
-					Default: () => new MediaPicker().PickPhotoAsync().ContinueWith (t => {
-					MediaFile file = t.Result;
-					Console.WriteLine (file.Path);
-					driverCardImage.Source = ImageSource.FromFile(file.Path);
-				}, TaskScheduler.FromCurrentSynchronizationContext())
-				);
-			}
+				var action = await DisplayActionSheet (null, "Cancel", null, "Take picture", "Pick from existing");
+				//bug fix...
+				await Task.Delay (500);
+
+				if (action.Equals ("Take picture")) {
+					if (cameraPicker.IsCameraAvailable) {
+						Device.OnPlatform (
+							Default: () => cameraPicker.TakePhotoAsync (new StoreCameraMediaOptions {
+								Name = "driverCardImage.jpg",
+								Directory = "MediaPickerSample"
+							}).ContinueWith (t => {
+								MediaFile file = t.Result;	
+								Console.WriteLine (file.Path);
+								driverCardImage.Source = ImageSource.FromFile (file.Path);
+							}, TaskScheduler.FromCurrentSynchronizationContext ()
+							)
+						);
+					} else {
+						await DisplayAlert ("Camera missing", "Your phone doesn't have a camera", "OK");
+					}
+				} else { 
+					Device.OnPlatform (
+						Default: () => cameraPicker.PickPhotoAsync ().ContinueWith (t => {
+							MediaFile file = t.Result;
+							Console.WriteLine (file.Path);
+							driverCardImage.Source = ImageSource.FromFile (file.Path);
+						}, TaskScheduler.FromCurrentSynchronizationContext ())
+					);
+				}
+			
 		}
 
 		void OnCreateUserClicked(object sender, EventArgs e) 

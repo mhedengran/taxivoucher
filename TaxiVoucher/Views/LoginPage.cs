@@ -70,8 +70,10 @@ namespace TaxiVoucher
 			Content = stacklayout;
 		}
 
-		void OnLoginClicked(object sender, EventArgs e) {
+		async void OnLoginClicked(object sender, EventArgs e) {
 			CommunicationHelper helper = new CommunicationHelper ();
+			Driver driver = await helper.login (emailEntry.Text, passwordEntry.Text);
+			Console.WriteLine (driver.ToString());
 			//			Navigation.PushAsync (new MenuPage ());
 		}
 

@@ -111,6 +111,7 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="Camera_iOS.cs" />
   </ItemGroup>
   <Import Project="..\TaxiVoucher\TaxiVoucher.projitems" Label="Shared" Condition="Exists('..\TaxiVoucher\TaxiVoucher.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
