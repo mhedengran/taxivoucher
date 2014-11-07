@@ -38,7 +38,8 @@ namespace TaxiVoucher
 		}
 
 		void OnLoginClicked(object sender, EventArgs e) {
-			
+
+			//figure out how to get this to work (nice to have)
 //			Navigation.PopToRootAsync ();
 			Navigation.PushAsync (new MenuPage ());
 		}

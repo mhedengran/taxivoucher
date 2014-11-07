@@ -56,6 +56,7 @@ namespace TaxiVoucher
 		void OnLogClicked(object sender, EventArgs e) 
 		{
 			Console.WriteLine ("Log");
+			Navigation.PushAsync(new LogPage());
 		}
 
 		void OnSettingsClicked(object sender, EventArgs e) 

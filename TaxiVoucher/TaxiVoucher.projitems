@@ -19,6 +19,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\Driver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\JSONResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\ICamera.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\LogPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Trip.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\TripViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />

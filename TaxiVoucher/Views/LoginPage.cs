@@ -13,6 +13,8 @@ namespace TaxiVoucher
 		public LoginPage ()
 		{
 			Title = "Login";
+			//needs to be set in constructor
+//			NavigationPage.SetBackButtonTitle (this, "Logout");
 
 			Button loginButton = new Button {
 				Text = "Login",
