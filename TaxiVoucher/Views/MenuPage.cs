@@ -10,7 +10,7 @@ namespace TaxiVoucher
 			Title = "Menu";
 
 			Button redeemButton = new Button {
-				Text = "Redeem voucher",
+				Text = "Indløs bon",
 				HorizontalOptions = LayoutOptions.Center,
 			};
 			redeemButton.Clicked += OnRedeemClicked;
@@ -22,7 +22,7 @@ namespace TaxiVoucher
 			logButton.Clicked += OnLogClicked;
 
 			Button settingsButton = new Button {
-				Text = "Settings",
+				Text = "Indstillinger",
 				HorizontalOptions = LayoutOptions.Center,
 			};
 			settingsButton.Clicked += OnSettingsClicked;
@@ -39,7 +39,7 @@ namespace TaxiVoucher
 					settingsButton,
 
 					new Label {
-						Text = "You haven't entered any bank information yet, blah blah blah",
+						Text = "Du har ikke indtastet nogen bankoplysninger endnu, blah blah blah",
 						VerticalOptions = LayoutOptions.EndAndExpand,
 						HorizontalOptions = LayoutOptions.CenterAndExpand,
 					},
@@ -51,6 +51,7 @@ namespace TaxiVoucher
 
 		void OnRedeemClicked(object sender, EventArgs e) {
 			Console.WriteLine ("Redeem");
+			Navigation.PushAsync (new RedeemVoucherView ());
 		}
 
 		void OnLogClicked(object sender, EventArgs e) 

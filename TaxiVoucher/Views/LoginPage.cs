@@ -23,13 +23,13 @@ namespace TaxiVoucher
 			loginButton.Clicked += OnLoginClicked;
 
 			Button forgotPasswordButton = new Button {
-				Text = "Forgot password",
+				Text = "Glemt password",
 				HorizontalOptions = LayoutOptions.Center
 			};
 			forgotPasswordButton.Clicked += OnForgotPasswordClicked;
 
 			Button createUserButton = new Button {
-				Text = "Create user",
+				Text = "Opret bruger",
 				HorizontalOptions = LayoutOptions.Center,
 				VerticalOptions = LayoutOptions.EndAndExpand
 			};
@@ -98,11 +98,11 @@ namespace TaxiVoucher
 			if (emailEntry.Text != null) {
 				if (emailEntry.Text.Contains ("@") && emailEntry.Text.Contains (".")) {
 					//send email
-					forgotPasswordLabel.Text = "Email sent";
+					forgotPasswordLabel.Text = "Email sendt";
 					return;
 				}
 			} 
-			forgotPasswordLabel.Text = "Enter a valid email";
+			forgotPasswordLabel.Text = "Skriv en rigtig email";
 		}
 	}
 }

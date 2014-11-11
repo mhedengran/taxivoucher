@@ -7,10 +7,10 @@ namespace TaxiVoucher
 	{
 		public VerifyEmailPage()
 		{
-			Title = "Create user";
+			Title = "Opret bruger";
 
 			Button loginButton = new Button {
-				Text = "Login",
+				Text = "Gå til Login",
 				HorizontalOptions = LayoutOptions.Center,
 				VerticalOptions = LayoutOptions.EndAndExpand,
 			};
@@ -26,7 +26,7 @@ namespace TaxiVoucher
 				{
 					new Label
 					{
-						Text = "A mail has been sent to your e-mail address, please verify it",
+						Text = "En email er blevet sendt til din e-mailadresse, vær venlig at verificere den",
 						VerticalOptions = LayoutOptions.Center,
 						HorizontalOptions = LayoutOptions.CenterAndExpand,
 					},
@@ -40,8 +40,8 @@ namespace TaxiVoucher
 		void OnLoginClicked(object sender, EventArgs e) {
 
 			//figure out how to get this to work (nice to have)
-//			Navigation.PopToRootAsync ();
-			Navigation.PushAsync (new MenuPage ());
+			Navigation.PopToRootAsync ();
+//			Navigation.PushAsync (new MenuPage ());
 		}
 	}
 }

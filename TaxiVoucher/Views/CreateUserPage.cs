@@ -12,20 +12,7 @@ namespace TaxiVoucher
 
 		public CreateUserPage ()
 		{
-			Title = "Create user";
-
-			//init picker
-			Picker picker = new Picker
-			{
-				Title = "Taxi-Company"
-			};
-
-			for (int i = 0; i < 10; i++)
-			{
-				picker.Items.Add("test"+i);
-			}
-
-			picker.SelectedIndexChanged += PickerSelectedIndexChanged;
+			Title = "Opret bruger";
 
 			//init switch
 			Switch switcher = new Switch
@@ -59,7 +46,7 @@ namespace TaxiVoucher
 			driverCardImage.GestureRecognizers.Add (imageTapRecognizer);
 
 			Button createUserButton = new Button {
-				Text = "Create user",
+				Text = "Opret bruger",
 				HorizontalOptions = LayoutOptions.Center,
 				VerticalOptions = LayoutOptions.EndAndExpand
 			};
@@ -78,25 +65,24 @@ namespace TaxiVoucher
 
 					new Entry {
 						Keyboard = Keyboard.Numeric,
-						Placeholder = "Driver number",
+						Placeholder = "Fører numer",
 						VerticalOptions = LayoutOptions.Center
 					},
 
 					new Entry {
 						Keyboard = Keyboard.Create(0x00),
-						Placeholder = "Enter password",
+						Placeholder = "Skriv password",
 						IsPassword = true,
 						VerticalOptions = LayoutOptions.Center
 					},
 
 					new Entry {
 						Keyboard = Keyboard.Create(0x00),
-						Placeholder = "Enter password again",
+						Placeholder = "Skriv password igen",
 						IsPassword = true,
 						VerticalOptions = LayoutOptions.Center
 					},
-
-					picker,
+							
 					new StackLayout
 					{
 						Spacing = 10,
@@ -106,7 +92,7 @@ namespace TaxiVoucher
 						{
 							new Label
 							{
-								Text = "Login automatically",
+								Text = "Login automatisk",
 								HorizontalOptions = LayoutOptions.StartAndExpand,
 								VerticalOptions = LayoutOptions.Center
 							},
@@ -117,7 +103,7 @@ namespace TaxiVoucher
 
 					new Label
 					{
-						Text = "Picture of drivercard",
+						Text = "Billede af førerkort",
 						HorizontalOptions = LayoutOptions.StartAndExpand,
 						VerticalOptions = LayoutOptions.Center
 					},
@@ -148,36 +134,35 @@ namespace TaxiVoucher
 			MediaPicker cameraPicker = DependencyService.Get<ICamera> ().GetPicker();
 			Console.WriteLine ("Image clicked");
 
-				var action = await DisplayActionSheet (null, "Cancel", null, "Take picture", "Pick from existing");
+				var action = await DisplayActionSheet (null, "Annuller", null, "Tag billede", "Vælg fra eksisterende");
 				//bug fix...
 				await Task.Delay (500);
 
-				if (action.Equals ("Take picture")) {
-					if (cameraPicker.IsCameraAvailable) {
-						Device.OnPlatform (
-							Default: () => cameraPicker.TakePhotoAsync (new StoreCameraMediaOptions {
-								Name = "driverCardImage.jpg",
-								Directory = "MediaPickerSample"
-							}).ContinueWith (t => {
-								MediaFile file = t.Result;	
-								Console.WriteLine (file.Path);
-								driverCardImage.Source = ImageSource.FromFile (file.Path);
-							}, TaskScheduler.FromCurrentSynchronizationContext ()
-							)
-						);
-					} else {
-						await DisplayAlert ("Camera missing", "Your phone doesn't have a camera", "OK");
-					}
-				} else { 
+			if (action.Equals ("Tag billede")) {
+				if (cameraPicker.IsCameraAvailable) {
 					Device.OnPlatform (
-						Default: () => cameraPicker.PickPhotoAsync ().ContinueWith (t => {
-							MediaFile file = t.Result;
+						Default: () => cameraPicker.TakePhotoAsync (new StoreCameraMediaOptions {
+							Name = "driverCardImage.jpg",
+							Directory = "MediaPickerSample"
+						}).ContinueWith (t => {
+							MediaFile file = t.Result;	
 							Console.WriteLine (file.Path);
 							driverCardImage.Source = ImageSource.FromFile (file.Path);
-						}, TaskScheduler.FromCurrentSynchronizationContext ())
+						}, TaskScheduler.FromCurrentSynchronizationContext ()
+						)
 					);
+				} else {
+					await DisplayAlert ("Intet kamera", "Din telefon har ikke et kamera", "OK");
 				}
-			
+			} else { 
+				Device.OnPlatform (
+					Default: () => cameraPicker.PickPhotoAsync ().ContinueWith (t => {
+						MediaFile file = t.Result;
+						Console.WriteLine (file.Path);
+						driverCardImage.Source = ImageSource.FromFile (file.Path);
+					}, TaskScheduler.FromCurrentSynchronizationContext ())
+				);
+			}
 		}
 
 		void OnCreateUserClicked(object sender, EventArgs e) 

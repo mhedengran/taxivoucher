@@ -7,20 +7,7 @@ namespace TaxiVoucher
 	{
 		public SettingsPage ()
 		{
-			Title = "Settings";
-
-			//init picker
-			Picker picker = new Picker
-			{
-				Title = "Taxi-Company"
-			};
-
-			for (int i = 0; i < 10; i++)
-			{
-				picker.Items.Add("test"+i);
-			}
-
-			picker.SelectedIndexChanged += PickerSelectedIndexChanged;
+			Title = "Indstillinger";
 
 			//init switch
 			Switch loginSwitch = new Switch
@@ -38,7 +25,7 @@ namespace TaxiVoucher
 			emailSwitch.Toggled += EmailSwitchToggled;
 
 			Button saveButton = new Button {
-				Text = "Save",
+				Text = "Gem",
 				HorizontalOptions = LayoutOptions.Center,
 				VerticalOptions = LayoutOptions.EndAndExpand
 			};
@@ -51,7 +38,7 @@ namespace TaxiVoucher
 				Children = {
 
 					new Label {
-						Text = "Driver number",
+						Text = "Førernummer",
 						VerticalOptions = LayoutOptions.Center,
 						HorizontalOptions = LayoutOptions.Start
 					},
@@ -64,19 +51,18 @@ namespace TaxiVoucher
 
 					new Entry {
 						Keyboard = Keyboard.Create(0x00),
-						Placeholder = "Enter password",
+						Placeholder = "Skriv password",
 						IsPassword = true,
 						VerticalOptions = LayoutOptions.Start
 					},
 
 					new Entry {
 						Keyboard = Keyboard.Create(0x00),
-						Placeholder = "Enter password again",
+						Placeholder = "Skriv password igen",
 						IsPassword = true,
 						VerticalOptions = LayoutOptions.Start
 					},
-
-					picker,
+							
 					new StackLayout
 					{
 						Spacing = 10,
@@ -86,7 +72,7 @@ namespace TaxiVoucher
 						{
 							new Label
 							{
-								Text = "Login automatically",
+								Text = "Login automatisk",
 								HorizontalOptions = LayoutOptions.StartAndExpand,
 								VerticalOptions = LayoutOptions.Center
 							},
@@ -104,7 +90,7 @@ namespace TaxiVoucher
 						{
 							new Label
 							{
-								Text = "Send receipt automatically",
+								Text = "Send kviterring automatisk",
 								HorizontalOptions = LayoutOptions.StartAndExpand,
 								VerticalOptions = LayoutOptions.Center
 							},
