@@ -35,7 +35,7 @@ namespace TaxiVoucher
 
 		//AUTHENTICATE VOUCHER
 		//get location
-		//GET /places/search (not sure if the right one)
+		//GET /places/search (finds a address from a coordinate)
 
 		//start booking
 
@@ -64,10 +64,10 @@ namespace TaxiVoucher
 
 		//LOG
 		//list of settled bookings
-		//GET /payouts
+		//use earnings and week earnings (ask peter, as they arent on driverapi.drivr.com
 
 		//list of unsettled bookings
-		//GET /bookings/unsettled or GET /drivers/{driverId}/unsettled
+		//same as above
 
 
 		//CREATE USER

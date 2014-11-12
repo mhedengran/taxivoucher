@@ -51,7 +51,7 @@ namespace TaxiVoucher
 
 		void OnRedeemClicked(object sender, EventArgs e) {
 			Console.WriteLine ("Redeem");
-			Navigation.PushAsync (new RedeemVoucherView ());
+			Navigation.PushAsync (new RedeemVoucherPage ());
 		}
 
 		void OnLogClicked(object sender, EventArgs e) 

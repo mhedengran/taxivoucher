@@ -22,7 +22,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\Trip.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\TripViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\JSONResponse.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Views\RedeemVoucherView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\RedeemVoucherPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\VoucherReceiptPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />

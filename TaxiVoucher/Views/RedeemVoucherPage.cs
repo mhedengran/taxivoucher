@@ -3,7 +3,7 @@ using Xamarin.Forms;
 
 namespace TaxiVoucher
 {
-	public class RedeemVoucherView : ContentPage
+	public class RedeemVoucherPage : ContentPage
 	{
 		Entry priceEntry;
 		Entry voucherCodeEntry;
@@ -12,16 +12,20 @@ namespace TaxiVoucher
 		Entry zipCodeEntry;
 		Entry cityEntry;
 
-		public RedeemVoucherView ()
+		public RedeemVoucherPage ()
 		{
 			Title = "Indløs";
 
 			Button finishTripButton = new Button {
 				Text = "Afslut tur",
 				HorizontalOptions = LayoutOptions.Center,
-				VerticalOptions = LayoutOptions.End
+				VerticalOptions = LayoutOptions.End,
+
 			};
 			finishTripButton.Clicked += OnFinishTripClicked;
+			Device.OnPlatform(
+				Default: () => finishTripButton.HeightRequest = 50
+			);
 
 			voucherCodeEntry = new Entry {
 				Keyboard = Keyboard.Text,
@@ -110,6 +114,7 @@ namespace TaxiVoucher
 		void OnFinishTripClicked(object sender, EventArgs e) 
 		{
 			Console.WriteLine ("finish trip");
+			Navigation.PushAsync (new VoucherReceiptPage ());
 		}
 	}
 }
