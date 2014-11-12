@@ -24,6 +24,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\JSONResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\RedeemVoucherPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\VoucherReceiptPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\IGeoLocator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />

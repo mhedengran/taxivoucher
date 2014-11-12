@@ -5,7 +5,7 @@ using System.Text;
 using RestSharp;
 using System.Threading.Tasks;
 
-namespace TaxiVoucher
+namespace TaxiPay
 {
 	public class CommunicationHelper
 	{
@@ -36,6 +36,23 @@ namespace TaxiVoucher
 		//AUTHENTICATE VOUCHER
 		//get location
 		//GET /places/search (finds a address from a coordinate)
+		//ask Peter about how this actually works, seems to return som weird info
+		public Task<string> GetAddress (double latitude, double longtitude, string token) {
+			var tcs = new TaskCompletionSource<string> ();
+
+			var request = new RestRequest("places/search", Method.GET);
+			request.AddParameter ("lating", latitude+","+longtitude); 
+			request.AddParameter ("radius", 500); 
+			request.AddParameter ("query", "jagt");
+			
+			request.AddHeader ("Authorization", "Token token=\"" + token + "\"");
+
+			client.ExecuteAsync<JSONResponse> (request, response => {
+				tcs.SetResult(response.Content);
+				//get specified which types of system messages there is
+			});
+			return tcs.Task;
+		}
 
 		//start booking
 

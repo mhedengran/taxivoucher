@@ -1,7 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
 
-namespace TaxiVoucher
+namespace TaxiPay
 {
 	public class VoucherReceiptPage : ContentPage
 	{

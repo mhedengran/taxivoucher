@@ -2,9 +2,8 @@
 using Xamarin.Forms;
 using Xamarin.Media;
 using System.Threading.Tasks;
-//using Android;
 
-namespace TaxiVoucher
+namespace TaxiPay
 {
 	public class CreateUserPage : ContentPage
 	{

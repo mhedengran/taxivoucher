@@ -1,12 +1,15 @@
 ﻿using System;
 using Xamarin.Forms;
 
-namespace TaxiVoucher
+namespace TaxiPay
 {
 	public class MenuPage : ContentPage
 	{
-		public MenuPage ()
+		Driver driver;
+		public MenuPage (Driver drvr)
 		{
+			driver = drvr;
+
 			Title = "Menu";
 
 			Button redeemButton = new Button {
@@ -51,7 +54,7 @@ namespace TaxiVoucher
 
 		void OnRedeemClicked(object sender, EventArgs e) {
 			Console.WriteLine ("Redeem");
-			Navigation.PushAsync (new RedeemVoucherPage ());
+			Navigation.PushAsync (new RedeemVoucherPage (driver));
 		}
 
 		void OnLogClicked(object sender, EventArgs e) 

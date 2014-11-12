@@ -2,7 +2,7 @@
 using System.Globalization;
 using Xamarin.Forms;
 
-namespace TaxiVoucher
+namespace TaxiPay
 {
 	public class LogPage : ContentPage
 	{

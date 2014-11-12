@@ -1,10 +1,14 @@
 ﻿using System;
 using Xamarin.Forms;
+using Xamarin.Geolocation;
+using System.Threading.Tasks;
 
-namespace TaxiVoucher
+namespace TaxiPay
 {
 	public class RedeemVoucherPage : ContentPage
 	{
+		Driver driver;
+
 		Entry priceEntry;
 		Entry voucherCodeEntry;
 		Entry streetEntry;
@@ -12,9 +16,13 @@ namespace TaxiVoucher
 		Entry zipCodeEntry;
 		Entry cityEntry;
 
-		public RedeemVoucherPage ()
+		public RedeemVoucherPage (Driver drvr)
 		{
+			driver = drvr;
+
 			Title = "Indløs";
+
+
 
 			Button finishTripButton = new Button {
 				Text = "Afslut tur",
@@ -111,10 +119,23 @@ namespace TaxiVoucher
 			Content = outerStacklayout;
 		}
 
-		void OnFinishTripClicked(object sender, EventArgs e) 
+		async void OnFinishTripClicked(object sender, EventArgs e) 
 		{
 			Console.WriteLine ("finish trip");
-			Navigation.PushAsync (new VoucherReceiptPage ());
+			//get current location
+			Geolocator locator = DependencyService.Get<IGeoLocator> ().GetLocator(); 
+			Console.WriteLine ("available:" + locator.IsGeolocationAvailable);
+			Console.WriteLine ("enabled:" + locator.IsGeolocationEnabled);
+//			await locator;
+			await locator.GetPositionAsync (timeout: 100000).ContinueWith (t => {
+				Console.WriteLine ("Position Status: {0}", t.Status.ToString()); //if != RanToCompletion do something
+				Console.WriteLine ("Position Latitude: {0}", t.Result.Latitude);
+				Console.WriteLine ("Position Longitude: {0}", t.Result.Longitude);
+				var addressTask = new CommunicationHelper().GetAddress(t.Result.Latitude, t.Result.Longitude, driver.Token);
+				string address = addressTask.Result;
+				Console.WriteLine(address);
+			}, TaskScheduler.FromCurrentSynchronizationContext());
+//			Navigation.PushAsync (new VoucherReceiptPage ());
 		}
 	}
 }

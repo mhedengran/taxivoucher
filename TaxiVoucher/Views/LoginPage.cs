@@ -2,7 +2,7 @@
 using Xamarin.Forms;
 using System.Threading.Tasks;
 
-namespace TaxiVoucher
+namespace TaxiPay
 {
 	public class LoginPage : ContentPage
 	{
@@ -81,7 +81,9 @@ namespace TaxiVoucher
 				await DisplayAlert ("Error logging in", response.SystemMessage, "OK");
 			} else {
 				Console.WriteLine (response.Driver.ToString());
-				Navigation.PushAsync (new MenuPage ());
+				Driver driver = response.Driver;
+				driver.Token = response.Token;
+				Navigation.PushAsync (new MenuPage (driver));
 			}
 		}
 

@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace TaxiVoucher
+namespace TaxiPay
 {
-	namespace TaxiVoucher
+	namespace TaxiPay.Android
 	{
 		public class Trip
 		{

@@ -1,16 +1,37 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhone5s.8.0" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="TaxiVoucher/Views/VerifyEmailPage.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="iOS/HWAccess/GeoLocator_iOS.cs">
     <Files>
-      <File FileName="TaxiVoucher/Views/RedeemVoucherView.cs" Line="55" Column="55" />
-      <File FileName="TaxiVoucher/Helpers/CommunicationHelper.cs" Line="63" Column="63" />
-      <File FileName="TaxiVoucher/Views/MenuPage.cs" Line="23" Column="23" />
-      <File FileName="TaxiVoucher/Views/SettingsPage.cs" Line="43" Column="43" />
-      <File FileName="TaxiVoucher/Views/VerifyEmailPage.cs" Line="35" Column="35" />
+      <File FileName="TaxiVoucher/Views/RedeemVoucherPage.cs" Line="1" Column="1" />
+      <File FileName="TaxiVoucher/Helpers/CommunicationHelper.cs" Line="46" Column="46" />
+      <File FileName="TaxiVoucher/Views/CreateUserPage.cs" Line="77" Column="77" />
+      <File FileName="TaxiVoucher/Views/VoucherReceiptPage.cs" Line="26" Column="26" />
+      <File FileName="iOS/HWAccess/GeoLocator_iOS.cs" Line="23" Column="23" />
+      <File FileName="Android/HWAccess/GeoLocator_Android.cs" Line="32" Column="32" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="TaxiVoucher" expanded="True">
+            <Node name="Helpers" expanded="True" />
+          </Node>
+          <Node name="TaxiVoucher.Android" expanded="True">
+            <Node name="HWAccess" expanded="True" />
+          </Node>
+          <Node name="TaxiVoucher.iOS" expanded="True">
+            <Node name="ComponentReferenceFolder" expanded="True" />
+            <Node name="HWAccess" expanded="True">
+              <Node name="GeoLocator_iOS.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/Hedengran/Documents/Xamarin/TaxiVoucher/TaxiVoucher/Views/RedeemVoucherPage.cs" line="22" column="34" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

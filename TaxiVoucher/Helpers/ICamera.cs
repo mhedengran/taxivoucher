@@ -1,7 +1,7 @@
 ﻿using System;
 using Xamarin.Media;
 
-namespace TaxiVoucher
+namespace TaxiPay
 {
 	public interface ICamera
 	{

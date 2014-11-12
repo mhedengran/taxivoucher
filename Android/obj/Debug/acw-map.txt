@@ -1,4 +1,4 @@
-TaxiVoucher.Android.MainActivity;taxivoucher.android.MainActivity
+TaxiPay.Android.MainActivity;taxipay.android.MainActivity
 Xamarin.Forms.Platform.Android.AndroidActivity;xamarin.forms.platform.android.AndroidActivity
 Xamarin.Forms.Platform.Android.BaseCellView;xamarin.forms.platform.android.BaseCellView
 Xamarin.Forms.Platform.Android.CellRenderer.RendererHolder;xamarin.forms.platform.android.CellRenderer_RendererHolder

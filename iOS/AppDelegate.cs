@@ -7,7 +7,7 @@ using MonoTouch.UIKit;
 
 using Xamarin.Forms;
 
-namespace TaxiVoucher.iOS
+namespace TaxiPay.iOS
 {
 	[Register ("AppDelegate")]
 	public partial class AppDelegate : UIApplicationDelegate
