@@ -36,13 +36,12 @@ namespace TaxiPay
 		//AUTHENTICATE VOUCHER
 		//get location
 		//GET /places/search (finds a address from a coordinate)
-		//ask Peter about how this actually works, seems to return som weird info
 		public Task<string> GetAddress (double latitude, double longtitude, string token) {
 			var tcs = new TaskCompletionSource<string> ();
 
 			var request = new RestRequest("places/search", Method.GET);
-			request.AddParameter ("lating", latitude+","+longtitude); 
-			request.AddParameter ("radius", 500); 
+			request.AddParameter ("latlng", latitude + "," + longtitude); 
+			request.AddParameter ("radius", 2); 
 			request.AddParameter ("query", "jagt");
 			
 			request.AddHeader ("Authorization", "Token token=\"" + token + "\"");
@@ -55,12 +54,27 @@ namespace TaxiPay
 		}
 
 		//start booking
+		// POST /bookings (include "pickup.lat", "pickup.lng") => { "pickup": { "lat": xx } }
+		public Task<string> StartBooking (double latitude, double longtitude, string token) {
+			var tcs = new TaskCompletionSource<string> ();
 
-		//status for booking (not sure if used)
-		//POST /jobs/:id/statuses
+			var booking = new { pickup = new { lat = latitude, lng = longtitude }};
+			var request = new RestRequest("/bookings", Method.POST);
+			request.AddObject (booking);
+
+			request.AddHeader ("Authorization", "Token token=\"" + token + "\"");
+			request.AddHeader ("X-DEBUG", "C2H5OH");
+
+			client.ExecuteAsync<JSONResponse> (request, response => {
+				tcs.SetResult(response.Content);
+				//get specified which types of system messages there is
+			});
+			return tcs.Task;
+		}
 
 		//update position
-		//PUT /bookings/:bookingId/waypoints/:waypointId
+		//evenrequest i heartbeat
+		//post /events/
 
 		//add voucher to booking
 		//POST /vouchers
@@ -71,6 +85,8 @@ namespace TaxiPay
 
 		//SETTINGS
 		//get bank info
+		//SET: //PUT /drivers/:id
+		//GET: //
 
 		//change password
 		//POST /passwords (get specified what it does)

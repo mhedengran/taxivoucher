@@ -131,7 +131,7 @@ namespace TaxiPay
 				Console.WriteLine ("Position Status: {0}", t.Status.ToString()); //if != RanToCompletion do something
 				Console.WriteLine ("Position Latitude: {0}", t.Result.Latitude);
 				Console.WriteLine ("Position Longitude: {0}", t.Result.Longitude);
-				var addressTask = new CommunicationHelper().GetAddress(t.Result.Latitude, t.Result.Longitude, driver.Token);
+				var addressTask = new CommunicationHelper().StartBooking(t.Result.Latitude, t.Result.Longitude, driver.Token);
 				string address = addressTask.Result;
 				Console.WriteLine(address);
 			}, TaskScheduler.FromCurrentSynchronizationContext());
