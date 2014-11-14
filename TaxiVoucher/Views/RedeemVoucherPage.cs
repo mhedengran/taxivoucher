@@ -121,6 +121,15 @@ namespace TaxiPay
 
 		async void OnFinishTripClicked(object sender, EventArgs e) 
 		{
+			//pay flow
+			//1. go online
+			//2. update position
+			//3. create booking
+			//4. update position
+			//5. add voucher
+			//6. finish booking
+			//7. go offline
+
 			Console.WriteLine ("finish trip");
 			string bookingId;
 			//get current location
