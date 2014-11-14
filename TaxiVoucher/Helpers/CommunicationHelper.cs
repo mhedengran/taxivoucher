@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using RestSharp;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace TaxiPay
 {
@@ -54,20 +55,21 @@ namespace TaxiPay
 		}
 
 		//start booking
-		// POST /bookings (include "pickup.lat", "pickup.lng") => { "pickup": { "lat": xx } }
+		// find out how the status (online/offline/etc..) is handled
 		public Task<string> StartBooking (double latitude, double longtitude, string token) {
 			var tcs = new TaskCompletionSource<string> ();
 
 			var booking = new { pickup = new { lat = latitude, lng = longtitude }};
+
 			var request = new RestRequest("/bookings", Method.POST);
-			request.AddObject (booking);
+
+			request.AddParameter("application/json", request.JsonSerializer.Serialize(booking), ParameterType.RequestBody);
 
 			request.AddHeader ("Authorization", "Token token=\"" + token + "\"");
 			request.AddHeader ("X-DEBUG", "C2H5OH");
 
 			client.ExecuteAsync<JSONResponse> (request, response => {
-				tcs.SetResult(response.Content);
-				//get specified which types of system messages there is
+				tcs.SetResult(response.Data.Id);
 			});
 			return tcs.Task;
 		}
@@ -75,6 +77,23 @@ namespace TaxiPay
 		//update position
 		//evenrequest i heartbeat
 		//post /events/
+		public Task<string> UpdatePostion (double latitude, double longtitude, string token) {
+			var tcs = new TaskCompletionSource<string> ();
+
+			var booking = new { pickup = new { lat = latitude, lng = longtitude }};
+
+			var request = new RestRequest("/events", Method.POST);
+
+			request.AddParameter("application/json", request.JsonSerializer.Serialize(booking), ParameterType.RequestBody);
+
+			request.AddHeader ("Authorization", "Token token=\"" + token + "\"");
+			request.AddHeader ("X-DEBUG", "C2H5OH");
+
+			client.ExecuteAsync<JSONResponse> (request, response => {
+				tcs.SetResult(response.Content);
+			});
+			return tcs.Task;
+		}
 
 		//add voucher to booking
 		//POST /vouchers

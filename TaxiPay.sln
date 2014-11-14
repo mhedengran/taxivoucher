@@ -53,6 +53,6 @@ Global
 		{76D04F7B-5AE3-4685-AFD4-F01FF5F32B1F}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Android\TaxiPay.Android.csproj
+		StartupItem = iOS\TaxiPay.iOS.csproj
 	EndGlobalSection
 EndGlobal

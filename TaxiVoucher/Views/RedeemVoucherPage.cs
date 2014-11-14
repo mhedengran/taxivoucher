@@ -122,18 +122,25 @@ namespace TaxiPay
 		async void OnFinishTripClicked(object sender, EventArgs e) 
 		{
 			Console.WriteLine ("finish trip");
+			string bookingId;
 			//get current location
 			Geolocator locator = DependencyService.Get<IGeoLocator> ().GetLocator(); 
 			Console.WriteLine ("available:" + locator.IsGeolocationAvailable);
 			Console.WriteLine ("enabled:" + locator.IsGeolocationEnabled);
 //			await locator;
 			await locator.GetPositionAsync (timeout: 100000).ContinueWith (t => {
-				Console.WriteLine ("Position Status: {0}", t.Status.ToString()); //if != RanToCompletion do something
-				Console.WriteLine ("Position Latitude: {0}", t.Result.Latitude);
-				Console.WriteLine ("Position Longitude: {0}", t.Result.Longitude);
-				var addressTask = new CommunicationHelper().StartBooking(t.Result.Latitude, t.Result.Longitude, driver.Token);
-				string address = addressTask.Result;
-				Console.WriteLine(address);
+				if (t.Status.ToString().Equals("RanToCompletion")) {
+					Console.WriteLine ("Position Status: {0}", t.Status.ToString()); //if != RanToCompletion do something
+					Console.WriteLine ("Position Latitude: {0}", t.Result.Latitude);
+					Console.WriteLine ("Position Longitude: {0}", t.Result.Longitude);
+					//update position first
+					//create booking
+//					var bookingTask = new CommunicationHelper().StartBooking(t.Result.Latitude, t.Result.Longitude, driver.Token);
+//					bookingId = bookingTask.Result;
+//					Console.WriteLine(bookingId);
+					var updatePositionTask = new CommunicationHelper().UpdatePostion(t.Result.Latitude, t.Result.Longitude, driver.Token);
+					Console.WriteLine(updatePositionTask.Result);
+				}
 			}, TaskScheduler.FromCurrentSynchronizationContext());
 //			Navigation.PushAsync (new VoucherReceiptPage ());
 		}

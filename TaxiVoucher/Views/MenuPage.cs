@@ -65,7 +65,7 @@ namespace TaxiPay
 
 		void OnSettingsClicked(object sender, EventArgs e) 
 		{
-			Navigation.PushAsync (new SettingsPage ());
+			Navigation.PushAsync (new SettingsPage (driver));
 		}
 	}
 }
