@@ -25,6 +25,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\RedeemVoucherPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\VoucherReceiptPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\IGeoLocator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Vehicle.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />

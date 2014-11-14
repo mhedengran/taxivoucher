@@ -77,16 +77,22 @@ namespace TaxiPay
 		//update position
 		//evenrequest i heartbeat
 		//post /events/
-		public Task<string> UpdatePostion (double latitude, double longtitude, string token) {
+		public Task<string> UpdatePostion (double latitude, double longtitude, Driver driver) {
 			var tcs = new TaskCompletionSource<string> ();
 
-			var booking = new { pickup = new { lat = latitude, lng = longtitude }};
+			var eventRequest = new { 
+//				createdAt = DateTime.UtcNow.ToString("yyyy-MM-dd'T'HHmmssZ"), 
+				eventType = "ping", 
+				driverId = driver.Id,
+				vehicleId = driver.vehicle.Id,
+//				eventParameters = "", 
+				vehiclePositions = new[] { new { lat = latitude, lng = longtitude, vehicleId = driver.vehicle.Id}}};
 
 			var request = new RestRequest("/events", Method.POST);
 
-			request.AddParameter("application/json", request.JsonSerializer.Serialize(booking), ParameterType.RequestBody);
+			request.AddParameter("application/json", request.JsonSerializer.Serialize(eventRequest), ParameterType.RequestBody);
 
-			request.AddHeader ("Authorization", "Token token=\"" + token + "\"");
+			request.AddHeader ("Authorization", "Token token=\"" + driver.Token + "\"");
 			request.AddHeader ("X-DEBUG", "C2H5OH");
 
 			client.ExecuteAsync<JSONResponse> (request, response => {

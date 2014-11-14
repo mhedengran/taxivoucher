@@ -16,6 +16,8 @@ namespace TaxiPay
 		public string Swift { get; set; } = "";
 
 		public string Token { get; set;} = "";
+
+		public Vehicle vehicle { get; set; } 
 	}
 }
 

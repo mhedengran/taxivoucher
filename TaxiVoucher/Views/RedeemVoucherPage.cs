@@ -138,7 +138,7 @@ namespace TaxiPay
 //					var bookingTask = new CommunicationHelper().StartBooking(t.Result.Latitude, t.Result.Longitude, driver.Token);
 //					bookingId = bookingTask.Result;
 //					Console.WriteLine(bookingId);
-					var updatePositionTask = new CommunicationHelper().UpdatePostion(t.Result.Latitude, t.Result.Longitude, driver.Token);
+					var updatePositionTask = new CommunicationHelper().UpdatePostion(t.Result.Latitude, t.Result.Longitude, driver);
 					Console.WriteLine(updatePositionTask.Result);
 				}
 			}, TaskScheduler.FromCurrentSynchronizationContext());
