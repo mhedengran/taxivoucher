@@ -113,7 +113,6 @@ namespace TaxiPay
 			request.AddHeader ("X-DEBUG", "C2H5OH");
 
 			client.ExecuteAsync<JSONResponse> (request, response => {
-				Console.WriteLine("test");
 				if (response.Data.Bookings.Count > 0) {
 					tcs.SetResult(response.Data.Bookings[0].Id);
 				} else {
@@ -145,8 +144,8 @@ namespace TaxiPay
 
 		//end booking
 		//PUT /bookings/:bookingId/complete
-		public Task<string> EndBooking (Driver driver, string bookingId, double price) {
-			var tcs = new TaskCompletionSource<string> ();
+		public Task<JSONResponse> EndBooking (Driver driver, string bookingId, double price) {
+			var tcs = new TaskCompletionSource<JSONResponse> ();
 
 			var parameters = new { type = "cash", price = price };
 
@@ -158,11 +157,7 @@ namespace TaxiPay
 			request.AddHeader ("X-DEBUG", "C2H5OH");
 
 			client.ExecuteAsync<JSONResponse> (request, response => {
-				if (response.Data.Id != null ) {
-					tcs.SetResult(response.Data.Id);
-				} else {
-					tcs.SetResult("error");
-				}
+				tcs.SetResult(response.Data);
 			});
 			return tcs.Task;
 		}

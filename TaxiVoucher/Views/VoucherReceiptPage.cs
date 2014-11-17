@@ -5,11 +5,8 @@ namespace TaxiPay
 {
 	public class VoucherReceiptPage : ContentPage
 	{
-		public VoucherReceiptPage ()
+		public VoucherReceiptPage (double voucherValue, double tripPrice)
 		{
-			int voucherValue = 100;
-			int tripPrice = 100;
-
 			StackLayout stacklayout = new StackLayout
 			{
 				Spacing = 10,

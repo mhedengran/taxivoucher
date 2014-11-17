@@ -181,17 +181,17 @@ namespace TaxiPay
 				} else {
 					//6. finish booking
 					var endBookingTask = comm.EndBooking (driver, bookingId, Convert.ToDouble (priceEntry.Text));
-					string endBookingResult = endBookingTask.Result;
+					var endBookingResult = endBookingTask.Result;
 					//7. finish payments
 					var finishPaymentsTask = comm.FinishPayments (driver, bookingId);
 					string finishPaymentsResult = finishPaymentsTask.Result;
 					//8. go offline
 					var goOfflineTask = comm.PutDriverOffline (driver);
 					Console.WriteLine (goOfflineTask.Result);
-					if (endBookingResult.Equals ("error") || finishPaymentsResult.Equals ("error")) {
+					if (endBookingResult.SystemMessage != null || finishPaymentsResult.Equals ("error")) {
 						await DisplayAlert ("Fejl!", "Et eller andet gik galt, undersøg netforbindelsen, og prøv igen", "OK");
 					} else {
-						Navigation.PushAsync (new VoucherReceiptPage ());
+						Navigation.PushAsync (new VoucherReceiptPage (endBookingResult.Payment.Receipt.Vouchers[0].Value, endBookingResult.Payment.Receipt.Price));
 					}
 
 				}
