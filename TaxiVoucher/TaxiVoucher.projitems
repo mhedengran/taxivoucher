@@ -6,7 +6,7 @@
     <SharedGUID>{52EE16A8-6BE4-469A-ABF8-B67D5641FD5C}</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>TaxiVoucher</Import_RootNamespace>
+    <Import_RootNamespace>TaxiPay</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
@@ -26,6 +26,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\VoucherReceiptPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\IGeoLocator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Vehicle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Location.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\GeoLocator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Bookings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Payment.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />

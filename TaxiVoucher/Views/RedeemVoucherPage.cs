@@ -36,24 +36,28 @@ namespace TaxiPay
 			);
 
 			voucherCodeEntry = new Entry {
+				Text = "",
 				Keyboard = Keyboard.Text,
 				Placeholder = "Bon nummer",
 				VerticalOptions = LayoutOptions.Start
 			};
 
 			priceEntry = new Entry {
+				Text = "",
 				Keyboard = Keyboard.Numeric,
 				Placeholder = "Pris",
 				VerticalOptions = LayoutOptions.Start
 			};
 
 			streetEntry = new Entry {
+				Text = "",
 				Keyboard = Keyboard.Text,
 				Placeholder = "Vej",
 				VerticalOptions = LayoutOptions.End,
 			};
 
 			numberEntry = new Entry {
+				Text = "",
 				Keyboard = Keyboard.Numeric,
 				Placeholder = "Nr",
 				VerticalOptions = LayoutOptions.Center,
@@ -61,6 +65,7 @@ namespace TaxiPay
 			};
 
 			zipCodeEntry = new Entry {
+				Text = "",
 				Keyboard = Keyboard.Numeric,
 				Placeholder = "Postnummer",
 				VerticalOptions = LayoutOptions.Center,
@@ -68,6 +73,7 @@ namespace TaxiPay
 			};
 
 			cityEntry = new Entry {
+				Text = "",
 				Keyboard = Keyboard.Text,
 				Placeholder = "By",
 				VerticalOptions = LayoutOptions.End,
@@ -121,37 +127,76 @@ namespace TaxiPay
 
 		async void OnFinishTripClicked(object sender, EventArgs e) 
 		{
-			//pay flow
-			//1. go online
-			//2. update position
-			//3. create booking
-			//4. update position
-			//5. add voucher
-			//6. finish booking
-			//7. go offline
-
-			Console.WriteLine ("finish trip");
-			string bookingId;
-			//get current location
-			Geolocator locator = DependencyService.Get<IGeoLocator> ().GetLocator(); 
-			Console.WriteLine ("available:" + locator.IsGeolocationAvailable);
-			Console.WriteLine ("enabled:" + locator.IsGeolocationEnabled);
-//			await locator;
-			await locator.GetPositionAsync (timeout: 100000).ContinueWith (t => {
-				if (t.Status.ToString().Equals("RanToCompletion")) {
-					Console.WriteLine ("Position Status: {0}", t.Status.ToString()); //if != RanToCompletion do something
-					Console.WriteLine ("Position Latitude: {0}", t.Result.Latitude);
-					Console.WriteLine ("Position Longitude: {0}", t.Result.Longitude);
-					//update position first
-					//create booking
-//					var bookingTask = new CommunicationHelper().StartBooking(t.Result.Latitude, t.Result.Longitude, driver.Token);
-//					bookingId = bookingTask.Result;
-//					Console.WriteLine(bookingId);
-					var updatePositionTask = new CommunicationHelper().UpdatePostion(t.Result.Latitude, t.Result.Longitude, driver);
-					Console.WriteLine(updatePositionTask.Result);
+			double temp = 0;
+			if (voucherCodeEntry.Text.Equals ("") || priceEntry.Text.Equals ("") || !double.TryParse (priceEntry.Text, out temp)) {
+				await DisplayAlert ("Forkert indtastning", "Indtast korrekt data i begge felter", "OK");
+			} else {
+				//pay flow
+				CommunicationHelper comm = new CommunicationHelper ();
+				//1. go online
+				var goOnlineTask = comm.PutDriverOnline (driver);
+				Console.WriteLine (goOnlineTask.Result);
+				//2. update position
+				//use reverse geocoding
+				string bookingId = "";
+				Location loc = new Location ();
+				Geolocator locator = DependencyService.Get<IGeoLocator> ().GetLocator ();
+				Console.WriteLine ("available:" + locator.IsGeolocationAvailable);
+				Console.WriteLine ("enabled:" + locator.IsGeolocationEnabled);
+				await locator.GetPositionAsync (timeout: 10000).ContinueWith (t => {
+					if (t.Status.ToString ().Equals ("RanToCompletion")) {
+						Console.WriteLine ("Position Status: {0}", t.Status.ToString ()); //if != RanToCompletion do something
+						Console.WriteLine ("Position Latitude: {0}", t.Result.Latitude);
+						Console.WriteLine ("Position Longitude: {0}", t.Result.Longitude);
+						loc.Latitude = t.Result.Latitude;
+						loc.Longtitude = t.Result.Longitude;
+						var updatePositionTask = comm.UpdatePostion (t.Result.Latitude, t.Result.Longitude, driver);
+						bookingId = updatePositionTask.Result;
+						Console.WriteLine (bookingId);
+					}
+				}, TaskScheduler.FromCurrentSynchronizationContext ());
+				//3. create booking
+				if (bookingId.Equals ("")) {
+					var bookingIdTask = comm.StartBooking (loc.Latitude, loc.Longtitude, driver.Token);
+					bookingId = bookingIdTask.Result;
+					//4. update position
+					await locator.GetPositionAsync (timeout: 10000).ContinueWith (t => {
+						if (t.Status.ToString ().Equals ("RanToCompletion")) {
+							Console.WriteLine ("Position Status: {0}", t.Status.ToString ()); //if != RanToCompletion do something
+							Console.WriteLine ("Position Latitude: {0}", t.Result.Latitude);
+							Console.WriteLine ("Position Longitude: {0}", t.Result.Longitude);
+							loc.Latitude = t.Result.Latitude;
+							loc.Longtitude = t.Result.Longitude;
+							var updatePositionTask = comm.UpdatePostion (t.Result.Latitude, t.Result.Longitude, driver);
+							Console.WriteLine (updatePositionTask.Result);
+						}
+					}, TaskScheduler.FromCurrentSynchronizationContext ());
 				}
-			}, TaskScheduler.FromCurrentSynchronizationContext());
-//			Navigation.PushAsync (new VoucherReceiptPage ());
+				//5. add voucher
+				var applyVoucherTask = comm.ApplyVoucher (driver, bookingId, voucherCodeEntry.Text);
+				string voucherResult = applyVoucherTask.Result;
+				if (voucherResult.Contains("VOUCHER_NOT_FOUND")) {
+					Console.WriteLine (voucherResult);
+					await DisplayAlert ("Ugyldigt!", "Bon-nummer er ikke gyldigt", "OK");
+				} else {
+					//6. finish booking
+					var endBookingTask = comm.EndBooking (driver, bookingId, Convert.ToDouble (priceEntry.Text));
+					string endBookingResult = endBookingTask.Result;
+					//7. finish payments
+					var finishPaymentsTask = comm.FinishPayments (driver, bookingId);
+					string finishPaymentsResult = finishPaymentsTask.Result;
+					//8. go offline
+					var goOfflineTask = comm.PutDriverOffline (driver);
+					Console.WriteLine (goOfflineTask.Result);
+					if (endBookingResult.Equals ("error") || finishPaymentsResult.Equals ("error")) {
+						await DisplayAlert ("Fejl!", "Et eller andet gik galt, undersøg netforbindelsen, og prøv igen", "OK");
+					} else {
+						Navigation.PushAsync (new VoucherReceiptPage ());
+					}
+
+				}
+				
+			}
 		}
 	}
 }

@@ -4,7 +4,6 @@ using System.IO;
 using System.Text;
 using RestSharp;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 
 namespace TaxiPay
 {
@@ -23,8 +22,8 @@ namespace TaxiPay
 			guid = guid.Replace ("-", "");
 
 			var request = new RestRequest("sessions/", Method.POST);
-			request.AddParameter ("email", email); //"pt+cph@theill.com"
-			request.AddParameter ("password", password); //"123456"
+			request.AddParameter ("email", email);
+			request.AddParameter ("password", password);
 			request.AddParameter ("installationIdentifier", String.Format("{0}", guid));
 			request.AddParameter ("appVersion", "1.0.0");
 			client.ExecuteAsync<JSONResponse> (request, response => {
@@ -35,6 +34,23 @@ namespace TaxiPay
 		}
 
 		//AUTHENTICATE VOUCHER
+		//go online
+		//PUT /drivers/:id/online
+		public Task<string> PutDriverOnline (Driver driver) {
+			var tcs = new TaskCompletionSource<string> ();
+
+			var request = new RestRequest("drivers/{id}/online", Method.PUT);
+			request.AddUrlSegment("id", driver.Id);
+
+			request.AddHeader ("Authorization", "Token token=\"" + driver.Token + "\"");
+
+			client.ExecuteAsync<JSONResponse> (request, response => {
+				tcs.SetResult(response.Content);
+				//get specified which types of system messages there is
+			});
+			return tcs.Task;
+		}
+
 		//get location
 		//GET /places/search (finds a address from a coordinate)
 		public Task<string> GetAddress (double latitude, double longtitude, string token) {
@@ -55,7 +71,6 @@ namespace TaxiPay
 		}
 
 		//start booking
-		// find out how the status (online/offline/etc..) is handled
 		public Task<string> StartBooking (double latitude, double longtitude, string token) {
 			var tcs = new TaskCompletionSource<string> ();
 
@@ -69,7 +84,11 @@ namespace TaxiPay
 			request.AddHeader ("X-DEBUG", "C2H5OH");
 
 			client.ExecuteAsync<JSONResponse> (request, response => {
-				tcs.SetResult(response.Data.Id);
+				if (response.Data.Id != null ) {
+					tcs.SetResult(response.Data.Id);
+				} else {
+					tcs.SetResult(response.Content);
+				}
 			});
 			return tcs.Task;
 		}
@@ -81,11 +100,9 @@ namespace TaxiPay
 			var tcs = new TaskCompletionSource<string> ();
 
 			var eventRequest = new { 
-//				createdAt = DateTime.UtcNow.ToString("yyyy-MM-dd'T'HHmmssZ"), 
 				eventType = "ping", 
 				driverId = driver.Id,
 				vehicleId = driver.vehicle.Id,
-//				eventParameters = "", 
 				vehiclePositions = new[] { new { lat = latitude, lng = longtitude, vehicleId = driver.vehicle.Id}}};
 
 			var request = new RestRequest("/events", Method.POST);
@@ -96,16 +113,98 @@ namespace TaxiPay
 			request.AddHeader ("X-DEBUG", "C2H5OH");
 
 			client.ExecuteAsync<JSONResponse> (request, response => {
-				tcs.SetResult(response.Content);
+				Console.WriteLine("test");
+				if (response.Data.Bookings.Count > 0) {
+					tcs.SetResult(response.Data.Bookings[0].Id);
+				} else {
+					tcs.SetResult("");
+				}
 			});
 			return tcs.Task;
 		}
 
 		//add voucher to booking
 		//POST /vouchers
+		public Task<string> ApplyVoucher (Driver driver, string bookingId, string voucherCode) {
+			var tcs = new TaskCompletionSource<string> ();
+
+			var parameters = new { bookingId = bookingId, code = voucherCode };
+
+			var request = new RestRequest("/vouchers", Method.POST);
+			request.AddParameter("application/json", request.JsonSerializer.Serialize(parameters), ParameterType.RequestBody);
+
+			request.AddHeader ("Authorization", "Token token=\"" + driver.Token + "\"");
+			request.AddHeader ("X-DEBUG", "C2H5OH");
+
+			client.ExecuteAsync<JSONResponse> (request, response => {
+				Console.WriteLine(response.Content);
+				tcs.SetResult(response.Content);
+			});
+			return tcs.Task;
+		}
 
 		//end booking
 		//PUT /bookings/:bookingId/complete
+		public Task<string> EndBooking (Driver driver, string bookingId, double price) {
+			var tcs = new TaskCompletionSource<string> ();
+
+			var parameters = new { type = "cash", price = price };
+
+			var request = new RestRequest("/bookings/{id}/complete", Method.PUT);
+			request.AddUrlSegment ("id", bookingId);
+			request.AddParameter("application/json", request.JsonSerializer.Serialize(parameters), ParameterType.RequestBody);
+
+			request.AddHeader ("Authorization", "Token token=\"" + driver.Token + "\"");
+			request.AddHeader ("X-DEBUG", "C2H5OH");
+
+			client.ExecuteAsync<JSONResponse> (request, response => {
+				if (response.Data.Id != null ) {
+					tcs.SetResult(response.Data.Id);
+				} else {
+					tcs.SetResult("error");
+				}
+			});
+			return tcs.Task;
+		}
+
+		//register payments
+		//POST /bookings/:bookingId/payments
+		public Task<string> FinishPayments (Driver driver, string bookingId) {
+			var tcs = new TaskCompletionSource<string> ();
+			var payload = new {};
+
+			var request = new RestRequest("/bookings/{id}/payments", Method.POST);
+			request.AddUrlSegment ("id", bookingId);
+			request.AddParameter("application/json", request.JsonSerializer.Serialize(payload), ParameterType.RequestBody);
+
+			request.AddHeader ("Authorization", "Token token=\"" + driver.Token + "\"");
+			request.AddHeader ("X-DEBUG", "C2H5OH");
+
+			client.ExecuteAsync<JSONResponse> (request, response => {
+				if (response.Data.Id != null ) {
+					tcs.SetResult(response.Data.Id);
+				} else {
+					tcs.SetResult("error");
+				}
+			});
+			return tcs.Task;
+		}
+
+		//go offline
+		//PUT /drivers/:id/offline
+		public Task<string> PutDriverOffline (Driver driver) {
+			var tcs = new TaskCompletionSource<string> ();
+
+			var request = new RestRequest("drivers/{id}/offline", Method.PUT);
+			request.AddUrlSegment("id", driver.Id);
+
+			request.AddHeader ("Authorization", "Token token=\"" + driver.Token + "\"");
+
+			client.ExecuteAsync<JSONResponse> (request, response => {
+				tcs.SetResult(response.Content);
+			});
+			return tcs.Task;
+		}
 
 
 		//SETTINGS
