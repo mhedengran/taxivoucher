@@ -4,6 +4,8 @@ using System.IO;
 using System.Text;
 using RestSharp;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Globalization;
 
 namespace TaxiPay
 {
@@ -32,6 +34,7 @@ namespace TaxiPay
 			});
 			return tcs.Task;
 		}
+
 
 		//AUTHENTICATE VOUCHER
 		//go online
@@ -81,7 +84,7 @@ namespace TaxiPay
 			request.AddParameter("application/json", request.JsonSerializer.Serialize(booking), ParameterType.RequestBody);
 
 			request.AddHeader ("Authorization", "Token token=\"" + token + "\"");
-			request.AddHeader ("X-DEBUG", "C2H5OH");
+//			request.AddHeader ("X-DEBUG", "C2H5OH");
 
 			client.ExecuteAsync<JSONResponse> (request, response => {
 				if (response.Data.Id != null ) {
@@ -102,15 +105,15 @@ namespace TaxiPay
 			var eventRequest = new { 
 				eventType = "ping", 
 				driverId = driver.Id,
-				vehicleId = driver.vehicle.Id,
-				vehiclePositions = new[] { new { lat = latitude, lng = longtitude, vehicleId = driver.vehicle.Id}}};
+				vehicleId = driver.Vehicle.Id,
+				vehiclePositions = new[] { new { lat = latitude, lng = longtitude, vehicleId = driver.Vehicle.Id}}};
 
 			var request = new RestRequest("/events", Method.POST);
 
 			request.AddParameter("application/json", request.JsonSerializer.Serialize(eventRequest), ParameterType.RequestBody);
 
 			request.AddHeader ("Authorization", "Token token=\"" + driver.Token + "\"");
-			request.AddHeader ("X-DEBUG", "C2H5OH");
+//			request.AddHeader ("X-DEBUG", "C2H5OH");
 
 			client.ExecuteAsync<JSONResponse> (request, response => {
 				if (response.Data.Bookings.Count > 0) {
@@ -133,7 +136,7 @@ namespace TaxiPay
 			request.AddParameter("application/json", request.JsonSerializer.Serialize(parameters), ParameterType.RequestBody);
 
 			request.AddHeader ("Authorization", "Token token=\"" + driver.Token + "\"");
-			request.AddHeader ("X-DEBUG", "C2H5OH");
+//			request.AddHeader ("X-DEBUG", "C2H5OH");
 
 			client.ExecuteAsync<JSONResponse> (request, response => {
 				Console.WriteLine(response.Content);
@@ -154,7 +157,7 @@ namespace TaxiPay
 			request.AddParameter("application/json", request.JsonSerializer.Serialize(parameters), ParameterType.RequestBody);
 
 			request.AddHeader ("Authorization", "Token token=\"" + driver.Token + "\"");
-			request.AddHeader ("X-DEBUG", "C2H5OH");
+//			request.AddHeader ("X-DEBUG", "C2H5OH");
 
 			client.ExecuteAsync<JSONResponse> (request, response => {
 				tcs.SetResult(response.Data);
@@ -173,7 +176,7 @@ namespace TaxiPay
 			request.AddParameter("application/json", request.JsonSerializer.Serialize(payload), ParameterType.RequestBody);
 
 			request.AddHeader ("Authorization", "Token token=\"" + driver.Token + "\"");
-			request.AddHeader ("X-DEBUG", "C2H5OH");
+//			request.AddHeader ("X-DEBUG", "C2H5OH");
 
 			client.ExecuteAsync<JSONResponse> (request, response => {
 				if (response.Data.Id != null ) {
@@ -200,21 +203,110 @@ namespace TaxiPay
 			});
 			return tcs.Task;
 		}
-
+			
 
 		//SETTINGS
-		//get bank info
-		//SET: //PUT /drivers/:id
-		//GET: //
-
-		//change password
-		//POST /passwords (get specified what it does)
-
-		//update driver (maybe used)
+		//update driver
 		//PUT /drivers/:id
+		public Task<Driver> UpdateDriver (object driver, string Id, string Token) {
+			var tcs = new TaskCompletionSource<Driver> ();
+
+			var request = new RestRequest("drivers/{id}", Method.PUT);
+			request.AddUrlSegment("id", Id);
+
+			request.AddParameter("application/json", request.JsonSerializer.Serialize(driver), ParameterType.RequestBody);
+
+			request.AddHeader ("Authorization", "Token token=\"" + Token + "\"");
+			request.AddHeader ("X-DEBUG", "C2H5OH");
+
+			client.ExecuteAsync<Driver> (request, response => {
+				if (response.Data == null) {
+					tcs.SetResult(new Driver());
+				} else {
+					tcs.SetResult(response.Data);
+				}
+			});
+			return tcs.Task;
+		}
 
 
 		//LOG
+		//flow
+		//1. get week summaries using weeklyEarnings
+		//2. get daily summaries from that week using earnings
+		//3. get all bookings from that day, using dailybookings
+
+		//GET: /drivers/:id/weeklyEarnings
+
+		//returns a summary of money earned each week
+		public Task<string> GetWeeklyEarnings (Driver driver) {
+			var tcs = new TaskCompletionSource<string> ();
+			var payload = new { limit = 52 };
+
+			var request = new RestRequest("/drivers/{id}/weeklyEarnings", Method.GET);
+			request.AddUrlSegment ("id", driver.Id);
+			request.AddParameter("application/json", request.JsonSerializer.Serialize(payload), ParameterType.RequestBody);
+
+			request.AddHeader ("Authorization", "Token token=\"" + driver.Token + "\"");
+			request.AddHeader ("X-DEBUG", "C2H5OH");
+
+			client.ExecuteAsync<JSONResponse> (request, response => {
+				tcs.SetResult(response.Content);
+			});
+			return tcs.Task;
+		}
+
+		//returns 1 week of days, with a summary of each day
+//		public Task<string> GetWeeklyEarnings (Driver driver) {
+//			var tcs = new TaskCompletionSource<string> ();
+//
+//			var calender = DateTimeFormatInfo.CurrentInfo.Calendar;
+//			DateTime date = new DateTime (2014, 11, 12);
+//			var weekNumber = calender.GetWeekOfYear (date, CalendarWeekRule.FirstDay, DayOfWeek.Monday);
+//			if (weekNumber == 53) {
+//				weekNumber = 1;
+//			}
+//			//			DateTime.UtcNow.ToString()
+//
+//			var request = new RestRequest("/drivers/{id}/earnings", Method.GET);
+//			request.AddUrlSegment ("id", driver.Id);
+//			request.AddParameter("weekStartsOn", date.ToString("yyyy-MM-ddTHH:mm:ssZ"));
+//
+//			request.AddHeader ("Authorization", "Token token=\"" + driver.Token + "\"");
+//			request.AddHeader ("X-DEBUG", "C2H5OH");
+//
+//			client.ExecuteAsync<JSONResponse> (request, response => {
+//				tcs.SetResult(response.Content);
+//			});
+//			return tcs.Task;
+//		}
+
+		//returns all bookings on a given day
+//		public Task<string> GetWeeklyEarnings (Driver driver) {
+//			var tcs = new TaskCompletionSource<string> ();
+//
+//			var calender = DateTimeFormatInfo.CurrentInfo.Calendar;
+//			DateTime date = new DateTime (2014, 11, 17);
+//			var weekNumber = calender.GetWeekOfYear (date, CalendarWeekRule.FirstDay, DayOfWeek.Monday);
+//			if (weekNumber == 53) {
+//				weekNumber = 1;
+//			}
+//			//			DateTime.UtcNow.ToString()
+//
+//			var request = new RestRequest("/drivers/{id}/dailyBookings", Method.GET);
+//			request.AddUrlSegment ("id", driver.Id);
+//			request.AddParameter("date", date.ToString("yyyy-MM-ddTHH:mm:ssZ"));
+//
+//			request.AddHeader ("Authorization", "Token token=\"" + driver.Token + "\"");
+//			request.AddHeader ("X-DEBUG", "C2H5OH");
+//
+//			client.ExecuteAsync<JSONResponse> (request, response => {
+//				tcs.SetResult(response.Content);
+//			});
+//			return tcs.Task;
+//		}
+
+
 		//list of settled bookings
 		//use earnings and week earnings (ask peter, as they arent on driverapi.drivr.com
 
