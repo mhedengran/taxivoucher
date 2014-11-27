@@ -239,8 +239,8 @@ namespace TaxiPay
 		//GET: /drivers/:id/weeklyEarnings
 
 		//returns a summary of money earned each week
-		public Task<string> GetWeeklyEarnings (Driver driver) {
-			var tcs = new TaskCompletionSource<string> ();
+		public Task<List<WeeklyEarnings>> GetTotalEarnings (Driver driver) {
+			var tcs = new TaskCompletionSource<List<WeeklyEarnings>> ();
 			var payload = new { limit = 52 };
 
 			var request = new RestRequest("/drivers/{id}/weeklyEarnings", Method.GET);
@@ -250,69 +250,45 @@ namespace TaxiPay
 			request.AddHeader ("Authorization", "Token token=\"" + driver.Token + "\"");
 			request.AddHeader ("X-DEBUG", "C2H5OH");
 
-			client.ExecuteAsync<JSONResponse> (request, response => {
-				tcs.SetResult(response.Content);
+			client.ExecuteAsync<JSONWrapper> (request, response => {
+				tcs.SetResult(response.Data.Data);
 			});
 			return tcs.Task;
 		}
 
 		//returns 1 week of days, with a summary of each day
-//		public Task<string> GetWeeklyEarnings (Driver driver) {
-//			var tcs = new TaskCompletionSource<string> ();
-//
-//			var calender = DateTimeFormatInfo.CurrentInfo.Calendar;
-//			DateTime date = new DateTime (2014, 11, 12);
-//			var weekNumber = calender.GetWeekOfYear (date, CalendarWeekRule.FirstDay, DayOfWeek.Monday);
-//			if (weekNumber == 53) {
-//				weekNumber = 1;
-//			}
-//			//			DateTime.UtcNow.ToString()
-//
-//			var request = new RestRequest("/drivers/{id}/earnings", Method.GET);
-//			request.AddUrlSegment ("id", driver.Id);
-//			request.AddParameter("weekStartsOn", date.ToString("yyyy-MM-ddTHH:mm:ssZ"));
-//
-//			request.AddHeader ("Authorization", "Token token=\"" + driver.Token + "\"");
-//			request.AddHeader ("X-DEBUG", "C2H5OH");
-//
-//			client.ExecuteAsync<JSONResponse> (request, response => {
-//				tcs.SetResult(response.Content);
-//			});
-//			return tcs.Task;
-//		}
+		public Task<List<DailyEarnings>> GetWeeklyEarnings (Driver driver, string date) {
+			var tcs = new TaskCompletionSource<List<DailyEarnings>> ();
+
+			var request = new RestRequest("/drivers/{id}/earnings", Method.GET);
+			request.AddUrlSegment ("id", driver.Id);
+			request.AddParameter("weekStartsOn", date);
+
+			request.AddHeader ("Authorization", "Token token=\"" + driver.Token + "\"");
+			request.AddHeader ("X-DEBUG", "C2H5OH");
+
+			client.ExecuteAsync<List<DailyEarnings>> (request, response => {
+				tcs.SetResult(response.Data);
+			});
+			return tcs.Task;
+		}
 
 		//returns all bookings on a given day
-//		public Task<string> GetWeeklyEarnings (Driver driver) {
-//			var tcs = new TaskCompletionSource<string> ();
-//
-//			var calender = DateTimeFormatInfo.CurrentInfo.Calendar;
-//			DateTime date = new DateTime (2014, 11, 17);
-//			var weekNumber = calender.GetWeekOfYear (date, CalendarWeekRule.FirstDay, DayOfWeek.Monday);
-//			if (weekNumber == 53) {
-//				weekNumber = 1;
-//			}
-//			//			DateTime.UtcNow.ToString()
-//
-//			var request = new RestRequest("/drivers/{id}/dailyBookings", Method.GET);
-//			request.AddUrlSegment ("id", driver.Id);
-//			request.AddParameter("date", date.ToString("yyyy-MM-ddTHH:mm:ssZ"));
-//
-//			request.AddHeader ("Authorization", "Token token=\"" + driver.Token + "\"");
-//			request.AddHeader ("X-DEBUG", "C2H5OH");
-//
-//			client.ExecuteAsync<JSONResponse> (request, response => {
-//				tcs.SetResult(response.Content);
-//			});
-//			return tcs.Task;
-//		}
+		public Task<List<Bookings>> GetDailyEarnings (Driver driver, string date) {
+			var tcs = new TaskCompletionSource<List<Bookings>> ();
 
+			var request = new RestRequest("/drivers/{id}/dailyBookings", Method.GET);
+			request.AddUrlSegment ("id", driver.Id);
+			request.AddParameter("date", date);
 
-		//list of settled bookings
-		//use earnings and week earnings (ask peter, as they arent on driverapi.drivr.com
+			request.AddHeader ("Authorization", "Token token=\"" + driver.Token + "\"");
+			request.AddHeader ("X-DEBUG", "C2H5OH");
 
-		//list of unsettled bookings
-		//same as above
-
+			client.ExecuteAsync<List<Bookings>> (request, response => {
+				tcs.SetResult(response.Data);
+			});
+			return tcs.Task;
+		}
 
 		//CREATE USER
 		//create user

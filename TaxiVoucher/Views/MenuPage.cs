@@ -59,11 +59,7 @@ namespace TaxiPay
 
 		void OnLogClicked(object sender, EventArgs e) 
 		{
-
-			Console.WriteLine ("Log");
-			var getEarningsTask = new CommunicationHelper ().GetWeeklyEarnings (driver);
-			Console.WriteLine (getEarningsTask.Result);
-//			Navigation.PushAsync(new LogPage());
+			Navigation.PushAsync(new TotalLogPage (driver));
 		}
 
 		void OnSettingsClicked(object sender, EventArgs e) 

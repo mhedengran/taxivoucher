@@ -191,7 +191,7 @@ namespace TaxiPay
 					if (endBookingResult.SystemMessage != null || finishPaymentsResult.Equals ("error")) {
 						await DisplayAlert ("Fejl!", "Et eller andet gik galt, undersøg netforbindelsen, og prøv igen", "OK");
 					} else {
-						Navigation.PushAsync (new VoucherReceiptPage (endBookingResult.Payment.Receipt.Vouchers[0].Value, endBookingResult.Payment.Receipt.Price));
+						Navigation.PushAsync (new VoucherReceiptPage (endBookingResult.Payment.PriceParts.Voucher, endBookingResult.Payment.PriceParts.Base));
 					}
 
 				}

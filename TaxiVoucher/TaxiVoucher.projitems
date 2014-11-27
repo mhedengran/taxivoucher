@@ -18,9 +18,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\CommunicationHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Driver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\ICamera.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Views\LogPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\Trip.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\TripViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\JSONResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\RedeemVoucherPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\VoucherReceiptPage.cs" />
@@ -29,6 +26,16 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\GeoLocator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Bookings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Payment.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Earnings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\WeekListViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\TotalLogPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\FormattedModels.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\WeekOrDayCell.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\WeeklyLogPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\DayListViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\DailyLogPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\DaySummaryViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\SummaryCell.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />
