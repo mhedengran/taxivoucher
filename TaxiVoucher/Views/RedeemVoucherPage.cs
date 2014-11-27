@@ -22,8 +22,6 @@ namespace TaxiPay
 
 			Title = "Indløs";
 
-
-
 			Button finishTripButton = new Button {
 				Text = "Afslut tur",
 				HorizontalOptions = LayoutOptions.Center,
@@ -123,23 +121,11 @@ namespace TaxiPay
 				}
 			};
 			Content = outerStacklayout;
+
+			UpdateViewWithCurrentAddress ();
 		}
 
-		async void OnFinishTripClicked(object sender, EventArgs e) 
-		{
-			double temp = 0;
-			if (voucherCodeEntry.Text.Equals ("") || priceEntry.Text.Equals ("") || !double.TryParse (priceEntry.Text, out temp)) {
-				await DisplayAlert ("Forkert indtastning", "Indtast korrekt data i begge felter", "OK");
-			} else {
-				//pay flow
-				CommunicationHelper comm = new CommunicationHelper ();
-				//1. go online
-				var goOnlineTask = comm.PutDriverOnline (driver);
-				Console.WriteLine (goOnlineTask.Result);
-				//2. update position
-				//use reverse geocoding
-				string bookingId = "";
-				Location loc = new Location ();
+		async void UpdateViewWithCurrentAddress () {
 				Geolocator locator = DependencyService.Get<IGeoLocator> ().GetLocator ();
 				Console.WriteLine ("available:" + locator.IsGeolocationAvailable);
 				Console.WriteLine ("enabled:" + locator.IsGeolocationEnabled);
@@ -148,18 +134,63 @@ namespace TaxiPay
 						Console.WriteLine ("Position Status: {0}", t.Status.ToString ()); //if != RanToCompletion do something
 						Console.WriteLine ("Position Latitude: {0}", t.Result.Latitude);
 						Console.WriteLine ("Position Longitude: {0}", t.Result.Longitude);
-						loc.Latitude = t.Result.Latitude;
-						loc.Longtitude = t.Result.Longitude;
-						var updatePositionTask = comm.UpdatePostion (t.Result.Latitude, t.Result.Longitude, driver);
-						bookingId = updatePositionTask.Result;
-						Console.WriteLine (bookingId);
+					    var getAddressTask = new CommunicationHelper ().GetAddress(t.Result.Latitude, t.Result.Longitude, driver.Token);
+						AddressLocation address = getAddressTask.Result[0];
+						streetEntry.Text = address.StreetName;
+						numberEntry.Text = address.HouseNumber;
+						zipCodeEntry.Text = address.ZipCode;
+						cityEntry.Text = address.City;
 					}
 				}, TaskScheduler.FromCurrentSynchronizationContext ());
+		}
+
+		async void OnFinishTripClicked(object sender, EventArgs e) 
+		{
+			double temp = 0;
+			if (voucherCodeEntry.Text.Equals ("") || priceEntry.Text.Equals ("") || !double.TryParse (priceEntry.Text, out temp)) {
+				await DisplayAlert ("Forkert indtastning", "Indtast korrekt Bon-data i begge felter", "OK");
+			} else {
+				//pay flow
+				CommunicationHelper comm = new CommunicationHelper ();
+				//1. go online
+				var goOnlineTask = comm.PutDriverOnline (driver);
+				Console.WriteLine (goOnlineTask.Result);
+				//2. update position
+				//use reverse geocoding
+				Location loc = new Location ();
+				string bookingId = "";
+				if (streetEntry.Text.Equals ("") || numberEntry.Text.Equals ("") || cityEntry.Text.Equals ("") || zipCodeEntry.Text.Equals ("")) {
+					await DisplayAlert ("Forkert indtastning", "Indtast en korrekt adresse", "OK");
+				} else {
+					var getLocationTask = comm.GetLocation (streetEntry.Text, numberEntry.Text, cityEntry.Text, zipCodeEntry.Text, driver.Token);
+					loc.Latitude = getLocationTask.Result[0].Lat;
+					loc.Longtitude = getLocationTask.Result[0].Lng;
+					var updatePositionTask = comm.UpdatePostion (loc.Latitude, loc.Longtitude, driver);
+					bookingId = updatePositionTask.Result;
+				}
+
+
+//				Geolocator locator = DependencyService.Get<IGeoLocator> ().GetLocator ();
+//				Console.WriteLine ("available:" + locator.IsGeolocationAvailable);
+//				Console.WriteLine ("enabled:" + locator.IsGeolocationEnabled);
+//				await locator.GetPositionAsync (timeout: 10000).ContinueWith (t => {
+//					if (t.Status.ToString ().Equals ("RanToCompletion")) {
+//						Console.WriteLine ("Position Status: {0}", t.Status.ToString ()); //if != RanToCompletion do something
+//						Console.WriteLine ("Position Latitude: {0}", t.Result.Latitude);
+//						Console.WriteLine ("Position Longitude: {0}", t.Result.Longitude);
+//						loc.Latitude = t.Result.Latitude;
+//						loc.Longtitude = t.Result.Longitude;
+//						var updatePositionTask = comm.UpdatePostion (t.Result.Latitude, t.Result.Longitude, driver);
+//						bookingId = updatePositionTask.Result;
+//						Console.WriteLine (bookingId);
+//					}
+//				}, TaskScheduler.FromCurrentSynchronizationContext ());
 				//3. create booking
 				if (bookingId.Equals ("")) {
 					var bookingIdTask = comm.StartBooking (loc.Latitude, loc.Longtitude, driver.Token);
 					bookingId = bookingIdTask.Result;
 					//4. update position
+					Geolocator locator = DependencyService.Get<IGeoLocator> ().GetLocator ();
 					await locator.GetPositionAsync (timeout: 10000).ContinueWith (t => {
 						if (t.Status.ToString ().Equals ("RanToCompletion")) {
 							Console.WriteLine ("Position Status: {0}", t.Status.ToString ()); //if != RanToCompletion do something
@@ -191,7 +222,7 @@ namespace TaxiPay
 					if (endBookingResult.SystemMessage != null || finishPaymentsResult.Equals ("error")) {
 						await DisplayAlert ("Fejl!", "Et eller andet gik galt, undersøg netforbindelsen, og prøv igen", "OK");
 					} else {
-						Navigation.PushAsync (new VoucherReceiptPage (endBookingResult.Payment.PriceParts.Voucher, endBookingResult.Payment.PriceParts.Base));
+						await Navigation.PushAsync (new VoucherReceiptPage (endBookingResult.Payment.PriceParts.Voucher, endBookingResult.Payment.PriceParts.Base));
 					}
 
 				}

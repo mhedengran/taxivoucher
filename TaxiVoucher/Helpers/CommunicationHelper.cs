@@ -54,20 +54,35 @@ namespace TaxiPay
 			return tcs.Task;
 		}
 
-		//get location
-		//GET /places/search (finds a address from a coordinate)
-		public Task<string> GetAddress (double latitude, double longtitude, string token) {
-			var tcs = new TaskCompletionSource<string> ();
+		//get address
+		//GET /geocodings (finds a address from a coordinate)
+		public Task<List<AddressLocation>> GetAddress (double latitude, double longtitude, string token) {
+			var tcs = new TaskCompletionSource<List<AddressLocation>> ();
 
-			var request = new RestRequest("places/search", Method.GET);
+			var request = new RestRequest("geocodings", Method.GET);
 			request.AddParameter ("latlng", latitude + "," + longtitude); 
-			request.AddParameter ("radius", 2); 
-			request.AddParameter ("query", "jagt");
 			
 			request.AddHeader ("Authorization", "Token token=\"" + token + "\"");
 
-			client.ExecuteAsync<JSONResponse> (request, response => {
-				tcs.SetResult(response.Content);
+			client.ExecuteAsync<List<AddressLocation>> (request, response => {
+				tcs.SetResult(response.Data);
+				//get specified which types of system messages there is
+			});
+			return tcs.Task;
+		}
+
+		//get location
+		//GET /geocodings (find coordnitae from an address)
+		public Task<List<AddressLocation>> GetLocation (string street, string number, string city, string zip, string token) {
+			var tcs = new TaskCompletionSource<List<AddressLocation>> ();
+
+			var request = new RestRequest("geocodings", Method.GET);
+			request.AddParameter ("address", street + " " + number + "," + zip + " " + city); 
+
+			request.AddHeader ("Authorization", "Token token=\"" + token + "\"");
+
+			client.ExecuteAsync<List<AddressLocation>> (request, response => {
+				tcs.SetResult(response.Data);
 				//get specified which types of system messages there is
 			});
 			return tcs.Task;
