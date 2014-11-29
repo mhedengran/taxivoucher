@@ -17,8 +17,57 @@ namespace TaxiPay
 		{
 			client = new RestClient ("https://driverapi.staging.drivr.com/");
 		}
+
+		public Task<string> CreateUser (string email, string driverNumber, string password){
+			var tcs = new TaskCompletionSource<string> ();
+			var user = new {firstName = "John", 
+						lastName = "Doe", 
+						group = new { 
+								id = "1580030426"
+								}, 
+						email = email,
+						phone = "+45 12345678",
+						password = password,
+						externalReference = driverNumber
+			};
+
+			var request = new RestRequest("/drivers", Method.POST);
+
+			request.AddParameter("application/json", request.JsonSerializer.Serialize(user), ParameterType.RequestBody);
+			request.AddHeader ("X-DEBUG", "C2H5OH");
+
+			client.ExecuteAsync<JSONResponse> (request, response => {
+				tcs.SetResult(response.Content);
+			});
+			return tcs.Task;	
+		}
+
+		public Task<string> CreateCar (){
+			var tcs = new TaskCompletionSource<string> ();
+			var car = new {
+				licensePlate = "osjdfnsof", 
+				make = "Doe", 
+				model = "Black Cab",
+//				year = "2014",
+//				color = "UNDEFINED",
+				type = "taxi",
+				externalReference = "osjdfnsof",
+				driverGroupId = "1580030011"
+			};
+
+			var request = new RestRequest("/vehicles", Method.POST);
+
+			request.AddParameter("application/json", request.JsonSerializer.Serialize(car), ParameterType.RequestBody);
+			request.AddHeader ("X-DEBUG", "C2H5OH");
+			request.AddHeader ("Authorization", "Token token=\"" + "30879828f2e610ecb0264f26a80c1835" + "\"");
+
+			client.ExecuteAsync<JSONResponse> (request, response => {
+				tcs.SetResult(response.Content);
+			});
+			return tcs.Task;
+		}
 			
-		public Task<JSONResponse> login (string email, string password) {
+		public Task<JSONResponse> Login (string email, string password) {
 			var tcs = new TaskCompletionSource<JSONResponse> ();
 			String guid = System.Guid.NewGuid ().ToString ();
 			guid = guid.Replace ("-", "");
@@ -56,8 +105,8 @@ namespace TaxiPay
 
 		//get address
 		//GET /geocodings (finds a address from a coordinate)
-		public Task<List<AddressLocation>> GetAddress (double latitude, double longtitude, string token) {
-			var tcs = new TaskCompletionSource<List<AddressLocation>> ();
+		public Task<AddressLocation> GetAddress (double latitude, double longtitude, string token) {
+			var tcs = new TaskCompletionSource<AddressLocation> ();
 
 			var request = new RestRequest("geocodings", Method.GET);
 			request.AddParameter ("latlng", latitude + "," + longtitude); 
@@ -65,7 +114,11 @@ namespace TaxiPay
 			request.AddHeader ("Authorization", "Token token=\"" + token + "\"");
 
 			client.ExecuteAsync<List<AddressLocation>> (request, response => {
-				tcs.SetResult(response.Data);
+				if (response.Content.Length > 5) {
+					tcs.SetResult(response.Data[0]);
+				} else {
+					tcs.SetResult(new AddressLocation());
+				}
 				//get specified which types of system messages there is
 			});
 			return tcs.Task;
@@ -305,8 +358,8 @@ namespace TaxiPay
 			return tcs.Task;
 		}
 
-		//CREATE USER
-		//create user
+		//Forgot password
+
 	}
 }
 

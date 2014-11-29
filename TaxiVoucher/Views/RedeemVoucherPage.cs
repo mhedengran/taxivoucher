@@ -59,7 +59,8 @@ namespace TaxiPay
 				Keyboard = Keyboard.Numeric,
 				Placeholder = "Nr",
 				VerticalOptions = LayoutOptions.Center,
-				HorizontalOptions = LayoutOptions.Start
+				HorizontalOptions = LayoutOptions.Start,
+				WidthRequest = 80
 			};
 
 			zipCodeEntry = new Entry {
@@ -129,13 +130,14 @@ namespace TaxiPay
 				Geolocator locator = DependencyService.Get<IGeoLocator> ().GetLocator ();
 				Console.WriteLine ("available:" + locator.IsGeolocationAvailable);
 				Console.WriteLine ("enabled:" + locator.IsGeolocationEnabled);
-				await locator.GetPositionAsync (timeout: 10000).ContinueWith (t => {
+				await locator.GetPositionAsync (timeout: 5000).ContinueWith (t => {
+				Console.WriteLine(t.Status.ToString());
 					if (t.Status.ToString ().Equals ("RanToCompletion")) {
-						Console.WriteLine ("Position Status: {0}", t.Status.ToString ()); //if != RanToCompletion do something
+						Console.WriteLine ("Position Status: {0}", t.Status.ToString ());
 						Console.WriteLine ("Position Latitude: {0}", t.Result.Latitude);
 						Console.WriteLine ("Position Longitude: {0}", t.Result.Longitude);
 					    var getAddressTask = new CommunicationHelper ().GetAddress(t.Result.Latitude, t.Result.Longitude, driver.Token);
-						AddressLocation address = getAddressTask.Result[0];
+						AddressLocation address = getAddressTask.Result;
 						streetEntry.Text = address.StreetName;
 						numberEntry.Text = address.HouseNumber;
 						zipCodeEntry.Text = address.ZipCode;
@@ -156,7 +158,6 @@ namespace TaxiPay
 				var goOnlineTask = comm.PutDriverOnline (driver);
 				Console.WriteLine (goOnlineTask.Result);
 				//2. update position
-				//use reverse geocoding
 				Location loc = new Location ();
 				string bookingId = "";
 				if (streetEntry.Text.Equals ("") || numberEntry.Text.Equals ("") || cityEntry.Text.Equals ("") || zipCodeEntry.Text.Equals ("")) {
@@ -168,41 +169,24 @@ namespace TaxiPay
 					var updatePositionTask = comm.UpdatePostion (loc.Latitude, loc.Longtitude, driver);
 					bookingId = updatePositionTask.Result;
 				}
-
-
-//				Geolocator locator = DependencyService.Get<IGeoLocator> ().GetLocator ();
-//				Console.WriteLine ("available:" + locator.IsGeolocationAvailable);
-//				Console.WriteLine ("enabled:" + locator.IsGeolocationEnabled);
-//				await locator.GetPositionAsync (timeout: 10000).ContinueWith (t => {
-//					if (t.Status.ToString ().Equals ("RanToCompletion")) {
-//						Console.WriteLine ("Position Status: {0}", t.Status.ToString ()); //if != RanToCompletion do something
-//						Console.WriteLine ("Position Latitude: {0}", t.Result.Latitude);
-//						Console.WriteLine ("Position Longitude: {0}", t.Result.Longitude);
-//						loc.Latitude = t.Result.Latitude;
-//						loc.Longtitude = t.Result.Longitude;
-//						var updatePositionTask = comm.UpdatePostion (t.Result.Latitude, t.Result.Longitude, driver);
-//						bookingId = updatePositionTask.Result;
-//						Console.WriteLine (bookingId);
-//					}
-//				}, TaskScheduler.FromCurrentSynchronizationContext ());
 				//3. create booking
 				if (bookingId.Equals ("")) {
 					var bookingIdTask = comm.StartBooking (loc.Latitude, loc.Longtitude, driver.Token);
 					bookingId = bookingIdTask.Result;
-					//4. update position
-					Geolocator locator = DependencyService.Get<IGeoLocator> ().GetLocator ();
-					await locator.GetPositionAsync (timeout: 10000).ContinueWith (t => {
-						if (t.Status.ToString ().Equals ("RanToCompletion")) {
-							Console.WriteLine ("Position Status: {0}", t.Status.ToString ()); //if != RanToCompletion do something
-							Console.WriteLine ("Position Latitude: {0}", t.Result.Latitude);
-							Console.WriteLine ("Position Longitude: {0}", t.Result.Longitude);
-							loc.Latitude = t.Result.Latitude;
-							loc.Longtitude = t.Result.Longitude;
-							var updatePositionTask = comm.UpdatePostion (t.Result.Latitude, t.Result.Longitude, driver);
-							Console.WriteLine (updatePositionTask.Result);
-						}
-					}, TaskScheduler.FromCurrentSynchronizationContext ());
 				}
+				//4. update position
+				Geolocator locator = DependencyService.Get<IGeoLocator> ().GetLocator ();
+				await locator.GetPositionAsync (timeout: 10000).ContinueWith (t => {
+					if (t.Status.ToString ().Equals ("RanToCompletion")) {
+						Console.WriteLine ("Position Status: {0}", t.Status.ToString ()); //if != RanToCompletion do something
+						Console.WriteLine ("Position Latitude: {0}", t.Result.Latitude);
+						Console.WriteLine ("Position Longitude: {0}", t.Result.Longitude);
+						loc.Latitude = t.Result.Latitude;
+						loc.Longtitude = t.Result.Longitude;
+						var updatePositionTask = comm.UpdatePostion (t.Result.Latitude, t.Result.Longitude, driver);
+						Console.WriteLine (updatePositionTask.Result);
+					}
+				}, TaskScheduler.FromCurrentSynchronizationContext ());
 				//5. add voucher
 				var applyVoucherTask = comm.ApplyVoucher (driver, bookingId, voucherCodeEntry.Text);
 				string voucherResult = applyVoucherTask.Result;

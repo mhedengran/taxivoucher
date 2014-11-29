@@ -68,14 +68,6 @@ namespace TaxiPay
 				ibanEntry.Text = driver.BankAccount.Iban;
 			}
 
-			//init switch
-			Switch loginSwitch = new Switch
-			{
-				HorizontalOptions = LayoutOptions.End,
-				VerticalOptions = LayoutOptions.Center
-			};
-			loginSwitch.Toggled += LoginSwitchToggled;
-
 			Button saveButton = new Button {
 				Text = "Gem",
 				HorizontalOptions = LayoutOptions.Center,
@@ -98,25 +90,6 @@ namespace TaxiPay
 					emailEntry,
 					password1Entry,
 					password2Entry,
-							
-					new StackLayout
-					{
-						Spacing = 10,
-						Orientation = StackOrientation.Horizontal,
-						HorizontalOptions = LayoutOptions.FillAndExpand,
-						Children = 
-						{
-							new Label
-							{
-								Text = "Login automatisk",
-								HorizontalOptions = LayoutOptions.StartAndExpand,
-								VerticalOptions = LayoutOptions.Center
-							},
-							loginSwitch,
-
-						}
-					},
-
 					swiftEntry,
 					ibanEntry,
 
@@ -124,14 +97,6 @@ namespace TaxiPay
 				}
 			};
 			Content = stacklayout;
-		}
-
-		void LoginSwitchToggled(object sender, ToggledEventArgs e) {
-			if (e.Value) {
-				Console.WriteLine ("Switch on");
-			} else {
-				Console.WriteLine ("Switch off");
-			}	
 		}
 
 		async void OnSaveClicked(object sender, EventArgs e) 
