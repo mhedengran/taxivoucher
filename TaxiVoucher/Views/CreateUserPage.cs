@@ -10,7 +10,7 @@ namespace TaxiPay
 	public class CreateUserPage : ContentPage
 	{
 		Image driverCardImage;
-		Entry emailEntry;
+		TextEntry emailEntry;
 		Entry driverNumberEntry;
 		Entry password1Entry;
 		Entry password2Entry;
@@ -21,35 +21,28 @@ namespace TaxiPay
 		{
 			Title = "Opret bruger";
 
-			emailEntry = new Entry {
-				Text = "",
-				Keyboard = Keyboard.Email,
-				Placeholder = "E-mail",
-				VerticalOptions = LayoutOptions.Center
-			};
+//			emailEntry = new Entry {
+//				Text = "",
+//				Keyboard = Keyboard.Email,
+//				Placeholder = "E-mail",
+//				VerticalOptions = LayoutOptions.Center
+//			};
 
-			driverNumberEntry = new Entry {
-				Text = "",
-				Keyboard = Keyboard.Numeric,
-				Placeholder = "Fører numer",
-				VerticalOptions = LayoutOptions.Center
-			};
+			EntryLayout emailLayout = new EntryLayout ();
+			emailEntry = emailLayout.TextEntry;
+			StackLayout emailField = emailLayout.GetLayoutWithIcon ("E-mail", Keyboard.Email, IconStrings.atIcon, false);
+			
+			EntryLayout driverNumberLayout = new EntryLayout ();
+			driverNumberEntry = driverNumberLayout.TextEntry;
+			StackLayout driverNumberField = driverNumberLayout.GetLayoutWithIcon ("Fører nummer", Keyboard.Numeric, IconStrings.cabIcon, false);
 
-			password1Entry = new Entry {
-				Text = "",
-				Keyboard = Keyboard.Create (0x00),
-				Placeholder = "Skriv password",
-				IsPassword = true,
-				VerticalOptions = LayoutOptions.Center
-			};
+			EntryLayout password1Layout = new EntryLayout ();
+			password1Entry = password1Layout.TextEntry;
+			StackLayout password1Field = password1Layout.GetLayoutWithIcon ("Skriv password", Keyboard.Create (0x00), IconStrings.lockIcon, true);
 
-			password2Entry = new Entry {
-				Text = "",
-				Keyboard = Keyboard.Create (0x00),
-				Placeholder = "Skriv password igen",
-				IsPassword = true,
-				VerticalOptions = LayoutOptions.Center
-			};
+			EntryLayout password2Layout = new EntryLayout ();
+			password2Entry = password2Layout.TextEntry;
+			StackLayout password2Field = password1Layout.GetLayoutWithIcon ("Skriv password igen", Keyboard.Create (0x00), IconStrings.lockIcon, true);
 
 			driverCardImage = new Image {
 				HorizontalOptions = LayoutOptions.CenterAndExpand,
@@ -82,14 +75,15 @@ namespace TaxiPay
 			createUserButton.Clicked += OnCreateUserClicked;
 
 			StackLayout stacklayout = new StackLayout {
+				BackgroundColor = Color.FromHex("EEEEEE"),
 				Spacing = 10,
 				VerticalOptions = LayoutOptions.FillAndExpand,
 				Padding = new Thickness (20, 100, 20, 10),
 				Children = {
-					emailEntry,
-					driverNumberEntry,
-					password1Entry,
-					password2Entry,
+					emailField,
+					driverNumberField,
+					password1Field,
+					password2Field,
 
 					new Label
 					{
@@ -143,24 +137,19 @@ namespace TaxiPay
 
 		async void OnCreateUserClicked(object sender, EventArgs e) 
 		{
-
-
-
-
-
 			if (IsValidEmail (emailEntry.Text)) {
 				if (password1Entry.Text.Equals (password2Entry.Text) && password1Entry.Text.Length > 0) {
 					if (driverNumberEntry.Text.Length > 0) {
-						//CommunicationHelper comm = new CommunicationHelper ();
-						//var createUserTask = comm.CreateUser (emailEntry.Text, driverNumberEntry.Text, password1Entry.Text);
-						//Console.WriteLine (createUserTask.Result);
-						//if ok send picture and update driverNumber
+						CommunicationHelper comm = new CommunicationHelper ();
+						var createUserTask = comm.CreateUser (emailEntry.Text, driverNumberEntry.Text, password1Entry.Text);
+						Console.WriteLine (createUserTask.Result);
+//						if ok send picture and update driverNumber
 						//create vehicle for driver
 						//var createCarTask = comm.CreateCar ();
 						//Console.WriteLine (createCarTask.Result);
 						//Navigation.PushAsync (new VerifyEmailPage());
 					} else {
-						await DisplayAlert ("Ugyldig data", "Noget data var indtastet forkert, orøv igen", "OK");
+						await DisplayAlert ("Ugyldig data", "Noget data var indtastet forkert, prøv igen", "OK");
 					}
 				} else {
 					await DisplayAlert ("Fejlindtastning", "De to indtastede kodeord, matcher ikke", "OK");

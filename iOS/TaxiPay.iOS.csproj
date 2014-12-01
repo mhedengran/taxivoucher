@@ -112,6 +112,9 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
+    <BundleResource Include="Resources\FontAwesome.otf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </BundleResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -123,6 +126,7 @@
     <Compile Include="AppDelegate.cs" />
     <Compile Include="HWAccess\Camera_iOS.cs" />
     <Compile Include="HWAccess\GeoLocator_iOS.cs" />
+    <Compile Include="CustomRendering\TextEntryRenderer.cs" />
   </ItemGroup>
   <Import Project="..\TaxiVoucher\TaxiVoucher.projitems" Label="Shared" Condition="Exists('..\TaxiVoucher\TaxiVoucher.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
@@ -139,5 +143,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="HWAccess\" />
+    <Folder Include="CustomRendering\" />
   </ItemGroup>
 </Project>

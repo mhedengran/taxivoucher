@@ -30,7 +30,7 @@
 	-debug \
 	-nolink \
 	-sdk \
-	8.0 \
+	8.1 \
 	-targetver \
 	7.0 \
 	--abi=i386 \

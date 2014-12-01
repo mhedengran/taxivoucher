@@ -30,17 +30,23 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\WeekListViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\TotalLogPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\FormattedModels.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Views\WeekOrDayCell.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\WeeklyLogPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\DayListViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\DailyLogPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\DaySummaryViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Views\SummaryCell.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Elements\SummaryCell.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Elements\WeekOrDayCell.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Elements\TextEntry.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Elements\EntryLayout.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Resources\IconStrings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Elements\IconLabel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />
     <Folder Include="$(MSBuildThisFileDirectory)ViewModels\" />
     <Folder Include="$(MSBuildThisFileDirectory)Views\" />
     <Folder Include="$(MSBuildThisFileDirectory)Helpers\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Resources\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Elements\" />
   </ItemGroup>
 </Project>
