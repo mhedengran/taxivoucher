@@ -38,8 +38,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Elements\WeekOrDayCell.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\TextEntry.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\EntryLayout.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Resources\IconStrings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\IconLabel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Elements\MenuButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Resources\Constants.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Elements\NormalButton.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />

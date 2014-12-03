@@ -11,38 +11,30 @@ namespace TaxiPay
 	{
 		Image driverCardImage;
 		TextEntry emailEntry;
-		Entry driverNumberEntry;
-		Entry password1Entry;
-		Entry password2Entry;
+		TextEntry driverNumberEntry;
+		TextEntry password1Entry;
+		TextEntry password2Entry;
 
 		bool invalidEmail;
 
 		public CreateUserPage ()
 		{
 			Title = "Opret bruger";
-
-//			emailEntry = new Entry {
-//				Text = "",
-//				Keyboard = Keyboard.Email,
-//				Placeholder = "E-mail",
-//				VerticalOptions = LayoutOptions.Center
-//			};
-
 			EntryLayout emailLayout = new EntryLayout ();
-			emailEntry = emailLayout.TextEntry;
 			StackLayout emailField = emailLayout.GetLayoutWithIcon ("E-mail", Keyboard.Email, IconStrings.atIcon, false);
+			emailEntry = emailLayout.TextEntry;
 			
 			EntryLayout driverNumberLayout = new EntryLayout ();
-			driverNumberEntry = driverNumberLayout.TextEntry;
 			StackLayout driverNumberField = driverNumberLayout.GetLayoutWithIcon ("Fører nummer", Keyboard.Numeric, IconStrings.cabIcon, false);
+			driverNumberEntry = driverNumberLayout.TextEntry;
 
 			EntryLayout password1Layout = new EntryLayout ();
-			password1Entry = password1Layout.TextEntry;
 			StackLayout password1Field = password1Layout.GetLayoutWithIcon ("Skriv password", Keyboard.Create (0x00), IconStrings.lockIcon, true);
+			password1Entry = password1Layout.TextEntry;
 
 			EntryLayout password2Layout = new EntryLayout ();
-			password2Entry = password2Layout.TextEntry;
 			StackLayout password2Field = password1Layout.GetLayoutWithIcon ("Skriv password igen", Keyboard.Create (0x00), IconStrings.lockIcon, true);
+			password2Entry = password2Layout.TextEntry;
 
 			driverCardImage = new Image {
 				HorizontalOptions = LayoutOptions.CenterAndExpand,
@@ -59,31 +51,43 @@ namespace TaxiPay
 				Android: () => driverCardImage.WidthRequest = 80
 			);
 
-			var imageTapRecognizer = new TapGestureRecognizer {
-				Command = new Command (() => {
-					ImageTapped();
-				}),
-				NumberOfTapsRequired = 1
-			};
-			driverCardImage.GestureRecognizers.Add (imageTapRecognizer);
+			MenuButton takePictureButton = new MenuButton {
+				LabelText = "Tag billede af førerkort",
+				HorizontalOptions = LayoutOptions.FillAndExpand,
+				HeightRequest = 30,
 
-			Button createUserButton = new Button {
+			};
+			takePictureButton.Clicked += OnTakePictureClicked;
+
+//			var imageTapRecognizer = new TapGestureRecognizer {
+//				Command = new Command (() => {
+//					ImageTapped();
+//				}),
+//				NumberOfTapsRequired = 1
+//			};
+//			driverCardImage.GestureRecognizers.Add (imageTapRecognizer);
+
+			NormalButton createUserButton = new NormalButton {
 				Text = "Opret bruger",
-				HorizontalOptions = LayoutOptions.Center,
-				VerticalOptions = LayoutOptions.EndAndExpand
+				ArrowPositionRight = false,
+				HorizontalOptions = LayoutOptions.FillAndExpand,
+				VerticalOptions = LayoutOptions.EndAndExpand,
+				HeightRequest = 40
 			};
 			createUserButton.Clicked += OnCreateUserClicked;
 
 			StackLayout stacklayout = new StackLayout {
-				BackgroundColor = Color.FromHex("EEEEEE"),
+				BackgroundColor = Color.FromHex( Colors.backgroundColor),
 				Spacing = 10,
 				VerticalOptions = LayoutOptions.FillAndExpand,
-				Padding = new Thickness (20, 100, 20, 10),
+				Padding = new Thickness (30, 30, 30, 10),
 				Children = {
 					emailField,
 					driverNumberField,
 					password1Field,
 					password2Field,
+
+					takePictureButton,
 
 					new Label
 					{
@@ -101,12 +105,16 @@ namespace TaxiPay
 
 		//move logic to seperate class should properly be platform specific
 		async void ImageTapped () {
+
+		}
+
+		async void OnTakePictureClicked(object sender, EventArgs e) {
 			MediaPicker cameraPicker = DependencyService.Get<ICamera> ().GetPicker();
 			Console.WriteLine ("Image clicked");
 
-				var action = await DisplayActionSheet (null, "Annuller", null, "Tag billede", "Vælg fra eksisterende");
-				//bug fix...
-				await Task.Delay (500);
+			var action = await DisplayActionSheet (null, "Annuller", null, "Tag billede", "Vælg fra eksisterende");
+			//bug fix...
+			await Task.Delay (500);
 
 			if (action.Equals ("Tag billede")) {
 				if (cameraPicker.IsCameraAvailable) {

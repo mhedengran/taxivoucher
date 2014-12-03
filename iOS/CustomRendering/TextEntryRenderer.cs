@@ -17,13 +17,10 @@ namespace TaxiPay.iOS
 			if (e.OldElement == null) { 
 				var nativeTextField = (UITextField) Control;
 
-//				nativeTextField.EdgeInsets = new UIEdgeInsets (0, 10, 0, 10);
-				var rect = nativeTextField.Frame;
-				nativeTextField.Frame = new System.Drawing.RectangleF (rect.X + 10, rect.Y, rect.Width - 10, rect.Height);
 				nativeTextField.BackgroundColor = UIColor.White;
 				nativeTextField.BorderStyle = UITextBorderStyle.None;
 				nativeTextField.TextAlignment = UITextAlignment.Left;
-				SetNeedsDisplay ();
+				nativeTextField.TextColor = UIColor.FromRGB (0x44, 0x44, 0x44);
 			}
 		}
 	}

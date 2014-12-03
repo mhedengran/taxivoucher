@@ -12,29 +12,37 @@ namespace TaxiPay
 
 			Title = "Menu";
 
-			Button redeemButton = new Button {
-				Text = "Indløs bon",
-				HorizontalOptions = LayoutOptions.Center,
+			MenuButton redeemButton = new MenuButton {
+				LabelText = "Indløs digital taxabon",
+				Icon = IconStrings.cabIcon,
+				HorizontalOptions = LayoutOptions.FillAndExpand,
+				HeightRequest = 50
+
 			};
 			redeemButton.Clicked += OnRedeemClicked;
 
-			Button logButton = new Button {
-				Text = "Log",
-				HorizontalOptions = LayoutOptions.Center,
+			MenuButton logButton = new MenuButton {
+				LabelText = "Log",
+				Icon = IconStrings.listIcon,
+				HorizontalOptions = LayoutOptions.FillAndExpand,
+				HeightRequest = 50
 			};
 			logButton.Clicked += OnLogClicked;
 
-			Button settingsButton = new Button {
-				Text = "Indstillinger",
-				HorizontalOptions = LayoutOptions.Center,
+			MenuButton settingsButton = new MenuButton {
+				LabelText = "Indstillinger",
+				Icon = IconStrings.cogsIcon,
+				HorizontalOptions = LayoutOptions.FillAndExpand,
+				HeightRequest = 50
 			};
 			settingsButton.Clicked += OnSettingsClicked;
 
 			StackLayout stacklayout = new StackLayout
 			{
-				Spacing = 50,
+				Spacing = 15,
+				BackgroundColor = Color.FromHex(Colors.backgroundColor),
 				VerticalOptions = LayoutOptions.FillAndExpand,
-				Padding = new Thickness(20, 50, 20, 100),
+				Padding = new Thickness(30, 50, 30, 100),
 				Children = 
 				{
 					redeemButton,
@@ -45,6 +53,7 @@ namespace TaxiPay
 						Text = "Du har ikke indtastet nogen bankoplysninger endnu, blah blah blah",
 						VerticalOptions = LayoutOptions.EndAndExpand,
 						HorizontalOptions = LayoutOptions.CenterAndExpand,
+						TextColor = Color.FromHex(Colors.textColor)
 					},
 				}
 			};

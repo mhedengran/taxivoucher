@@ -9,7 +9,10 @@ namespace TaxiPay
 		{	
 			var login = new LoginPage();
 		
-			return new NavigationPage(login);
+			return new NavigationPage(login) {
+				BarBackgroundColor = Color.FromHex(Colors.menuButtonColor),
+				BarTextColor = Color.White,
+			};
 		}
 	}
 }

@@ -57,5 +57,7 @@
 	<array>
 		<string>FontAwesome.otf</string>
 	</array>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
 </dict>
 </plist>

@@ -7,10 +7,6 @@ namespace TaxiPay
 	{
 		public TextEntry TextEntry { get; set;}
 
-		public EntryLayout ()
-		{
-		}
-
 		public StackLayout GetTextEntryLayout (string placeHolder, Keyboard keyboardType, bool isPassword) {
 
 			TextEntry = new TextEntry {
