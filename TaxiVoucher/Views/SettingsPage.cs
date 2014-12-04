@@ -10,11 +10,11 @@ namespace TaxiPay
 	{
 		Driver driver;
 
-		Entry emailEntry;
-		Entry password1Entry;
-		Entry password2Entry;
-		Entry swiftEntry;
-		Entry ibanEntry;
+		TextEntry emailEntry;
+		TextEntry password1Entry;
+		TextEntry password2Entry;
+		TextEntry swiftEntry;
+		TextEntry ibanEntry;
 
 		bool invalidEmail;
 
@@ -23,75 +23,77 @@ namespace TaxiPay
 			driver = drvr;
 
 			Title = "Indstillinger";
+			BackgroundColor = Color.FromHex (Colors.backgroundColor);
 
-			emailEntry = new Entry {
-				Text = driver.Email,
-				Keyboard = Keyboard.Email,
-				VerticalOptions = LayoutOptions.Start,
-			};
+			EntryLayout emailLayout = new EntryLayout ();
+			StackLayout emailField = emailLayout.GetLayoutWithIcon ("E-mail", Keyboard.Email, IconStrings.atIcon, false);
+			emailEntry = emailLayout.TextEntry;
 
-			password1Entry = new Entry {
-				Text = "",
-				Keyboard = Keyboard.Create (0x00),
-				Placeholder = "Skriv password",
-				IsPassword = true,
-				VerticalOptions = LayoutOptions.Start
-			};
+			if (driver.Email.Length > 0) {
+				emailEntry.Text = driver.Email;
+			}
 
-			password2Entry = new Entry {
-				Text = "",
-				Keyboard = Keyboard.Create (0x00),
-				Placeholder = "Skriv password igen",
-				IsPassword = true,
-				VerticalOptions = LayoutOptions.Start
-			};
+			EntryLayout password1Layout = new EntryLayout ();
+			StackLayout password1Field = password1Layout.GetLayoutWithIcon ("Skriv password", Keyboard.Create (0x00), IconStrings.lockIcon, true);
+			password1Entry = password1Layout.TextEntry;
 
-			swiftEntry = new Entry {
-				Text = "",
-				Keyboard = Keyboard.Numeric,
-				Placeholder = "Swift/BIC",
-				VerticalOptions = LayoutOptions.EndAndExpand,
-			};
+			EntryLayout password2Layout = new EntryLayout ();
+			StackLayout password2Field = password1Layout.GetLayoutWithIcon ("Skriv password igen", Keyboard.Create (0x00), IconStrings.lockIcon, true);
+			password2Entry = password2Layout.TextEntry;
+
+			EntryLayout swiftLayout = new EntryLayout ();
+			StackLayout swiftField = swiftLayout.GetLayoutWithIcon ("Swift/BIC", Keyboard.Numeric, IconStrings.moneyIcon, true);
+			swiftEntry = swiftLayout.TextEntry;
+			swiftField.VerticalOptions = LayoutOptions.End;
 
 			if (driver.BankAccount.Swift.Length > 0) {
 				swiftEntry.Text = driver.BankAccount.Swift;
 			}
 
-			ibanEntry = new Entry {
-				Text = "",
-				Keyboard = Keyboard.Numeric,
-				Placeholder = "IBAN",
-				VerticalOptions = LayoutOptions.End,
-			};
+			EntryLayout ibanLayout = new EntryLayout ();
+			StackLayout ibanField = ibanLayout.GetLayoutWithIcon ("IBAN", Keyboard.Numeric, IconStrings.moneyIcon, true);
+			ibanEntry = ibanLayout.TextEntry;
+			ibanField.VerticalOptions = LayoutOptions.End;
 
 			if (driver.BankAccount.Iban.Length > 0) {
 				ibanEntry.Text = driver.BankAccount.Iban;
 			}
 
-			Button saveButton = new Button {
+			NormalButton saveButton = new NormalButton {
 				Text = "Gem",
-				HorizontalOptions = LayoutOptions.Center,
-				VerticalOptions = LayoutOptions.EndAndExpand
+				ArrowPositionRight = true,
+				HorizontalOptions = LayoutOptions.FillAndExpand,
+				VerticalOptions = LayoutOptions.EndAndExpand,
+				HeightRequest = 40,
 			};
 			saveButton.Clicked += OnSaveClicked;
 
 			StackLayout stacklayout = new StackLayout {
 				Spacing = 10,
 				VerticalOptions = LayoutOptions.FillAndExpand,
-				Padding = new Thickness (20, 20, 20, 10),
+				Padding = new Thickness (30, 30, 30, 30),
 				Children = {
 
 					new Label {
 						Text = driver.ExternalReference,
+						TextColor = Color.FromHex(Colors.textColor),
 						VerticalOptions = LayoutOptions.Center,
 						HorizontalOptions = LayoutOptions.Start
 					},
 
-					emailEntry,
-					password1Entry,
-					password2Entry,
-					swiftEntry,
-					ibanEntry,
+					emailField,
+					password1Field,
+					password2Field,
+
+					new Label {
+						Text = "Bankoplysninger",
+						TextColor = Color.FromHex(Colors.textColor),
+						VerticalOptions = LayoutOptions.EndAndExpand,
+						HorizontalOptions = LayoutOptions.Start
+					},
+
+					swiftField,
+					ibanField,
 
 					saveButton,
 				}
@@ -128,7 +130,7 @@ namespace TaxiPay
 							driver.BankAccount = tempDriver.BankAccount;
 							driver.BankAccount.AccountHolderName = driver.FirstName + " " + driver.LastName;
 							driver.Email = tempDriver.Email;
-							Navigation.PopAsync();
+							await Navigation.PopAsync();
 						}
 					}
 				} else {

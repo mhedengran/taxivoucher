@@ -20,6 +20,8 @@ namespace TaxiPay
 		public CreateUserPage ()
 		{
 			Title = "Opret bruger";
+			BackgroundColor = Color.FromHex (Colors.backgroundColor);
+
 			EntryLayout emailLayout = new EntryLayout ();
 			StackLayout emailField = emailLayout.GetLayoutWithIcon ("E-mail", Keyboard.Email, IconStrings.atIcon, false);
 			emailEntry = emailLayout.TextEntry;
@@ -36,28 +38,29 @@ namespace TaxiPay
 			StackLayout password2Field = password1Layout.GetLayoutWithIcon ("Skriv password igen", Keyboard.Create (0x00), IconStrings.lockIcon, true);
 			password2Entry = password2Layout.TextEntry;
 
+			MenuButton takePictureButton = new MenuButton {
+				LabelText = "Tag billede af førerkort",
+				HorizontalOptions = LayoutOptions.FillAndExpand,
+				VerticalOptions = LayoutOptions.Center,
+				HeightRequest = Device.OnPlatform(30,40,30)
+
+			};
+			takePictureButton.Clicked += OnTakePictureClicked;
+
 			driverCardImage = new Image {
 				HorizontalOptions = LayoutOptions.CenterAndExpand,
 				VerticalOptions = LayoutOptions.EndAndExpand,
 				Aspect = Aspect.AspectFit,
 				Source = ImageSource.FromUri(new Uri("http://icons.iconarchive.com/icons/martz90/circle/512/camera-icon.png")),
 			};
-			Device.OnPlatform(
-				iOS: () => driverCardImage.HeightRequest = 80,
-				Android: () => driverCardImage.HeightRequest = 80
-			);
-			Device.OnPlatform(
-				iOS: () => driverCardImage.WidthRequest = 80,
-				Android: () => driverCardImage.WidthRequest = 80
-			);
-
-			MenuButton takePictureButton = new MenuButton {
-				LabelText = "Tag billede af førerkort",
-				HorizontalOptions = LayoutOptions.FillAndExpand,
-				HeightRequest = 30,
-
-			};
-			takePictureButton.Clicked += OnTakePictureClicked;
+//			Device.OnPlatform(
+//				iOS: () => driverCardImage.HeightRequest = 50,
+//				Android: () => driverCardImage.HeightRequest = 50
+//			);
+//			Device.OnPlatform(
+//				iOS: () => driverCardImage.WidthRequest = 50,
+//				Android: () => driverCardImage.WidthRequest = 50
+//			);
 
 //			var imageTapRecognizer = new TapGestureRecognizer {
 //				Command = new Command (() => {
@@ -69,9 +72,9 @@ namespace TaxiPay
 
 			NormalButton createUserButton = new NormalButton {
 				Text = "Opret bruger",
-				ArrowPositionRight = false,
+				ArrowPositionRight = true,
 				HorizontalOptions = LayoutOptions.FillAndExpand,
-				VerticalOptions = LayoutOptions.EndAndExpand,
+				VerticalOptions = LayoutOptions.End,
 				HeightRequest = 40
 			};
 			createUserButton.Clicked += OnCreateUserClicked;
@@ -80,7 +83,7 @@ namespace TaxiPay
 				BackgroundColor = Color.FromHex( Colors.backgroundColor),
 				Spacing = 10,
 				VerticalOptions = LayoutOptions.FillAndExpand,
-				Padding = new Thickness (30, 30, 30, 10),
+				Padding = new Thickness (30, 30, 30, 30),
 				Children = {
 					emailField,
 					driverNumberField,
@@ -100,7 +103,10 @@ namespace TaxiPay
 					createUserButton,
 				}
 			};
-			Content = stacklayout;
+			ScrollView view = new ScrollView {
+				Content = stacklayout
+			};
+			Content = view;
 		}
 
 		//move logic to seperate class should properly be platform specific
@@ -132,7 +138,7 @@ namespace TaxiPay
 				} else {
 					await DisplayAlert ("Intet kamera", "Din telefon har ikke et kamera", "OK");
 				}
-			} else { 
+			} else if (action.Equals("Vælg fra eksisterende")) { 
 				Device.OnPlatform (
 					Default: () => cameraPicker.PickPhotoAsync ().ContinueWith (t => {
 						MediaFile file = t.Result;

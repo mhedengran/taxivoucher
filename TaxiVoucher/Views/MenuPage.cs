@@ -11,6 +11,7 @@ namespace TaxiPay
 			driver = drvr;
 
 			Title = "Menu";
+			BackgroundColor = Color.FromHex (Colors.backgroundColor);
 
 			MenuButton redeemButton = new MenuButton {
 				LabelText = "Indløs digital taxabon",
@@ -39,7 +40,7 @@ namespace TaxiPay
 
 			StackLayout stacklayout = new StackLayout
 			{
-				Spacing = 15,
+				Spacing = 20,
 				BackgroundColor = Color.FromHex(Colors.backgroundColor),
 				VerticalOptions = LayoutOptions.FillAndExpand,
 				Padding = new Thickness(30, 50, 30, 100),
@@ -51,9 +52,9 @@ namespace TaxiPay
 
 					new Label {
 						Text = "Du har ikke indtastet nogen bankoplysninger endnu, blah blah blah",
+						TextColor = Color.FromHex(Colors.textColor),
 						VerticalOptions = LayoutOptions.EndAndExpand,
 						HorizontalOptions = LayoutOptions.CenterAndExpand,
-						TextColor = Color.FromHex(Colors.textColor)
 					},
 				}
 			};

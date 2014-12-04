@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+	<color name="normalButtonColor">#85A3B8</color>
+	<color name="menuButtonColor">#555555</color>
+	<color name="textColor">#444444</color>
+</resources>

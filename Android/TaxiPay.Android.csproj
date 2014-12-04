@@ -6,7 +6,7 @@
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <ProjectGuid>{1D507231-7A29-4C96-A253-7D4A21120BC0}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>TaxiVoucher.Android</RootNamespace>
+    <RootNamespace>TaxiPay.Android</RootNamespace>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <AndroidResgenClass>Resource</AndroidResgenClass>
@@ -89,6 +89,11 @@
     <Compile Include="HWAccess\GeoLocator_Android.cs" />
     <Compile Include="CustomRendering\IconLabelRenderer.cs" />
     <Compile Include="CustomRendering\TextEntryRenderer.cs" />
+    <Compile Include="CustomRendering\MenuButtonRenderer.cs" />
+    <Compile Include="CustomRendering\NormalButtonRenderer.cs" />
+    <Compile Include="CustomRendering\NormalButtonAndroid.cs" />
+    <Compile Include="CustomRendering\TextDrawable.cs" />
+    <Compile Include="CustomRendering\RoundedFrameRender.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -100,6 +105,10 @@
     <AndroidResource Include="Resources\layout\Main.axml" />
     <AndroidResource Include="Resources\values\Strings.xml" />
     <AndroidResource Include="Resources\drawable\Icon.png" />
+    <AndroidResource Include="Resources\values\Colors.xml" />
+    <AndroidResource Include="Resources\drawable\normalButtonBackground.xml" />
+    <AndroidResource Include="Resources\drawable\normalButton.xml" />
+    <AndroidResource Include="Resources\drawable\menuButtonBackground.xml" />
   </ItemGroup>
   <Import Project="..\TaxiVoucher\TaxiVoucher.projitems" Label="Shared" Condition="Exists('..\TaxiVoucher\TaxiVoucher.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

@@ -9,74 +9,55 @@ namespace TaxiPay
 	{
 		Driver driver;
 
-		Entry priceEntry;
-		Entry voucherCodeEntry;
-		Entry streetEntry;
-		Entry numberEntry;
-		Entry zipCodeEntry;
-		Entry cityEntry;
+		TextEntry priceEntry;
+		TextEntry voucherCodeEntry;
+		TextEntry streetEntry;
+		TextEntry numberEntry;
+		TextEntry zipCodeEntry;
+		TextEntry cityEntry;
 
 		public RedeemVoucherPage (Driver drvr)
 		{
 			driver = drvr;
 
 			Title = "Indløs";
+			BackgroundColor = Color.FromHex (Colors.backgroundColor);
 
-			Button finishTripButton = new Button {
+			NormalButton finishTripButton = new NormalButton {
 				Text = "Afslut tur",
-				HorizontalOptions = LayoutOptions.Center,
-				VerticalOptions = LayoutOptions.End,
+				ArrowPositionRight = true,
+				HorizontalOptions = LayoutOptions.FillAndExpand,
+				VerticalOptions = LayoutOptions.EndAndExpand,
+				HeightRequest = 40,
 
 			};
 			finishTripButton.Clicked += OnFinishTripClicked;
-			Device.OnPlatform(
-				Default: () => finishTripButton.HeightRequest = 50
-			);
 
-			voucherCodeEntry = new Entry {
-				Text = "",
-				Keyboard = Keyboard.Text,
-				Placeholder = "Bon nummer",
-				VerticalOptions = LayoutOptions.Start
-			};
+			EntryLayout voucherLayout = new EntryLayout ();
+			StackLayout voucherField = voucherLayout.GetTextEntryLayout ("Bonnummer", Keyboard.Text, false, LayoutOptions.FillAndExpand);
+			voucherCodeEntry = voucherLayout.TextEntry;
 
-			priceEntry = new Entry {
-				Text = "",
-				Keyboard = Keyboard.Numeric,
-				Placeholder = "Pris",
-				VerticalOptions = LayoutOptions.Start
-			};
+			EntryLayout priceLayout = new EntryLayout ();
+			StackLayout priceField = priceLayout.GetTextEntryLayout ("pris", Keyboard.Numeric, false, LayoutOptions.FillAndExpand);
+			priceEntry = priceLayout.TextEntry;
 
-			streetEntry = new Entry {
-				Text = "",
-				Keyboard = Keyboard.Text,
-				Placeholder = "Vej",
-				VerticalOptions = LayoutOptions.End,
-			};
+			EntryLayout streetLayout = new EntryLayout ();
+			StackLayout streetField = streetLayout.GetTextEntryLayout ("Vejnavn", Keyboard.Text, false, LayoutOptions.FillAndExpand);
+			streetEntry = streetLayout.TextEntry;
 
-			numberEntry = new Entry {
-				Text = "",
-				Keyboard = Keyboard.Numeric,
-				Placeholder = "Nr",
-				VerticalOptions = LayoutOptions.Center,
-				HorizontalOptions = LayoutOptions.Start,
-				WidthRequest = 80
-			};
+			EntryLayout numberLayout = new EntryLayout ();
+			StackLayout numberField = numberLayout.GetTextEntryLayout ("Nr.", Keyboard.Text, false, null);
+			numberEntry = numberLayout.TextEntry;
+			numberEntry.WidthRequest = 40;
 
-			zipCodeEntry = new Entry {
-				Text = "",
-				Keyboard = Keyboard.Numeric,
-				Placeholder = "Postnummer",
-				VerticalOptions = LayoutOptions.Center,
-				HorizontalOptions = LayoutOptions.FillAndExpand
-			};
+			EntryLayout zipCodeLayout = new EntryLayout ();
+			StackLayout zipCodeField = zipCodeLayout.GetTextEntryLayout ("Postnr.", Keyboard.Numeric, false, null);
+			zipCodeEntry = zipCodeLayout.TextEntry;
+			zipCodeEntry.WidthRequest = 60;
 
-			cityEntry = new Entry {
-				Text = "",
-				Keyboard = Keyboard.Text,
-				Placeholder = "By",
-				VerticalOptions = LayoutOptions.End,
-			};
+			EntryLayout cityLayout = new EntryLayout ();
+			StackLayout cityField = cityLayout.GetTextEntryLayout ("By", Keyboard.Text, false, LayoutOptions.FillAndExpand);
+			cityEntry = cityLayout.TextEntry;
 
 			StackLayout horizontalStacklayout = new StackLayout
 			{
@@ -85,43 +66,57 @@ namespace TaxiPay
 				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Children =
 				{
-					numberEntry,
-					zipCodeEntry
+					streetField,
+					numberField
 				}
 			};
 
-			StackLayout innerStacklayout = new StackLayout
+			StackLayout horizontalStacklayout2 = new StackLayout
+			{
+				Spacing = 10,
+				Orientation = StackOrientation.Horizontal,
+				HorizontalOptions = LayoutOptions.FillAndExpand,
+				Children =
+				{
+					zipCodeField,
+					cityField
+				}
+				};
+
+			StackLayout stacklayout = new StackLayout
 			{
 				Spacing = 10,
 				VerticalOptions = LayoutOptions.FillAndExpand,
-				Padding = new Thickness(20, 100, 20, 10),
+				Padding = new Thickness(30, 30, 30, 30),
 				Children = 
 				{
-					voucherCodeEntry,
-					priceEntry,
+					voucherField,
+					priceField,
 
 					new Label
 					{
-						Text = "Start adresse",
-						HorizontalOptions = LayoutOptions.Center,
+						Text = "Start adressen",
+						TextColor = Color.FromHex(Colors.textColor),
+						HorizontalOptions = LayoutOptions.Start,
 						VerticalOptions = LayoutOptions.EndAndExpand
 					},
-					streetEntry,
 					horizontalStacklayout,
-					cityEntry
-				}
-			};
+					horizontalStacklayout2,
 
-			StackLayout outerStacklayout = new StackLayout {
-				Spacing = 10,
-				VerticalOptions = LayoutOptions.FillAndExpand,
-				Children = 
-				{
-					innerStacklayout,
 					finishTripButton
 				}
 			};
-			Content = outerStacklayout;
+
+//			StackLayout outerStacklayout = new StackLayout {
+//				Spacing = 10,
+//				VerticalOptions = LayoutOptions.FillAndExpand,
+//				Children = 
+//				{
+//					innerStacklayout,
+//					finishTripButton
+//				}
+//			};
+			Content = stacklayout;
 
 			UpdateViewWithCurrentAddress ();
 		}
@@ -148,70 +143,71 @@ namespace TaxiPay
 
 		async void OnFinishTripClicked(object sender, EventArgs e) 
 		{
-			double temp = 0;
-			if (voucherCodeEntry.Text.Equals ("") || priceEntry.Text.Equals ("") || !double.TryParse (priceEntry.Text, out temp)) {
-				await DisplayAlert ("Forkert indtastning", "Indtast korrekt Bon-data i begge felter", "OK");
-			} else {
-				//pay flow
-				CommunicationHelper comm = new CommunicationHelper ();
-				//1. go online
-				var goOnlineTask = comm.PutDriverOnline (driver);
-				Console.WriteLine (goOnlineTask.Result);
-				//2. update position
-				Location loc = new Location ();
-				string bookingId = "";
-				if (streetEntry.Text.Equals ("") || numberEntry.Text.Equals ("") || cityEntry.Text.Equals ("") || zipCodeEntry.Text.Equals ("")) {
-					await DisplayAlert ("Forkert indtastning", "Indtast en korrekt adresse", "OK");
-				} else {
-					var getLocationTask = comm.GetLocation (streetEntry.Text, numberEntry.Text, cityEntry.Text, zipCodeEntry.Text, driver.Token);
-					loc.Latitude = getLocationTask.Result[0].Lat;
-					loc.Longtitude = getLocationTask.Result[0].Lng;
-					var updatePositionTask = comm.UpdatePostion (loc.Latitude, loc.Longtitude, driver);
-					bookingId = updatePositionTask.Result;
-				}
-				//3. create booking
-				if (bookingId.Equals ("")) {
-					var bookingIdTask = comm.StartBooking (loc.Latitude, loc.Longtitude, driver.Token);
-					bookingId = bookingIdTask.Result;
-				}
-				//4. update position
-				Geolocator locator = DependencyService.Get<IGeoLocator> ().GetLocator ();
-				await locator.GetPositionAsync (timeout: 10000).ContinueWith (t => {
-					if (t.Status.ToString ().Equals ("RanToCompletion")) {
-						Console.WriteLine ("Position Status: {0}", t.Status.ToString ()); //if != RanToCompletion do something
-						Console.WriteLine ("Position Latitude: {0}", t.Result.Latitude);
-						Console.WriteLine ("Position Longitude: {0}", t.Result.Longitude);
-						loc.Latitude = t.Result.Latitude;
-						loc.Longtitude = t.Result.Longitude;
-						var updatePositionTask = comm.UpdatePostion (t.Result.Latitude, t.Result.Longitude, driver);
-						Console.WriteLine (updatePositionTask.Result);
-					}
-				}, TaskScheduler.FromCurrentSynchronizationContext ());
-				//5. add voucher
-				var applyVoucherTask = comm.ApplyVoucher (driver, bookingId, voucherCodeEntry.Text);
-				string voucherResult = applyVoucherTask.Result;
-				if (voucherResult.Contains("VOUCHER_NOT_FOUND")) {
-					Console.WriteLine (voucherResult);
-					await DisplayAlert ("Ugyldigt!", "Bon-nummer er ikke gyldigt", "OK");
-				} else {
-					//6. finish booking
-					var endBookingTask = comm.EndBooking (driver, bookingId, Convert.ToDouble (priceEntry.Text));
-					var endBookingResult = endBookingTask.Result;
-					//7. finish payments
-					var finishPaymentsTask = comm.FinishPayments (driver, bookingId);
-					string finishPaymentsResult = finishPaymentsTask.Result;
-					//8. go offline
-					var goOfflineTask = comm.PutDriverOffline (driver);
-					Console.WriteLine (goOfflineTask.Result);
-					if (endBookingResult.SystemMessage != null || finishPaymentsResult.Equals ("error")) {
-						await DisplayAlert ("Fejl!", "Et eller andet gik galt, undersøg netforbindelsen, og prøv igen", "OK");
-					} else {
-						await Navigation.PushAsync (new VoucherReceiptPage (endBookingResult.Payment.PriceParts.Voucher, endBookingResult.Payment.PriceParts.Base));
-					}
-
-				}
-				
-			}
+			await Navigation.PushAsync (new VoucherReceiptPage (500, 600));
+//			double temp = 0;
+//			if (voucherCodeEntry.Text.Equals ("") || priceEntry.Text.Equals ("") || !double.TryParse (priceEntry.Text, out temp)) {
+//				await DisplayAlert ("Forkert indtastning", "Indtast korrekt Bon-data i begge felter", "OK");
+//			} else {
+//				//pay flow
+//				CommunicationHelper comm = new CommunicationHelper ();
+//				//1. go online
+//				var goOnlineTask = comm.PutDriverOnline (driver);
+//				Console.WriteLine (goOnlineTask.Result);
+//				//2. update position
+//				Location loc = new Location ();
+//				string bookingId = "";
+//				if (streetEntry.Text.Equals ("") || numberEntry.Text.Equals ("") || cityEntry.Text.Equals ("") || zipCodeEntry.Text.Equals ("")) {
+//					await DisplayAlert ("Forkert indtastning", "Indtast en korrekt adresse", "OK");
+//				} else {
+//					var getLocationTask = comm.GetLocation (streetEntry.Text, numberEntry.Text, cityEntry.Text, zipCodeEntry.Text, driver.Token);
+//					loc.Latitude = getLocationTask.Result[0].Lat;
+//					loc.Longtitude = getLocationTask.Result[0].Lng;
+//					var updatePositionTask = comm.UpdatePostion (loc.Latitude, loc.Longtitude, driver);
+//					bookingId = updatePositionTask.Result;
+//				}
+//				//3. create booking
+//				if (bookingId.Equals ("")) {
+//					var bookingIdTask = comm.StartBooking (loc.Latitude, loc.Longtitude, driver.Token);
+//					bookingId = bookingIdTask.Result;
+//				}
+//				//4. update position
+//				Geolocator locator = DependencyService.Get<IGeoLocator> ().GetLocator ();
+//				await locator.GetPositionAsync (timeout: 10000).ContinueWith (t => {
+//					if (t.Status.ToString ().Equals ("RanToCompletion")) {
+//						Console.WriteLine ("Position Status: {0}", t.Status.ToString ()); //if != RanToCompletion do something
+//						Console.WriteLine ("Position Latitude: {0}", t.Result.Latitude);
+//						Console.WriteLine ("Position Longitude: {0}", t.Result.Longitude);
+//						loc.Latitude = t.Result.Latitude;
+//						loc.Longtitude = t.Result.Longitude;
+//						var updatePositionTask = comm.UpdatePostion (t.Result.Latitude, t.Result.Longitude, driver);
+//						Console.WriteLine (updatePositionTask.Result);
+//					}
+//				}, TaskScheduler.FromCurrentSynchronizationContext ());
+//				//5. add voucher
+//				var applyVoucherTask = comm.ApplyVoucher (driver, bookingId, voucherCodeEntry.Text);
+//				string voucherResult = applyVoucherTask.Result;
+//				if (voucherResult.Contains("VOUCHER_NOT_FOUND")) {
+//					Console.WriteLine (voucherResult);
+//					await DisplayAlert ("Ugyldigt!", "Bon-nummer er ikke gyldigt", "OK");
+//				} else {
+//					//6. finish booking
+//					var endBookingTask = comm.EndBooking (driver, bookingId, Convert.ToDouble (priceEntry.Text));
+//					var endBookingResult = endBookingTask.Result;
+//					//7. finish payments
+//					var finishPaymentsTask = comm.FinishPayments (driver, bookingId);
+//					string finishPaymentsResult = finishPaymentsTask.Result;
+//					//8. go offline
+//					var goOfflineTask = comm.PutDriverOffline (driver);
+//					Console.WriteLine (goOfflineTask.Result);
+//					if (endBookingResult.SystemMessage != null || finishPaymentsResult.Equals ("error")) {
+//						await DisplayAlert ("Fejl!", "Et eller andet gik galt, undersøg netforbindelsen, og prøv igen", "OK");
+//					} else {
+//						await Navigation.PushAsync (new VoucherReceiptPage (endBookingResult.Payment.PriceParts.Voucher, endBookingResult.Payment.PriceParts.Base));
+//					}
+//
+//				}
+//				
+//			}
 		}
 	}
 }

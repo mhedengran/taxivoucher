@@ -6,8 +6,8 @@ namespace TaxiPay
 {
 	public class LoginPage : ContentPage
 	{
-		Entry emailEntry;
-		Entry passwordEntry;
+		TextEntry emailEntry;
+		TextEntry passwordEntry;
 		Label forgotPasswordLabel;
 
 		StackLayout stacklayout;
@@ -15,43 +15,44 @@ namespace TaxiPay
 		public LoginPage ()
 		{
 			Title = "Login";
-			//needs to be set in constructor
-//			NavigationPage.SetBackButtonTitle (this, "Logout");
+			BackgroundColor = Color.FromHex (Colors.backgroundColor);
 
-			Button loginButton = new Button {
+			NormalButton loginButton = new NormalButton {
 				Text = "Login",
-				HorizontalOptions = LayoutOptions.Center
+				ArrowPositionRight = true,
+				HorizontalOptions = LayoutOptions.FillAndExpand,
+				VerticalOptions = LayoutOptions.CenterAndExpand,
+				HeightRequest = 40,
 			};
 			loginButton.Clicked += OnLoginClicked;
 
-			Button forgotPasswordButton = new Button {
-				Text = "Glemt password",
-				HorizontalOptions = LayoutOptions.Center
+			MenuButton forgotPasswordButton = new MenuButton {
+				LabelText = "Glemt password",
+				HorizontalOptions = LayoutOptions.FillAndExpand,
+				HeightRequest = Device.OnPlatform(30,40,30),
 			};
 			forgotPasswordButton.Clicked += OnForgotPasswordClicked;
 
-			Button createUserButton = new Button {
+			NormalButton createUserButton = new NormalButton {
 				Text = "Opret bruger",
-				HorizontalOptions = LayoutOptions.Center,
-				VerticalOptions = LayoutOptions.EndAndExpand
+				ArrowPositionRight = true,
+				HorizontalOptions = LayoutOptions.FillAndExpand,
+				VerticalOptions = LayoutOptions.EndAndExpand,
+				HeightRequest = 40,
 			};
 			createUserButton.Clicked += OnCreateUserClicked;
 
-			emailEntry = new Entry {
-				Keyboard = Keyboard.Email,
-				Placeholder = "E-mail",
-				VerticalOptions = LayoutOptions.Center,
-			};
+			EntryLayout emailLayout = new EntryLayout ();
+			StackLayout emailField = emailLayout.GetLayoutWithIcon ("E-mail", Keyboard.Email, IconStrings.atIcon, false);
+			emailEntry = emailLayout.TextEntry;
 
-			passwordEntry = new Entry {
-				Keyboard = Keyboard.Text,
-				Placeholder = "Password",
-				IsPassword = true,
-				VerticalOptions = LayoutOptions.Center
-			};
+			EntryLayout passwordLayout = new EntryLayout ();
+			StackLayout passwordField = passwordLayout.GetLayoutWithIcon ("Password", Keyboard.Create (0x00), IconStrings.lockIcon, true);
+			passwordEntry = passwordLayout.TextEntry;
 
 			forgotPasswordLabel = new Label {
 				Text = "",
+				TextColor = Color.FromHex(Colors.textColor),
 				HorizontalOptions = LayoutOptions.Center
 			};
 
@@ -60,13 +61,13 @@ namespace TaxiPay
 				Spacing = 10,
 				VerticalOptions = LayoutOptions.FillAndExpand,
 				HorizontalOptions = LayoutOptions.FillAndExpand,
-				Padding = new Thickness(20, 100, 20, 10),
+				Padding = new Thickness(30, 50, 30, 30),
 				Children = 
 				{
-					emailEntry,
-					passwordEntry,
-					loginButton,
+					emailField,
+					passwordField,
 					forgotPasswordButton,
+					loginButton,
 					forgotPasswordLabel,
 					createUserButton,
 
@@ -105,6 +106,7 @@ namespace TaxiPay
 				Driver driver = response.Driver;
 				driver.Token = response.Token;
 				//save email as default
+				this.Title = "Logout";
 				await Navigation.PushAsync (new MenuPage (driver));
 			}
 		}
