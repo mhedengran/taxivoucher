@@ -91,8 +91,6 @@
     <Compile Include="CustomRendering\TextEntryRenderer.cs" />
     <Compile Include="CustomRendering\MenuButtonRenderer.cs" />
     <Compile Include="CustomRendering\NormalButtonRenderer.cs" />
-    <Compile Include="CustomRendering\NormalButtonAndroid.cs" />
-    <Compile Include="CustomRendering\TextDrawable.cs" />
     <Compile Include="CustomRendering\RoundedFrameRender.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -107,7 +105,6 @@
     <AndroidResource Include="Resources\drawable\Icon.png" />
     <AndroidResource Include="Resources\values\Colors.xml" />
     <AndroidResource Include="Resources\drawable\normalButtonBackground.xml" />
-    <AndroidResource Include="Resources\drawable\normalButton.xml" />
     <AndroidResource Include="Resources\drawable\menuButtonBackground.xml" />
   </ItemGroup>
   <Import Project="..\TaxiVoucher\TaxiVoucher.projitems" Label="Shared" Condition="Exists('..\TaxiVoucher\TaxiVoucher.projitems')" />

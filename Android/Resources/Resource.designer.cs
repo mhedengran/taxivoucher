@@ -44,14 +44,20 @@ namespace TaxiPay.Android
 		public partial class Color
 		{
 			
-			// aapt resource value: 0x7f040001
-			public const int menuButtonColor = 2130968577;
+			// aapt resource value: 0x7f040002
+			public const int menuButtonColor = 2130968578;
+			
+			// aapt resource value: 0x7f040003
+			public const int menuButtonPressedColor = 2130968579;
 			
 			// aapt resource value: 0x7f040000
 			public const int normalButtonColor = 2130968576;
 			
-			// aapt resource value: 0x7f040002
-			public const int textColor = 2130968578;
+			// aapt resource value: 0x7f040001
+			public const int normalButtonPressedColor = 2130968577;
+			
+			// aapt resource value: 0x7f040004
+			public const int textColor = 2130968580;
 			
 			static Color()
 			{
@@ -76,10 +82,7 @@ namespace TaxiPay.Android
 			public const int monoandroidsplash = 2130837506;
 			
 			// aapt resource value: 0x7f020003
-			public const int normalButton = 2130837507;
-			
-			// aapt resource value: 0x7f020004
-			public const int normalButtonBackground = 2130837508;
+			public const int normalButtonBackground = 2130837507;
 			
 			static Drawable()
 			{
@@ -94,17 +97,8 @@ namespace TaxiPay.Android
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f070001
-			public const int customButtonLayout = 2131165185;
-			
-			// aapt resource value: 0x7f070002
-			public const int firstTextView = 2131165186;
-			
 			// aapt resource value: 0x7f070000
 			public const int myButton = 2131165184;
-			
-			// aapt resource value: 0x7f070003
-			public const int secondTextView = 2131165187;
 			
 			static Id()
 			{
