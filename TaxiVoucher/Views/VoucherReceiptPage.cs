@@ -110,7 +110,7 @@ namespace TaxiPay
 										},
 										new Label
 										{
-											Text =  (tripPrice-voucherValue) + "kr",
+											Text =  (tripPrice-voucherValue) + " kr",
 											TextColor = Color.FromHex(Colors.textColor),
 											Font = Font.SystemFontOfSize(16),
 											HorizontalOptions = LayoutOptions.End,

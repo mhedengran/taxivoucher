@@ -7,10 +7,13 @@ namespace TaxiPay
 	{
 		public SummaryCell ()
 		{
+			int textSize = 14;
 			var dateLabel = new Label
 			{
 				HorizontalOptions= LayoutOptions.StartAndExpand,
-				VerticalOptions = LayoutOptions.Start
+				VerticalOptions = LayoutOptions.Start,
+				TextColor = Color.FromHex(Colors.textColor),
+				Font = Font.SystemFontOfSize(textSize)
 			};
 			dateLabel.SetBinding(Label.TextProperty, "DateString");
 
@@ -18,6 +21,8 @@ namespace TaxiPay
 			{
 				HorizontalOptions = LayoutOptions.Start,
 				VerticalOptions = LayoutOptions.Center,
+				TextColor = Color.FromHex(Colors.textColor),
+				Font = Font.SystemFontOfSize(textSize)
 
 			};
 			priceLabel.SetBinding(Label.TextProperty, "TotalEarnings");
@@ -26,6 +31,8 @@ namespace TaxiPay
 			{
 				HorizontalOptions = LayoutOptions.End,
 				VerticalOptions = LayoutOptions.Center,
+				TextColor = Color.FromHex(Colors.textColor),
+				Font = Font.SystemFontOfSize(textSize)
 
 			};
 			numberLabel.SetBinding(Label.TextProperty, "Number");
@@ -34,6 +41,8 @@ namespace TaxiPay
 			{
 				HorizontalOptions = LayoutOptions.Start,
 				VerticalOptions = LayoutOptions.Center,
+				TextColor = Color.FromHex(Colors.textColor),
+				Font = Font.SystemFontOfSize(textSize)
 
 			};
 			voucherLabel.SetBinding(Label.TextProperty, "TotalVoucherEarnings");
@@ -42,6 +51,8 @@ namespace TaxiPay
 			{
 				HorizontalOptions = LayoutOptions.End,
 				VerticalOptions = LayoutOptions.Center,
+				TextColor = Color.FromHex(Colors.textColor),
+				Font = Font.SystemFontOfSize(textSize)
 
 			};
 			voucherNumberLabel.SetBinding(Label.TextProperty, "VoucherNumber");
@@ -50,6 +61,8 @@ namespace TaxiPay
 			{
 				HorizontalOptions = LayoutOptions.Start,
 				VerticalOptions = LayoutOptions.Center,
+				TextColor = Color.FromHex(Colors.textColor),
+				Font = Font.SystemFontOfSize(textSize)
 
 			};
 			fromLabel.SetBinding(Label.TextProperty, "From");
@@ -58,6 +71,8 @@ namespace TaxiPay
 			{
 				HorizontalOptions = LayoutOptions.Start,
 				VerticalOptions = LayoutOptions.Center,
+				TextColor = Color.FromHex(Colors.textColor),
+				Font = Font.SystemFontOfSize(textSize)
 
 			};
 			toLabel.SetBinding(Label.TextProperty, "To");
@@ -73,10 +88,10 @@ namespace TaxiPay
 				Height = GridLength.Auto
 			});
 			grid.ColumnDefinitions.Add (new ColumnDefinition {
-				Width = new GridLength(60, GridUnitType.Absolute)
+				Width = new GridLength(70, GridUnitType.Auto)
 			});
 			grid.ColumnDefinitions.Add (new ColumnDefinition {
-				Width = new GridLength(80, GridUnitType.Absolute)
+				Width = new GridLength(70, GridUnitType.Auto)
 			});
 			grid.Children.Add (priceLabel, 0, 0);
 			grid.Children.Add (numberLabel, 1, 0);
@@ -102,7 +117,9 @@ namespace TaxiPay
 			gridAddress.Children.Add (new Label { 
 				Text = "Fra",
 				HorizontalOptions = LayoutOptions.Start,
-				VerticalOptions = LayoutOptions.Center
+				VerticalOptions = LayoutOptions.Center,
+				TextColor = Color.FromHex(Colors.toAndFromTextColor),
+				Font = Font.SystemFontOfSize(textSize)
 			}, 0, 0);
 			gridAddress.Children.Add (new StackLayout() {
 				Padding = new Thickness(7, 0, 0, 0),
@@ -113,7 +130,9 @@ namespace TaxiPay
 			gridAddress.Children.Add (new Label { 
 				Text = "Til",
 				HorizontalOptions = LayoutOptions.Start,
-				VerticalOptions = LayoutOptions.Center
+				VerticalOptions = LayoutOptions.Center,
+				TextColor = Color.FromHex(Colors.toAndFromTextColor),
+				Font = Font.SystemFontOfSize(textSize)
 			}, 1, 0);
 			gridAddress.Children.Add (new StackLayout() {
 				Padding = new Thickness(7, 0, 0, 0),
@@ -137,8 +156,8 @@ namespace TaxiPay
 					gridAddress
 				}
 			};
-
-			Height = 150;
+			cellLayout.SetBinding(StackLayout.BackgroundColorProperty, "BackgroundColor");
+			Height = 130;
 
 			View = cellLayout;
 		}

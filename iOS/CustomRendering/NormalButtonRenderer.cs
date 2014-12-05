@@ -4,6 +4,7 @@ using Xamarin.Forms.Platform.iOS;
 using Xamarin.Forms;
 using MonoTouch.UIKit;
 using MonoTouch.Foundation;
+using MonoTouch.CoreGraphics;
 using TaxiPay;
 using TaxiPay.iOS;
 using System.Drawing;
@@ -58,6 +59,16 @@ namespace TaxiPay.iOS
 			nativeButton.SetTitleColor (UIColor.FromRGB (0x44, 0x44, 0x44), UIControlState.Normal);
 
 			//pushed
+			RectangleF colorRect = new RectangleF(0.0f, 0.0f, 1.0f, 1.0f);
+			UIGraphics.BeginImageContext(colorRect.Size);
+			CGContext context = UIGraphics.GetCurrentContext ();
+
+			context.SetFillColorWithColor (UIColor.FromRGB (0x85, 0xEF, 0xEE).CGColor);
+			context.FillRect(colorRect);
+
+			UIImage image = UIGraphics.GetImageFromCurrentImageContext();
+			UIGraphics.EndImageContext ();
+			nativeButton.SetBackgroundImage (image, UIControlState.Highlighted);
 		}
 	}
 }

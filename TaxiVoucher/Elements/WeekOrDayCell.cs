@@ -7,10 +7,13 @@ namespace TaxiPay
 	{
 		public WeekOrDayCell ()
 		{
+			int textSize = 14;
 			var dayOrWeekLabel = new Label
 			{
 				HorizontalOptions= LayoutOptions.StartAndExpand,
-				VerticalOptions = LayoutOptions.Center
+				VerticalOptions = LayoutOptions.Center,
+				TextColor = Color.FromHex(Colors.textColor),
+				Font = Font.SystemFontOfSize(textSize)
 			};
 			dayOrWeekLabel.SetBinding(Label.TextProperty, "DateString");
 
@@ -18,6 +21,8 @@ namespace TaxiPay
 			{
 				HorizontalOptions = LayoutOptions.Start,
 				VerticalOptions = LayoutOptions.Center,
+				TextColor = Color.FromHex(Colors.textColor),
+				Font = Font.SystemFontOfSize(textSize)
 
 			};
 			totalEarningsLabel.SetBinding(Label.TextProperty, "TotalEarnings");
@@ -26,6 +31,8 @@ namespace TaxiPay
 			{
 				HorizontalOptions = LayoutOptions.End,
 				VerticalOptions = LayoutOptions.Center,
+				TextColor = Color.FromHex(Colors.textColor),
+				Font = Font.SystemFontOfSize(textSize)
 
 			};
 			numberLabel.SetBinding(Label.TextProperty, "Number");
@@ -38,10 +45,10 @@ namespace TaxiPay
 				Height = GridLength.Auto
 			});
 			grid.ColumnDefinitions.Add (new ColumnDefinition {
-				Width = new GridLength(90, GridUnitType.Absolute)
+				Width = new GridLength(60, GridUnitType.Absolute)
 			});
 			grid.ColumnDefinitions.Add (new ColumnDefinition {
-				Width = new GridLength(90, GridUnitType.Absolute)
+				Width = new GridLength(60, GridUnitType.Absolute)
 			});
 			grid.Children.Add (totalEarningsLabel, 0, 0);
 			grid.Children.Add (numberLabel, 1, 0);
@@ -54,6 +61,7 @@ namespace TaxiPay
 				Orientation = StackOrientation.Horizontal,
 				Children = { dayOrWeekLabel, grid }
 			};
+			cellLayout.SetBinding(StackLayout.BackgroundColorProperty, "BackgroundColor");
 
 			View = cellLayout;
 		}

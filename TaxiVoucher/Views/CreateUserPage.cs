@@ -9,6 +9,7 @@ namespace TaxiPay
 {
 	public class CreateUserPage : ContentPage
 	{
+
 		Image driverCardImage;
 		TextEntry emailEntry;
 		TextEntry driverNumberEntry;
@@ -118,7 +119,7 @@ namespace TaxiPay
 			MediaPicker cameraPicker = DependencyService.Get<ICamera> ().GetPicker();
 			Console.WriteLine ("Image clicked");
 
-			var action = await DisplayActionSheet (null, "Annuller", null, "Tag billede", "Vælg fra eksisterende");
+			var action = await DisplayActionSheet ("Vælg funktion", "Annuller", null, "Tag billede", "Vælg fra eksisterende");
 			//bug fix...
 			await Task.Delay (500);
 

@@ -38,6 +38,13 @@ namespace TaxiPay
 			};
 			settingsButton.Clicked += OnSettingsClicked;
 
+			string bankText;
+			if (driver.BankAccount != null) {
+				bankText = "";
+			} else {
+				bankText = "Du har ikke indtastet nogen bankoplysninger endnu, blah blah blah";
+			}
+
 			StackLayout stacklayout = new StackLayout
 			{
 				Spacing = 20,
@@ -51,7 +58,7 @@ namespace TaxiPay
 					settingsButton,
 
 					new Label {
-						Text = "Du har ikke indtastet nogen bankoplysninger endnu, blah blah blah",
+						Text = bankText,
 						TextColor = Color.FromHex(Colors.textColor),
 						VerticalOptions = LayoutOptions.EndAndExpand,
 						HorizontalOptions = LayoutOptions.CenterAndExpand,

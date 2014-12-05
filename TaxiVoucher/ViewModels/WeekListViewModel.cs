@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using Xamarin.Forms;
 
 namespace TaxiPay
 {
@@ -14,11 +15,20 @@ namespace TaxiPay
 			//weekly
 			var getTotalEarningsTask = new CommunicationHelper ().GetTotalEarnings (driver);
 			List<WeeklyEarnings> WeekList = getTotalEarningsTask.Result;
-
+			int i = 0;
 			Weeks = new ObservableCollection<WeekOrDay> ();
 			foreach (WeeklyEarnings item in WeekList) {
+				Color background;
+				if (i == 0) {
+					background = Color.White;
+					i++;
+				} else {
+					background = Color.Transparent;
+					i = 0;
+				}
 				Weeks.Add (new WeekOrDay 
 					{
+						BackgroundColor = background,
 						DateString = "Uge " + GetWeekNumberFromDate(item.EarningsOn),
 						TotalEarnings = "Totalt beløb",
 						Number = item.Amount + " " + item.CurrencySymbol,

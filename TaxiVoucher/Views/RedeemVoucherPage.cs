@@ -48,12 +48,12 @@ namespace TaxiPay
 			EntryLayout numberLayout = new EntryLayout ();
 			StackLayout numberField = numberLayout.GetTextEntryLayout ("Nr.", Keyboard.Text, false, null);
 			numberEntry = numberLayout.TextEntry;
-			numberEntry.WidthRequest = 40;
+			numberEntry.WidthRequest = 80;
 
 			EntryLayout zipCodeLayout = new EntryLayout ();
 			StackLayout zipCodeField = zipCodeLayout.GetTextEntryLayout ("Postnr.", Keyboard.Numeric, false, null);
 			zipCodeEntry = zipCodeLayout.TextEntry;
-			zipCodeEntry.WidthRequest = 60;
+			zipCodeEntry.WidthRequest = 80;
 
 			EntryLayout cityLayout = new EntryLayout ();
 			StackLayout cityField = cityLayout.GetTextEntryLayout ("By", Keyboard.Text, false, LayoutOptions.FillAndExpand);

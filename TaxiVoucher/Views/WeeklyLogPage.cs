@@ -8,10 +8,12 @@ namespace TaxiPay
 		public WeeklyLogPage (Driver driver, WeekOrDay week)
 		{
 			Title = week.DateString;
+			BackgroundColor = Color.FromHex (Colors.backgroundColor);
 
 			var viewModel = new DayListViewModel (driver, week.Date);
 
 			var dayList = new ListView ();
+			dayList.BackgroundColor = Color.FromHex (Colors.backgroundColor);
 			dayList.ItemsSource = viewModel.Days;
 
 			var cell = new DataTemplate(typeof(WeekOrDayCell));
@@ -25,7 +27,7 @@ namespace TaxiPay
 					return;
 				} else {
 					dayList.SelectedItem = null;
-					Navigation.PushAsync(new DailyLogPage(driver, day.Date));
+					Navigation.PushAsync(new DailyLogPage(driver, day.Date, day.Number));
 				}
 			};
 

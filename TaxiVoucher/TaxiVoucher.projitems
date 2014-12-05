@@ -25,7 +25,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\Location.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\GeoLocator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Bookings.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\Payment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Earnings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\WeekListViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\TotalLogPage.cs" />

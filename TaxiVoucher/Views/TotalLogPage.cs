@@ -8,12 +8,14 @@ namespace TaxiPay
 		public TotalLogPage (Driver driver)
 		{
 			Title = "Log";
+			BackgroundColor = Color.FromHex (Colors.backgroundColor);
 
 			var viewModel = new WeekListViewModel (driver);
 
 			//define some data, use viewmodel
 
 			var weekList = new ListView ();
+			weekList.BackgroundColor = Color.FromHex (Colors.backgroundColor);
 			weekList.ItemsSource = viewModel.Weeks;
 
 			var cell = new DataTemplate(typeof(WeekOrDayCell));

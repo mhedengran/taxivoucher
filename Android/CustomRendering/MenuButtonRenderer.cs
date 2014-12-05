@@ -1,6 +1,9 @@
 ﻿using System;
 using Xamarin.Forms.Platform.Android;
 using Xamarin.Forms;
+using Android.Text;
+using Android.Text.Style;
+using Android.Graphics;
 using TaxiPay;
 using TaxiPay.Android;
 
@@ -17,17 +20,18 @@ namespace TaxiPay.Android
 				var button = (MenuButton)this.Element;
 
 				int height = (int)button.HeightRequest;
-				int fontSize = Math.Max (height / 3, 16);
-
+				int fontSize = (int)Math.Max (height / 2.5, 16);
+				Typeface font = Typeface.CreateFromAsset (Forms.Context.Assets, "FontAwesome.otf");
 				if (button.Icon.Length > 0) {
-					nativeButton.SetText(button.LabelText, global::Android.Widget.TextView.BufferType.Normal);
+					button.Text = "  " + button.Icon + "  " + button.LabelText;
+					nativeButton.SetTypeface (font, TypefaceStyle.Normal);
 					nativeButton.SetTextSize (global::Android.Util.ComplexUnitType.Dip ,fontSize);
-					nativeButton.SetTextColor (global::Android.Graphics.Color.White);
+					nativeButton.Gravity = global::Android.Views.GravityFlags.CenterVertical;
 				} else {
 					button.Text = button.LabelText;
 					button.Font = Font.SystemFontOfSize (fontSize);
-					button.TextColor = Color.White;
 				}
+				button.TextColor = Xamarin.Forms.Color.White;
 				nativeButton.SetBackgroundResource (Resource.Drawable.menuButtonBackground);
 			}
 		}
