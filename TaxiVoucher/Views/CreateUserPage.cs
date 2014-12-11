@@ -15,6 +15,7 @@ namespace TaxiPay
 		TextEntry driverNumberEntry;
 		TextEntry password1Entry;
 		TextEntry password2Entry;
+		Label PictureLabel;
 
 		bool invalidEmail;
 
@@ -24,19 +25,19 @@ namespace TaxiPay
 			BackgroundColor = Color.FromHex (Colors.backgroundColor);
 
 			EntryLayout emailLayout = new EntryLayout ();
-			StackLayout emailField = emailLayout.GetLayoutWithIcon ("E-mail", Keyboard.Email, IconStrings.atIcon, false);
+			StackLayout emailField = emailLayout.GetLayoutWithIcon ("E-mail", "", Keyboard.Email, IconStrings.atIcon, false);
 			emailEntry = emailLayout.TextEntry;
 			
 			EntryLayout driverNumberLayout = new EntryLayout ();
-			StackLayout driverNumberField = driverNumberLayout.GetLayoutWithIcon ("Fører nummer", Keyboard.Numeric, IconStrings.cabIcon, false);
+			StackLayout driverNumberField = driverNumberLayout.GetLayoutWithIcon ("Fører nummer", "", Keyboard.Numeric, IconStrings.cabIcon, false);
 			driverNumberEntry = driverNumberLayout.TextEntry;
 
 			EntryLayout password1Layout = new EntryLayout ();
-			StackLayout password1Field = password1Layout.GetLayoutWithIcon ("Skriv password", Keyboard.Create (0x00), IconStrings.lockIcon, true);
+			StackLayout password1Field = password1Layout.GetLayoutWithIcon ("Skriv password", "", Keyboard.Create (0x00), IconStrings.lockIcon, true);
 			password1Entry = password1Layout.TextEntry;
 
 			EntryLayout password2Layout = new EntryLayout ();
-			StackLayout password2Field = password1Layout.GetLayoutWithIcon ("Skriv password igen", Keyboard.Create (0x00), IconStrings.lockIcon, true);
+			StackLayout password2Field = password2Layout.GetLayoutWithIcon ("Skriv password igen", "", Keyboard.Create (0x00), IconStrings.lockIcon, true);
 			password2Entry = password2Layout.TextEntry;
 
 			MenuButton takePictureButton = new MenuButton {
@@ -52,24 +53,9 @@ namespace TaxiPay
 				HorizontalOptions = LayoutOptions.CenterAndExpand,
 				VerticalOptions = LayoutOptions.EndAndExpand,
 				Aspect = Aspect.AspectFit,
-				Source = ImageSource.FromUri(new Uri("http://icons.iconarchive.com/icons/martz90/circle/512/camera-icon.png")),
+//				Source = ImageSource.FromFile("CameraIcon.gif")
+//				Source = ImageSource.FromUri(new Uri("http://icons.iconarchive.com/icons/martz90/circle/512/camera-icon.png")),
 			};
-//			Device.OnPlatform(
-//				iOS: () => driverCardImage.HeightRequest = 50,
-//				Android: () => driverCardImage.HeightRequest = 50
-//			);
-//			Device.OnPlatform(
-//				iOS: () => driverCardImage.WidthRequest = 50,
-//				Android: () => driverCardImage.WidthRequest = 50
-//			);
-
-//			var imageTapRecognizer = new TapGestureRecognizer {
-//				Command = new Command (() => {
-//					ImageTapped();
-//				}),
-//				NumberOfTapsRequired = 1
-//			};
-//			driverCardImage.GestureRecognizers.Add (imageTapRecognizer);
 
 			NormalButton createUserButton = new NormalButton {
 				Text = "Opret bruger",
@@ -79,6 +65,13 @@ namespace TaxiPay
 				HeightRequest = 40
 			};
 			createUserButton.Clicked += OnCreateUserClicked;
+
+			PictureLabel = new Label {
+				Text = "Billede af førerkort",
+				HorizontalOptions = LayoutOptions.StartAndExpand,
+				VerticalOptions = LayoutOptions.Center,
+				IsVisible = false
+			};
 
 			StackLayout stacklayout = new StackLayout {
 				BackgroundColor = Color.FromHex( Colors.backgroundColor),
@@ -92,14 +85,7 @@ namespace TaxiPay
 					password2Field,
 
 					takePictureButton,
-
-					new Label
-					{
-						Text = "Billede af førerkort",
-						HorizontalOptions = LayoutOptions.StartAndExpand,
-						VerticalOptions = LayoutOptions.Center
-					},
-
+					PictureLabel,
 					driverCardImage,
 					createUserButton,
 				}
@@ -108,11 +94,6 @@ namespace TaxiPay
 				Content = stacklayout
 			};
 			Content = view;
-		}
-
-		//move logic to seperate class should properly be platform specific
-		async void ImageTapped () {
-
 		}
 
 		async void OnTakePictureClicked(object sender, EventArgs e) {
@@ -136,6 +117,7 @@ namespace TaxiPay
 						}, TaskScheduler.FromCurrentSynchronizationContext ()
 						)
 					);
+					PictureLabel.IsVisible = true;
 				} else {
 					await DisplayAlert ("Intet kamera", "Din telefon har ikke et kamera", "OK");
 				}
@@ -152,27 +134,48 @@ namespace TaxiPay
 
 		async void OnCreateUserClicked(object sender, EventArgs e) 
 		{
-			if (IsValidEmail (emailEntry.Text)) {
-				if (password1Entry.Text.Equals (password2Entry.Text) && password1Entry.Text.Length > 0) {
-					if (driverNumberEntry.Text.Length > 0) {
-						CommunicationHelper comm = new CommunicationHelper ();
-						var createUserTask = comm.CreateUser (emailEntry.Text, driverNumberEntry.Text, password1Entry.Text);
-						Console.WriteLine (createUserTask.Result);
-//						if ok send picture and update driverNumber
-						//create vehicle for driver
-						//var createCarTask = comm.CreateCar ();
-						//Console.WriteLine (createCarTask.Result);
-						//Navigation.PushAsync (new VerifyEmailPage());
-					} else {
-						await DisplayAlert ("Ugyldig data", "Noget data var indtastet forkert, prøv igen", "OK");
-					}
-				} else {
-					await DisplayAlert ("Fejlindtastning", "De to indtastede kodeord, matcher ikke", "OK");
-				}
-			} else {
-				await DisplayAlert ("Ugyldig email", "Emailen har ikke et gyldigt format", "OK");
-			}
-				
+			await DisplayAlert ("OBS", "Dette kald er ikke færdigimplementeret", "OK");
+//			if (IsValidEmail (emailEntry.Text)) {
+//				if (password1Entry.Text.Equals (password2Entry.Text) && password1Entry.Text.Length > 0) {
+//					if (driverNumberEntry.Text.Length > 0) {
+//						//få implementeret så det er okay hvis den fejler undervejs
+//						CommunicationHelper comm = new CommunicationHelper ();
+//						var createUserTask = comm.CreateUser (emailEntry.Text, driverNumberEntry.Text, password1Entry.Text);
+//						string createResult = createUserTask.Result;
+//						Console.WriteLine (createResult);
+//						if (createResult.Contains("firstName")) {
+//							var loginTask = comm.Login (emailEntry.Text, password1Entry.Text);
+//							JSONResponse loginResponse = loginTask.Result;
+//							if (loginResponse.SystemMessage != null) {
+//								await DisplayAlert ("Login fejl", "Prøv igen om lidt", "OK");
+//							} else {
+//								Driver drvr = loginResponse.Driver;
+//								drvr.Token = loginResponse.Token;
+//								drvr.ExternalReference = driverNumberEntry.Text;
+//								var updateDrvrTask = comm.UpdateDriver(drvr, drvr.Id, drvr.Token);
+//								Driver newDrvr = updateDrvrTask.Result;
+//								if (newDrvr.Id.Length < 1) {
+//									await DisplayAlert ("Ups", "Noget gik galt, tjek signalet og prøv igen", "OK");
+//								} else {
+//									//upload image
+//									//create vehicle for driver
+//									//var createCarTask = comm.CreateCar ();
+//									//Console.WriteLine (createCarTask.Result);
+//									await Navigation.PushAsync (new VerifyEmailPage());
+//								}
+//							}
+//						} else {
+//							await DisplayAlert ("Email", "Email er allerede i brug", "OK");
+//						}	
+//					} else {
+//						await DisplayAlert ("Ugyldig data", "Noget data var indtastet forkert, prøv igen", "OK");
+//					}
+//				} else {
+//					await DisplayAlert ("Fejlindtastning", "De to indtastede kodeord, matcher ikke", "OK");
+//				}
+//			} else {
+//				await DisplayAlert ("Ugyldig email", "Emailen har ikke et gyldigt format", "OK");
+//			}
 		}
 
 		//validate email (taken from: http://msdn.microsoft.com/en-us/library/01escwtf(v=vs.110).aspx)

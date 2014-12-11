@@ -43,18 +43,12 @@ namespace TaxiPay
 			createUserButton.Clicked += OnCreateUserClicked;
 
 			EntryLayout emailLayout = new EntryLayout ();
-			StackLayout emailField = emailLayout.GetLayoutWithIcon ("E-mail", Keyboard.Email, IconStrings.atIcon, false);
+			StackLayout emailField = emailLayout.GetLayoutWithIcon ("E-mail", "", Keyboard.Email, IconStrings.atIcon, false);
 			emailEntry = emailLayout.TextEntry;
 
 			EntryLayout passwordLayout = new EntryLayout ();
-			StackLayout passwordField = passwordLayout.GetLayoutWithIcon ("Password", Keyboard.Create (0x00), IconStrings.lockIcon, true);
+			StackLayout passwordField = passwordLayout.GetLayoutWithIcon ("Password", "", Keyboard.Create (0x00), IconStrings.lockIcon, true);
 			passwordEntry = passwordLayout.TextEntry;
-
-			forgotPasswordLabel = new Label {
-				Text = "",
-				TextColor = Color.FromHex(Colors.textColor),
-				HorizontalOptions = LayoutOptions.Center
-			};
 
 			stacklayout = new StackLayout
 			{
@@ -68,13 +62,14 @@ namespace TaxiPay
 					passwordField,
 					forgotPasswordButton,
 					loginButton,
-					forgotPasswordLabel,
 					createUserButton,
 
 				}
 			};
-
-			Content = stacklayout;
+			ScrollView view = new ScrollView {
+				Content = stacklayout
+			};
+			Content = view;
 		}
 
 		async void OnLoginClicked(object sender, EventArgs e) {
@@ -116,19 +111,25 @@ namespace TaxiPay
 			Navigation.PushAsync(new CreateUserPage());
 		}
 
-		void OnForgotPasswordClicked(object sender, EventArgs e) 
+		async void OnForgotPasswordClicked(object sender, EventArgs e) 
 		{
 			emailEntry.Unfocus();
 			passwordEntry.Unfocus();
 			Console.WriteLine ("Forgot password");
 			if (emailEntry.Text != null) {
 				if (emailEntry.Text.Contains ("@") && emailEntry.Text.Contains (".")) {
-					//send email
-					forgotPasswordLabel.Text = "Email sendt";
+					CommunicationHelper comm = new CommunicationHelper ();
+					Task<string> resetPwTask = comm.ResetPassword (emailEntry.Text);
+					string response = resetPwTask.Result;
+					if (response.Contains ("EMAIL_NOT_FOUND")) {
+						await DisplayAlert ("Fejl", "Forkert email", "OK");
+					} else {
+						await DisplayAlert ("Godkendt", "Email med oplysninger omkring nulstilling af password er sendt", "OK");
+					}
 					return;
 				}
 			} 
-			forgotPasswordLabel.Text = "Skriv en rigtig email";
+			await DisplayAlert ("Fejl", "Skriv en rigtig email", "OK");
 		}
 	}
 }

@@ -26,38 +26,45 @@ namespace TaxiPay
 			BackgroundColor = Color.FromHex (Colors.backgroundColor);
 
 			EntryLayout emailLayout = new EntryLayout ();
-			StackLayout emailField = emailLayout.GetLayoutWithIcon ("E-mail", Keyboard.Email, IconStrings.atIcon, false);
+			StackLayout emailField;
+			if (driver.Email.Length > 0) {
+				emailField = emailLayout.GetLayoutWithIcon ("E-mail", driver.Email, Keyboard.Email, IconStrings.atIcon, false);
+			} else {
+				emailField  = emailLayout.GetLayoutWithIcon ("E-mail", "", Keyboard.Email, IconStrings.atIcon, false);
+			}
 			emailEntry = emailLayout.TextEntry;
 
-			if (driver.Email.Length > 0) {
-				emailEntry.Text = driver.Email;
-			}
+
 
 			EntryLayout password1Layout = new EntryLayout ();
-			StackLayout password1Field = password1Layout.GetLayoutWithIcon ("Skriv password", Keyboard.Create (0x00), IconStrings.lockIcon, true);
+			StackLayout password1Field = password1Layout.GetLayoutWithIcon ("Skriv password", "", Keyboard.Create (0x00), IconStrings.lockIcon, true);
 			password1Entry = password1Layout.TextEntry;
 
 			EntryLayout password2Layout = new EntryLayout ();
-			StackLayout password2Field = password1Layout.GetLayoutWithIcon ("Skriv password igen", Keyboard.Create (0x00), IconStrings.lockIcon, true);
+			StackLayout password2Field = password1Layout.GetLayoutWithIcon ("Skriv password igen", "", Keyboard.Create (0x00), IconStrings.lockIcon, true);
 			password2Entry = password2Layout.TextEntry;
 
 			EntryLayout swiftLayout = new EntryLayout ();
-			StackLayout swiftField = swiftLayout.GetLayoutWithIcon ("Swift/BIC", Keyboard.Numeric, IconStrings.moneyIcon, true);
+			StackLayout swiftField;
+			if (driver.BankAccount.Swift.Length > 0) {
+				swiftField = swiftLayout.GetLayoutWithIcon ("Swift/BIC", driver.BankAccount.Swift, Keyboard.Default, IconStrings.moneyIcon, false);
+			} else {
+				swiftField = swiftLayout.GetLayoutWithIcon ("Swift/BIC", "", Keyboard.Default, IconStrings.moneyIcon, false);
+			}
 			swiftEntry = swiftLayout.TextEntry;
 			swiftField.VerticalOptions = LayoutOptions.End;
 
-			if (driver.BankAccount.Swift.Length > 0) {
-				swiftEntry.Text = driver.BankAccount.Swift;
-			}
 
 			EntryLayout ibanLayout = new EntryLayout ();
-			StackLayout ibanField = ibanLayout.GetLayoutWithIcon ("IBAN", Keyboard.Numeric, IconStrings.moneyIcon, true);
+			StackLayout ibanField;
+			if (driver.BankAccount.Iban.Length > 0) {
+				ibanField = ibanLayout.GetLayoutWithIcon ("IBAN", driver.BankAccount.Iban, Keyboard.Default, IconStrings.moneyIcon, false);
+			} else {
+				ibanField = ibanLayout.GetLayoutWithIcon ("IBAN", "", Keyboard.Default, IconStrings.moneyIcon, false);
+			}
 			ibanEntry = ibanLayout.TextEntry;
 			ibanField.VerticalOptions = LayoutOptions.End;
 
-			if (driver.BankAccount.Iban.Length > 0) {
-				ibanEntry.Text = driver.BankAccount.Iban;
-			}
 
 			NormalButton saveButton = new NormalButton {
 				Text = "Gem",
@@ -98,7 +105,10 @@ namespace TaxiPay
 					saveButton,
 				}
 			};
-			Content = stacklayout;
+			ScrollView view = new ScrollView {
+				Content = stacklayout
+			};
+			Content = view;
 		}
 
 		async void OnSaveClicked(object sender, EventArgs e) 

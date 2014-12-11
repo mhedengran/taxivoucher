@@ -7,14 +7,14 @@ namespace TaxiPay
 	{
 		public TextEntry TextEntry { get; set;}
 
-		public StackLayout GetTextEntryLayout (string placeHolder, Keyboard keyboardType, bool isPassword, LayoutOptions? layoutOpt) {
+		public StackLayout GetTextEntryLayout (string placeHolder, string text, Keyboard keyboardType, bool isPassword, LayoutOptions? layoutOpt) {
 
 			TextEntry = new TextEntry {
-				Text = "",
+				Text = text,
 				Keyboard = keyboardType,
 				Placeholder = placeHolder,
 				IsPassword = isPassword,
-				VerticalOptions = LayoutOptions.FillAndExpand,
+				WidthRequest = 10, //fixes excess expanding bug...
 				HeightRequest = 42
 			};
 			if (layoutOpt != null) {
@@ -52,8 +52,8 @@ namespace TaxiPay
 			return layout;
 		}
 
-		public StackLayout GetLayoutWithIcon (string placeHolder, Keyboard keyboardType, string icon, bool isPassword) {
-			StackLayout textEntry = GetTextEntryLayout (placeHolder, keyboardType, isPassword, LayoutOptions.FillAndExpand);
+		public StackLayout GetLayoutWithIcon (string placeHolder, string text, Keyboard keyboardType, string icon, bool isPassword) {
+			StackLayout textEntry = GetTextEntryLayout (placeHolder, text, keyboardType, isPassword, LayoutOptions.FillAndExpand);
 
 			Label label = new IconLabel {
 				Text = icon,
@@ -72,6 +72,7 @@ namespace TaxiPay
 				HorizontalOptions = LayoutOptions.Start,
 				HeightRequest = 40,
 				WidthRequest = 40,
+				MinimumWidthRequest = 40,
 				Children = { label }
 			};
 					

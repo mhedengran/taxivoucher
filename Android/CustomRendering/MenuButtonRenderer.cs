@@ -20,7 +20,7 @@ namespace TaxiPay.Android
 				var button = (MenuButton)this.Element;
 
 				int height = (int)button.HeightRequest;
-				int fontSize = (int)Math.Max (height / 2.5, 16);
+				int fontSize = (int)Math.Max (height / 3, 16);
 				Typeface font = Typeface.CreateFromAsset (Forms.Context.Assets, "FontAwesome.otf");
 				if (button.Icon.Length > 0) {
 					button.Text = "  " + button.Icon + "  " + button.LabelText;

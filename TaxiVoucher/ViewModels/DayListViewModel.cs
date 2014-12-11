@@ -32,7 +32,7 @@ namespace TaxiPay
 						BackgroundColor = background,
 						DateString = GetDayOfWeek(item.EarningsOn),
 						TotalEarnings = "Totalt beløb",
-						Number = item.CashAmount + " " + item.CurrencySymbol,
+						Number = (item.CashAmount+item.CardAmount) + " " + item.CurrencySymbol,
 						Date = item.EarningsOn
 					});
 			}

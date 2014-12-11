@@ -115,6 +115,7 @@
     <BundleResource Include="Resources\FontAwesome.otf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </BundleResource>
+    <BundleResource Include="Resources\CameraIcon.gif" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />

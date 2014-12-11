@@ -71,12 +71,14 @@ namespace TaxiPay
 			var tcs = new TaskCompletionSource<JSONResponse> ();
 			String guid = System.Guid.NewGuid ().ToString ();
 			guid = guid.Replace ("-", "");
+			var login = new { email = email, password = password, installationIdentifier = String.Format ("{0}", guid), appVersion = "1.0.0" };
 
 			var request = new RestRequest("sessions/", Method.POST);
-			request.AddParameter ("email", email);
-			request.AddParameter ("password", password);
-			request.AddParameter ("installationIdentifier", String.Format("{0}", guid));
-			request.AddParameter ("appVersion", "1.0.0");
+			request.AddParameter("application/json", request.JsonSerializer.Serialize(login), ParameterType.RequestBody);
+//			request.AddParameter ("email", email);
+//			request.AddParameter ("password", password);
+//			request.AddParameter ("installationIdentifier", String.Format("{0}", guid));
+//			request.AddParameter ("appVersion", "1.0.0");
 			client.ExecuteAsync<JSONResponse> (request, response => {
 				tcs.SetResult(response.Data);
 				//get specified which types of system messages there is
@@ -359,7 +361,21 @@ namespace TaxiPay
 		}
 
 		//Forgot password
+		public Task<string> ResetPassword (string email) {
+			var tcs = new TaskCompletionSource<string> ();
 
+			var payload = new { email = email };
+
+			var request = new RestRequest("/passwords", Method.POST);
+			request.AddParameter("application/json", request.JsonSerializer.Serialize(payload), ParameterType.RequestBody);
+
+			request.AddHeader ("X-DEBUG", "C2H5OH");
+
+			client.ExecuteAsync<JSONWrapper> (request, response => {
+				tcs.SetResult(response.Content);
+			});
+			return tcs.Task;
+		}
 	}
 }
 
