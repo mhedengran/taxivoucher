@@ -136,70 +136,71 @@ namespace TaxiPay
 
 		async void OnFinishTripClicked(object sender, EventArgs e) 
 		{
-			double temp = 0;
-			if (voucherCodeEntry.Text.Equals ("") || priceEntry.Text.Equals ("") || !double.TryParse (priceEntry.Text, out temp)) {
-				await DisplayAlert ("Forkert indtastning", "Indtast korrekt Bon-data i begge felter", "OK");
-			} else {
-				//pay flow
-				CommunicationHelper comm = new CommunicationHelper ();
-				//1. go online
-				var goOnlineTask = comm.PutDriverOnline (driver);
-				Console.WriteLine (goOnlineTask.Result);
-				//2. update position
-				Location loc = new Location ();
-				string bookingId = "";
-				if (streetEntry.Text.Equals ("") || numberEntry.Text.Equals ("") || cityEntry.Text.Equals ("") || zipCodeEntry.Text.Equals ("")) {
-					await DisplayAlert ("Forkert indtastning", "Indtast en korrekt adresse", "OK");
-				} else {
-					var getLocationTask = comm.GetLocation (streetEntry.Text, numberEntry.Text, cityEntry.Text, zipCodeEntry.Text, driver.Token);
-					loc.Latitude = getLocationTask.Result[0].Lat;
-					loc.Longtitude = getLocationTask.Result[0].Lng;
-					var updatePositionTask = comm.UpdatePostion (loc.Latitude, loc.Longtitude, driver);
-					bookingId = updatePositionTask.Result;
-				}
-				//3. create booking
-				if (bookingId.Equals ("")) {
-					var bookingIdTask = comm.StartBooking (loc.Latitude, loc.Longtitude, driver.Token);
-					bookingId = bookingIdTask.Result;
-				}
-				//4. update position
-				Geolocator locator = DependencyService.Get<IGeoLocator> ().GetLocator ();
-				await locator.GetPositionAsync (timeout: 10000).ContinueWith (t => {
-					if (t.Status.ToString ().Equals ("RanToCompletion")) {
-						Console.WriteLine ("Position Status: {0}", t.Status.ToString ()); //if != RanToCompletion do something
-						Console.WriteLine ("Position Latitude: {0}", t.Result.Latitude);
-						Console.WriteLine ("Position Longitude: {0}", t.Result.Longitude);
-						loc.Latitude = t.Result.Latitude;
-						loc.Longtitude = t.Result.Longitude;
-						var updatePositionTask = comm.UpdatePostion (t.Result.Latitude, t.Result.Longitude, driver);
-						Console.WriteLine (updatePositionTask.Result);
-					}
-				}, TaskScheduler.FromCurrentSynchronizationContext ());
-				//5. add voucher
-				var applyVoucherTask = comm.ApplyVoucher (driver, bookingId, voucherCodeEntry.Text);
-				string voucherResult = applyVoucherTask.Result;
-				if (voucherResult.Contains("VOUCHER_NOT_FOUND")) {
-					Console.WriteLine (voucherResult);
-					await DisplayAlert ("Ugyldigt!", "Bon-nummer er ikke gyldigt", "OK");
-				} else {
-					//6. finish booking
-					var endBookingTask = comm.EndBooking (driver, bookingId, Convert.ToDouble (priceEntry.Text));
-					var endBookingResult = endBookingTask.Result;
-					//7. finish payments
-					var finishPaymentsTask = comm.FinishPayments (driver, bookingId);
-					string finishPaymentsResult = finishPaymentsTask.Result;
-					//8. go offline
-					var goOfflineTask = comm.PutDriverOffline (driver);
-					Console.WriteLine (goOfflineTask.Result);
-					if (endBookingResult.SystemMessage != null || finishPaymentsResult.Equals ("error")) {
-						await DisplayAlert ("Fejl!", "Et eller andet gik galt, undersøg netforbindelsen, og prøv igen", "OK");
-					} else {
-						await Navigation.PushAsync (new VoucherReceiptPage (endBookingResult.Payment.PriceParts.Voucher, endBookingResult.Payment.PriceParts.Base));
-					}
-
-				}
-				
-			}
+			await Navigation.PushAsync (new VoucherReceiptPage (500, 700));
+//			double temp = 0;
+//			if (voucherCodeEntry.Text.Equals ("") || priceEntry.Text.Equals ("") || !double.TryParse (priceEntry.Text, out temp)) {
+//				await DisplayAlert ("Forkert indtastning", "Indtast korrekt Bon-data i begge felter", "OK");
+//			} else {
+//				//pay flow
+//				CommunicationHelper comm = new CommunicationHelper ();
+//				//1. go online
+//				var goOnlineTask = comm.PutDriverOnline (driver);
+//				Console.WriteLine (goOnlineTask.Result);
+//				//2. update position
+//				Location loc = new Location ();
+//				string bookingId = "";
+//				if (streetEntry.Text.Equals ("") || numberEntry.Text.Equals ("") || cityEntry.Text.Equals ("") || zipCodeEntry.Text.Equals ("")) {
+//					await DisplayAlert ("Forkert indtastning", "Indtast en korrekt adresse", "OK");
+//				} else {
+//					var getLocationTask = comm.GetLocation (streetEntry.Text, numberEntry.Text, cityEntry.Text, zipCodeEntry.Text, driver.Token);
+//					loc.Latitude = getLocationTask.Result[0].Lat;
+//					loc.Longtitude = getLocationTask.Result[0].Lng;
+//					var updatePositionTask = comm.UpdatePostion (loc.Latitude, loc.Longtitude, driver);
+//					bookingId = updatePositionTask.Result;
+//				}
+//				//3. create booking
+//				if (bookingId.Equals ("")) {
+//					var bookingIdTask = comm.StartBooking (loc.Latitude, loc.Longtitude, driver.Token);
+//					bookingId = bookingIdTask.Result;
+//				}
+//				//4. update position
+//				Geolocator locator = DependencyService.Get<IGeoLocator> ().GetLocator ();
+//				await locator.GetPositionAsync (timeout: 10000).ContinueWith (t => {
+//					if (t.Status.ToString ().Equals ("RanToCompletion")) {
+//						Console.WriteLine ("Position Status: {0}", t.Status.ToString ()); //if != RanToCompletion do something
+//						Console.WriteLine ("Position Latitude: {0}", t.Result.Latitude);
+//						Console.WriteLine ("Position Longitude: {0}", t.Result.Longitude);
+//						loc.Latitude = t.Result.Latitude;
+//						loc.Longtitude = t.Result.Longitude;
+//						var updatePositionTask = comm.UpdatePostion (t.Result.Latitude, t.Result.Longitude, driver);
+//						Console.WriteLine (updatePositionTask.Result);
+//					}
+//				}, TaskScheduler.FromCurrentSynchronizationContext ());
+//				//5. add voucher
+//				var applyVoucherTask = comm.ApplyVoucher (driver, bookingId, voucherCodeEntry.Text);
+//				string voucherResult = applyVoucherTask.Result;
+//				if (voucherResult.Contains("VOUCHER_NOT_FOUND")) {
+//					Console.WriteLine (voucherResult);
+//					await DisplayAlert ("Ugyldigt!", "Bon-nummer er ikke gyldigt", "OK");
+//				} else {
+//					//6. finish booking
+//					var endBookingTask = comm.EndBooking (driver, bookingId, Convert.ToDouble (priceEntry.Text));
+//					var endBookingResult = endBookingTask.Result;
+//					//7. finish payments
+//					var finishPaymentsTask = comm.FinishPayments (driver, bookingId);
+//					string finishPaymentsResult = finishPaymentsTask.Result;
+//					//8. go offline
+//					var goOfflineTask = comm.PutDriverOffline (driver);
+//					Console.WriteLine (goOfflineTask.Result);
+//					if (endBookingResult.SystemMessage != null || finishPaymentsResult.Equals ("error")) {
+//						await DisplayAlert ("Fejl!", "Et eller andet gik galt, undersøg netforbindelsen, og prøv igen", "OK");
+//					} else {
+//						await Navigation.PushAsync (new VoucherReceiptPage (endBookingResult.Payment.PriceParts.Voucher, endBookingResult.Payment.PriceParts.Base));
+//					}
+//
+//				}
+//				
+//			}
 		}
 	}
 }

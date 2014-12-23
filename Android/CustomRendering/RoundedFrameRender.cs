@@ -7,7 +7,7 @@ using Android.Graphics.Drawables.Shapes;
 using TaxiPay;
 using TaxiPay.Android;
 
-[assembly: ExportRenderer (typeof (NormalButton), typeof (NormalButtonRenderer))]
+[assembly: ExportRenderer (typeof (RoundedFrame), typeof (RoundedFrameRender))]
 namespace TaxiPay.Android
 {
 	public class RoundedFrameRender : FrameRenderer
