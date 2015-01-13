@@ -20,14 +20,14 @@ namespace TaxiPay
 
 			dayList.ItemTemplate = cell;
 
-			dayList.ItemTapped += (sender, args) =>
+			dayList.ItemTapped += async (sender, args) =>
 			{
 				var day = args.Item as WeekOrDay;
 				if (day == null) {
 					return;
 				} else {
 					dayList.SelectedItem = null;
-					Navigation.PushAsync(new DailyLogPage(driver, day.Date, day.Number));
+					await Navigation.PushAsync(new DailyLogPage(driver, day.Date, day.Number));
 				}
 			};
 

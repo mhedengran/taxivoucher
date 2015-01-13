@@ -14,7 +14,6 @@ namespace TaxiPay.Android
 			base.OnElementChanged (e);
 			if (e.OldElement == null) {
 				var nativeEditText = (global::Android.Widget.EditText)Control;
-
 				nativeEditText.SetBackgroundColor (global::Android.Graphics.Color.White);
 				nativeEditText.SetTextColor (global::Android.Graphics.Color.ParseColor (Colors.textColor));
 			}

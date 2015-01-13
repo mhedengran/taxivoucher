@@ -8,7 +8,6 @@ namespace TaxiPay
 	{
 		TextEntry emailEntry;
 		TextEntry passwordEntry;
-		Label forgotPasswordLabel;
 
 		StackLayout stacklayout;
 

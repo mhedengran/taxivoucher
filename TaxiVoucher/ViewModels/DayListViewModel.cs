@@ -24,7 +24,7 @@ namespace TaxiPay
 					background = Color.White;
 					i++;
 				} else {
-					background = Color.Transparent;
+					background = Color.FromHex(Colors.backgroundColor);
 					i = 0;
 				}
 				Days.Add (new WeekOrDay 
