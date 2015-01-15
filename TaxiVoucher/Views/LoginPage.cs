@@ -44,6 +44,11 @@ namespace TaxiPay
 			EntryLayout emailLayout = new EntryLayout ();
 			StackLayout emailField = emailLayout.GetLayoutWithIcon ("E-mail", "", Keyboard.Email, IconStrings.atIcon, false);
 			emailEntry = emailLayout.TextEntry;
+			string emailText = App.UserPreferences.GetString ("email");
+			if (emailText != null) {
+				Console.WriteLine (emailEntry);
+				emailEntry.Text = emailText;
+			}
 
 			EntryLayout passwordLayout = new EntryLayout ();
 			StackLayout passwordField = passwordLayout.GetLayoutWithIcon ("Password", "", Keyboard.Create (0x00), IconStrings.lockIcon, true);
@@ -86,7 +91,6 @@ namespace TaxiPay
 //				Children = { activity }
 //			};
 //			activity.IsRunning = true;
-
 			CommunicationHelper helper = new CommunicationHelper ();
 			Task<JSONResponse> driverTask = helper.Login (emailEntry.Text, passwordEntry.Text);
 			JSONResponse response = driverTask.Result;
@@ -99,15 +103,16 @@ namespace TaxiPay
 				Console.WriteLine (response.Driver.ToString());
 				Driver driver = response.Driver;
 				driver.Token = response.Token;
-				//save email as default
+				App.UserPreferences.SetString("email", emailEntry.Text);
 				this.Title = "Logout";
 				await Navigation.PushAsync (new MenuPage (driver));
 			}
 		}
 
-		void OnCreateUserClicked(object sender, EventArgs e) 
+		async void OnCreateUserClicked(object sender, EventArgs e) 
 		{
-			Navigation.PushAsync(new CreateUserPage());
+			var page = new CreateUserPage ();
+			await Navigation.PushAsync(page);
 		}
 
 		async void OnForgotPasswordClicked(object sender, EventArgs e) 

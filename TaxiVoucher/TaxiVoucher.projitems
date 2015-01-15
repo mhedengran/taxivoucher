@@ -42,6 +42,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Resources\Constants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\NormalButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\RoundedFrame.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\IUserPreferences.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />

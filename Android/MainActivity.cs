@@ -21,7 +21,7 @@ namespace TaxiPay.Android
 			base.OnCreate (bundle);
 
 			Xamarin.Forms.Forms.Init (this, bundle);
-
+			App.Init (new UserPrefences_Android ());
 			SetPage (App.GetMainPage ());
 		}
 	}

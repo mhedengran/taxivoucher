@@ -132,6 +132,7 @@
     <Compile Include="CustomRendering\MenuButtonRenderer.cs" />
     <Compile Include="CustomRendering\NormalButtonRenderer.cs" />
     <Compile Include="CustomRendering\RoundedFrameRenderer.cs" />
+    <Compile Include="HWAccess\UserPreferences_iOS.cs" />
   </ItemGroup>
   <Import Project="..\TaxiVoucher\TaxiVoucher.projitems" Label="Shared" Condition="Exists('..\TaxiVoucher\TaxiVoucher.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
